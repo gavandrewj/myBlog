@@ -1,12 +1,12 @@
 ---
 title: "Welcome to My Blog"
 description: |
-  Welcome to ma blog we're gonna be doin all kinda of shit. new blog, My Blog. We hope you enjoy 
-  reading what we have to say!
+  We're gonna be doin all kinds of shit folks; anything but developing meaningful and rewarding relationships with my friends cause.. thats, not very 2020 is it now? NOOO!! We gotta keep that monster alive so we're exploring Multivariate Analysis. I hope you either learn something against your will or are implicated in a charity scheme associated with this blog which of course I'd never do, I have fascist friends. 
+  
 author:
-  - name: Nora Jones 
+  - name: Gavin Gordon 
     url: https://example.com/norajones
-    affiliation: Spacely Sprockets
+    affiliation: University of Guyana
     affiliation_url: https://example.com/spacelysprokets
 date: 12-16-2020
 output:
@@ -22,5 +22,22 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ```
 
+Here is my vision and lifelong quote by ME, this guy, the author: 
 
+I'm gonna trade this life for fortune and fame  
+I'd even cut my hair and changed my name  
+'Cause we all just wanna be big rockstars  
+And live in hilltop houses, driving 15 cars  
+The girls come easy, and the drugs come cheap  
+We'll all stay skinny, 'cause we just won't eat  
+And we'll hang out in the coolest bars  
+In the V.I.P. with the movie stars  
+Every good gold digger's gonna wind up there  
+Every Playboy Bunny with her bleached blond hair and, well  
+Hey, hey, I wanna be a rockstar  
+Hmm, hey, hey, I wanna be a rockstar  
+
+
+
+This doesn't remind you of anything
 
