@@ -1,0 +1,423 @@
+---
+title: "lizards"
+author: "Gavin Gordon"
+date: "12/14/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+#Set some global options for the output
+knitr::opts_chunk$set(echo = F,cache = T,message = F,warning = F)
+```
+
+```{r}
+#Read in the packages 
+library(data.table)
+library(readr)
+library(tidyverse)
+library(plotly)
+library(gt)
+library(kableExtra)
+library(knitr)
+library(fitdistrplus)
+library(heplots)
+library(pander)
+library(gtsummary)
+library(rrcov)
+library(emmeans)
+library(expss)
+library(xtable)
+library(MVN)
+library(mvnormalTest)
+library(Hotelling)
+library(rayshader)
+```
+
+```{r}
+#Reading in data and formating
+data <- read_csv("C:/Users/gavin/Desktop/Projects/multivariate/UG/data/lizard.csv")
+data$mass <- log(data$mass)
+data$svl <- log(data$svl)
+data$type <- factor(data$type)
+#labels(data) <- c("Mass","SVL","Type")
+```
+# Problem
+A zoologist collected lizards in the southwestern United States. Among
+other variables, he measured mass (in grams) and the snout-vent length (in millimeters).
+Because the tails sometimes break off in the wild, the snout-vent length is a
+more representative measure of length. The data for the lizards from two genera,
+Cnemidophorus (C) and Sceloporus (S) was collected in 1997 and 1999.  
+
+This activity is aimed to replicate the findings for example 6.71 to show that there is difference in the mass and snout-vent means for the genera of the two lizards using the Hotelling T2 multivariate test for independent samples. I included the testing of the analysis assumptions as well as a bit of exploratory analysis. When the univariate cases are explored for differences the result is that there is none thus example was used to highlight the need for inspection using multivariate tests.   
+
+&nbsp;  
+&nbsp;  
+&nbsp;  
+
+```{r}
+data %>% 
+  apply_labels(mass= "Mass",svl = "Sout-Length") %>% 
+  tbl_summary(by = type,
+              type = all_continuous() ~ "continuous2",
+              statistic = all_continuous() ~ c("{mean} ({sd})", 
+                                               "{median} ({p25},{p75})",
+                                               "{min}, {max}"),
+              missing = "no") %>% 
+  as_gt() %>%
+  tab_header(
+    title = "Summary Statistics",
+    subtitle = "across Types"
+  ) 
+
+```
+&nbsp;  
+&nbsp;  
+&nbsp;  
+
+
+
+## Assumptions
+1. Normality and Outliers
+
+```{r fig.cap="Normal Distribution plots of SVL for Type C",fig.pos='H',fig.align='center'}
+
+#Compute distribution checking plots for the variable of interest
+norm <- data %>% filter(type == "C")  %>% dplyr::select(mass)  
+norm <- fitdist(norm$mass, distr = "norm")
+par(mfrow = c(2, 2),mar = c(2,2,1.75,1.75))
+ denscomp(list(norm))
+ qqcomp(list(norm))
+  cdfcomp(list(norm))
+  ppcomp(list(norm))
+```
+It should be noted that the lines in the above plots indicate the normal distribution features that would be assumed if the data were treated as though it had come from such a distribution. The points and histogram are what we use to check if the assumed distribution is a good fit. The mass for the type C lizard is not normally distributed. The histogram is highly skewed with what seems to have two peaks. The points around each of the distribution curves do not hug the line in any satisfactory or consistent manner.  
+
+&nbsp;  
+&nbsp;  
+&nbsp;  
+
+```{r fig.cap="Normal Distribution plots of SVL for Type C",fig.pos='H',fig.align='center'}
+
+#Compute distribution checking plots for the variable of interest
+norm <- data %>% filter(type == "C")  %>% dplyr::select(svl)  
+norm <- fitdist(norm$svl, distr = "norm")
+par(mfrow = c(2, 2),mar = c(2,2,1.75,1.75))
+ denscomp(list(norm))
+ qqcomp(list(norm))
+  cdfcomp(list(norm))
+  ppcomp(list(norm))
+```  
+
+The normality of the SVL variable for the type C lizards are also not satisfactory as these display similar features to the mass variable. 
+
+&nbsp;  
+&nbsp;  
+&nbsp;  
+
+<div class = "row">
+<div class = "col-md-6">
+```{r warning = FALSE, echo = FALSE, dev=c('svg'),out.width='110%',out.height= '70%'}
+par(mfrow = c(1, 2),mar = c(2,2,1.75,1.75))
+ggplotly( ggplot(data = filter(data,type == "C"),aes(mass)) + 
+  geom_density() + 
+  theme_bw() +
+  labs(x = "Mass",title = "Density Curve of Mass for type C") + 
+  theme(plot.title = element_text(hjust = 0.5),
+        axis.title.x = element_text(size =14),
+        axis.title.y = element_text(size =14),
+        legend.text = element_text(size = 12),
+        
+        legend.title = element_text(size = 12)) 
+)  
+
+```
+</div>
+<div class = "col-md-6">
+
+```{r warning = FALSE, echo = FALSE, dev=c('svg'),out.width='110%',out.height='70%'}
+ ggplotly( ggplot(data = filter(data,type == "C"),aes(svl)) + 
+  geom_density() + 
+  theme_bw() +
+  labs(x = "SVL", title = "Density Curve of SVL for type C") + 
+  theme(plot.title = element_text(hjust = 0.5),
+        axis.title.x = element_text(size =14),
+        axis.title.y = element_text(size =14),
+        legend.text = element_text(size = 12),
+        
+        legend.title = element_text(size = 12)) 
+  
+)
+```
+</div>
+</div>
+
+The above show the marginal density plots without any form of distribution imposed onto the data. We can see that in each variable which seems to correlate highly with each other, has two modes. This will be problematic as we are using techniques that accomodate only one mode. It may be that this problem is resolved once the bivariate density is taken into account but unfortunately in this case it is not so. 
+
+&nbsp;  
+&nbsp;  
+&nbsp;
+
+<center>
+
+```{r fig.align = 'center'}
+#Plot for the bivariate density
+
+
+typec <- filter(data,type == "C")
+
+kd <- with(typec, MASS::kde2d(mass, svl))
+fig <- plot_ly(x = kd$x, y = kd$y, z = kd$z) %>% add_surface()
+
+fig
+
+```
+</center>
+It is evident that we are not be working with a unimodal distribution. This will be an issue since only one mean vector is used as the measure of central tendency within the groups. This would explain the distortion that is found within the normality plots for the type C lizard. This indicates that there may be another variable that needs to be taken into consideration for the analysis or another method that accomodates multiple modes must be used.
+
+&nbsp;  
+&nbsp;  
+
+```{r echo = T}
+typecnorm <- data %>% filter(type == "C") %>% select(!type) %>% mvnTest(B = 2000)
+typecnorm$mv.test[2]
+```
+
+&nbsp;  
+&nbsp; 
+The above is a test for multivariate normal distributions. So I interpret these tests for normality with more caution now. We have the result which is considerately higher than the usual cut off value of 0.05 so one might have been somewhat comfortable with the normality assumption being met. However we can see that this does not mean that it's the type of normal distribution that is suitable for the technique as distributions which have more than one peak can certainly still count as being normally distributed. 
+&nbsp;  
+&nbsp;  
+&nbsp; 
+
+```{r fig.cap="Normal Distribution plots of Mass for Type S",fig.pos='H',fig.align='center'}
+
+#Compute distribution checking plots for the variable of interest
+norm <- data %>% filter(type == "S")  %>% dplyr::select(mass)  
+norm <- fitdist(norm$mass, distr = "norm")
+par(mfrow = c(2, 2),mar = c(2,2,1.75,1.75))
+ denscomp(list(norm))
+ qqcomp(list(norm))
+  cdfcomp(list(norm))
+  ppcomp(list(norm))
+```
+For a sample size this large the central limit theorem would be applied for the normality assumption. However I still find it useful to make the plots when checking for subgroup indicators. In this case the normality assumption is well satisfied.
+
+&nbsp;  
+&nbsp;  
+&nbsp;
+```{r fig.cap="Normal Distribution plots of Snout Length for Type S",fig.pos='H',fig.align='center'}
+
+#Compute distribution checking plots for the variable of interest
+norm <- data %>% filter(type == "S")  %>% dplyr::select(svl)  
+norm <- fitdist(norm$svl, distr = "norm")
+par(mfrow = c(2, 2),mar = c(2,2,1.75,1.75))
+ denscomp(list(norm))
+ qqcomp(list(norm))
+  cdfcomp(list(norm))
+  ppcomp(list(norm))
+  
+```
+For the most part the normality assumption is satisfied but there does seem to be an indicator of a small subgroup; the histogram seems to have a small peak occuring in the right tail. This is better seen with the density plot. 
+
+&nbsp;  
+&nbsp;  
+&nbsp;
+
+
+
+<div class = "row">
+<div class = "col-md-6">
+```{r warning = FALSE, echo = FALSE, dev=c('svg'),out.width='110%',out.height= '70%'}
+par(mfrow = c(1, 2),mar = c(2,2,1.75,1.75))
+ggplotly( ggplot(data = filter(data,type == "S"),aes(mass)) + 
+  geom_density() + 
+  theme_bw() +
+  labs(x = "Mass",title = "Density Curve of Mass for type S") + 
+  theme(plot.title = element_text(hjust = 0.5),
+        axis.title.x = element_text(size =14),
+        axis.title.y = element_text(size =14),
+        legend.text = element_text(size = 12),
+        
+        legend.title = element_text(size = 12)) 
+)  
+
+```
+</div>
+<div class = "col-md-6">
+
+```{r warning = FALSE, echo = FALSE, dev=c('svg'),out.width='110%',out.height='70%'}
+ ggplotly( ggplot(data = filter(data,type == "S"),aes(svl)) + 
+  geom_density() + 
+  theme_bw() +
+  labs(x = "SVL", title = "Density Curve of SVL for type S") + 
+  theme(plot.title = element_text(hjust = 0.5),
+        axis.title.x = element_text(size =14),
+        axis.title.y = element_text(size =14),
+        legend.text = element_text(size = 12),
+        
+        legend.title = element_text(size = 12)) 
+  
+)
+```
+</div>
+</div>
+
+The above plots are again with no imposed distribution on the data. We can see that there is a global peak so these two variables for the type S lizards are appropriate for a unimodal analysis. There is the instance of the minor peak in the tail; this can be explored but may not change the analysis by much.
+
+
+&nbsp;  
+&nbsp;  
+&nbsp;
+
+<center>
+```{r fig.align = 'center'}
+#Plot for the bivariate density
+ggplotly(ggplot(data = filter(data,type =="S") ,aes(x = mass,y = svl))  + stat_density2d(aes(fill = ..level..), geom = "polygon") + 
+  theme_bw() +
+  labs(x = "Mass", y = "Svl",title = "Bivariate Density plot for Mass and Svl for Type S") + 
+  theme(plot.title = element_text(hjust = 0.5),
+        axis.title.x = element_text(size =14),
+        axis.title.y = element_text(size =14),
+        legend.text = element_text(size = 12),
+        
+        legend.title = element_text(size = 12)) 
+  
+)
+
+```
+</center>
+
+The bivariate density plot for type S lizards seems to be to a satisfactory level. The range for the peak is somewhat flat as seen in the marginal density curve for the mass variable but a mean vector should still be able to capture the information quite well. Though this makes me wonder about the interpretation of the values of confidence intervals in the frequentist vs the bayesian paradigms. Since only one value within the frequentist world is correct compared to being given probabilities for a range in the bayesian world; one might think the bayesian interpretation to be more suited here as there are quite a few values that may compete for the mean of the distribution for type S lizards.  
+
+&nbsp;  
+&nbsp;  
+&nbsp;
+
+```{r echo = T}
+typesnorm <- data %>% filter(type == "S") %>% select(!type) %>% mvnTest(B = 2000)
+typesnorm$mv.test[2]
+
+```
+We saw that the univariate and bivariate plots show appealing behaviors and while the type S lizards do satisfy the test for multivariate normality it seems that there may be quite a bit of deformation happening such that the p value isn't higher. This raises my curiosity with respect to what degree can we inspect a surface. 
+
+```{r fig.align = 'center'}
+#Plot for the bivariate density
+
+
+types <- filter(data,type == "S")
+
+kd <- with(types, MASS::kde2d(mass, svl))
+fig <- plot_ly(x = kd$x, y = kd$y, z = kd$z) %>% add_surface()
+
+fig
+
+```
+
+
+
+Although the data for snout-vent length approaches normality better there still remains the issue of the bimodal nature of the C group distribution. 
+
+&nbsp;  
+&nbsp;  
+&nbsp;
+
+```{r fig.align='center',fig.height= 3.5}
+ggplotly(ggplot(data, aes(x = mass,y = svl,color = type)) + geom_point() + theme_bw() +
+  labs(title = "Mass vs Snout-Vent Length" , x = "Mass (g)",y = "Snout-Vent Length (mm)" , color = "Type") +
+  stat_ellipse() + 
+  theme(plot.title = element_text(hjust = 0.5),axis.title.x = element_text(size =12),axis.title.y = element_text(size =12))  
+)
+
+```
+The bivariate plot shows a strong linear correlation between mass and snout-vent length within the two types of lizards that appear to be different from each other. You may not be able to infer this judging from the mean and standard deviation from the descriptive summary tables (as in the case in the book). Most of the points are within the confidence region ellipses except for a few points that show minor deviation from the overall trend. 
+&nbsp;  
+&nbsp;  
+
+
+```{r}
+typeCcov <-   data %>% filter(type == "C") %>% select(mass,svl)  %>%cov() 
+
+typeScov <-  data %>% filter(type == "S") %>% select(mass,svl)  %>%cov() 
+
+typeCcov %>% kable(digits = 2)
+
+typeScov %>% kable(digits = 2)
+
+boxmtest <- boxM(data = data,Y= data[,c(1,2)] ,group = data$type)
+data.table(TestName = "BoxM" ,Statistic = boxmtest$statistic,DegreesFreedom = 3 ,Pval = boxmtest$p.value) %>% kable(caption = "Test for Equality of Variance",format = 'markdown',digits = 2) %>% kable_classic(full_width = F, html_font = "Cambria")
+
+```
+The test for equality of the Covariance matrices show that the variances are the same across the two groups of lizards.
+&nbsp;  
+&nbsp;  
+
+
+
+  
+
+
+The multivariate test for appropriate skewness and kurtosis shows that the values are within tolerable ranges. 
+&nbsp;  
+&nbsp;  
+
+Finally I consider outliers; although it is the case that three potential outliers are identified via the Malahanobis distance values, these values are not considered outliers to the trend that is found between the variables. There no values were removed for this analysis. 
+&nbsp;  
+&nbsp;  
+
+
+
+## Analysis
+First we calculate the mean vector containing Mass and Snout Length for each type.
+
+```{r}
+#Means for type C
+meansC <- data %>% filter(type == "C") %>% select(!type) %>% apply(MARGIN = c(2),mean) %>% matrix(ncol = 1)
+meansS <- data %>% filter(type == "S") %>% select(!type) %>% apply(MARGIN = c(2),mean) %>% matrix(ncol = 1)
+
+
+# Group sample size
+nC <- data %>% filter(type == "C") %>% nrow()
+nS <- data %>% filter(type == "S") %>% nrow()
+
+#p is the number of dependent variables
+p <- 2
+chicrit <- qchisq(0.95,2)
+```
+
+
+They used large sample inference.
+
+```{r echo = T}
+
+#poolvar <- (nS -1)/(nS+nC -2)   * typeScov + (nC -1)/(nS+nC-2) * typeCcov 
+#poolvar
+```
+
+
+Now we create the simultainous confidence intervals
+```{r}
+massupper <- meansC[1,1] - meansS[1,1] + sqrt(chicrit) * sqrt(1/nS * typeScov[1,1] + 1/nC * typeCcov[1,1])
+masslower <- meansC[1,1] - meansS[1,1] - sqrt(chicrit) * sqrt(1/nS * typeScov[1,1] + 1/nC * typeCcov[1,1])
+
+svlupper <- meansC[2,1] - meansS[2,1] + sqrt(chicrit) * sqrt(1/nS * typeScov[2,2] + 1/nC * typeCcov[2,2])
+svllower <- meansC[2,1] - meansS[2,1] - sqrt(chicrit) * sqrt(1/nS * typeScov[2,2] + 1/nC * typeCcov[2,2])
+
+```
+
+
+```{r}
+results <-data.table(Variable = c("Mass","Svl"),Lower = c(masslower,svllower),Upper = c(massupper,svlupper))
+results %>% kable("html", align = 'clc', caption = 'Confidence Intervals', table.attr = "style='width:40%;'",digits = 2) 
+```
+\newpage
+
+#det of covariance matrix > 0
+# did not include the correlation 
+#need code for single mean comparison
+#need code for paired means comparison
+# sample size calculation 
+
+covmat <- cov(datafile[,3:5])
+det(covmat)
+
+# do the regular t test interval for variable but use the bonferroni correction for p variables so alpha/p

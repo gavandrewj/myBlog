@@ -4,7 +4,8 @@ description: |
   Waste water samples are divided into paired units and sent to separate laboratories for testing of the Biochemical Oxygen Demand and the amount of Suspended Solids. This is done to make sure that the measurements which guide the activities of the treatment plant are accurate and consistent. The Hotelling T2 test is used to make the comparison across the two dependent variables with the State/Commercial laboratory serving as the grouping variable.
 categories:
   - Hotelling T2
-  - Independent Groups
+  - One sample
+  - Paired Units
 author:
   - name: Gavin Gordon
     url: https://example.com/norajones
