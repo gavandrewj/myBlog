@@ -2,7 +2,7 @@
   {
     "path": "posts/welcome/",
     "title": "Welcome to My Blog",
-    "description": "Welcome to our new blog, My Blog. We hope you enjoy \nreading what we have to say!",
+    "description": "Welcome to ma blog we're gonna be doin all kinda of shit. new blog, My Blog. We hope you enjoy \nreading what we have to say!",
     "author": [
       {
         "name": "Nora Jones",
@@ -13,7 +13,7 @@
     "categories": [],
     "contents": "\r\n\r\n\r\n\r\n",
     "preview": {},
-    "last_modified": "2020-12-16T12:49:28-04:00",
-    "input_file": {}
+    "last_modified": "2020-12-16T13:01:54-04:00",
+    "input_file": "welcome.utf8.md"
   }
 ]
