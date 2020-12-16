@@ -1,0 +1,2009 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+  <meta name="generator" content="distill" />
+
+  <style type="text/css">
+  /* Hide doc at startup (prevent jankiness while JS renders/transforms) */
+  body {
+    visibility: hidden;
+  }
+  </style>
+
+ <!--radix_placeholder_import_source-->
+ <!--/radix_placeholder_import_source-->
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ad0000; } /* Alert */
+code span.an { color: #5e5e5e; } /* Annotation */
+code span.at { color: #20794d; } /* Attribute */
+code span.bn { color: #ad0000; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007ba5; } /* ControlFlow */
+code span.ch { color: #20794d; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #5e5e5e; } /* Comment */
+code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+code span.dt { color: #ad0000; } /* DataType */
+code span.dv { color: #ad0000; } /* DecVal */
+code span.er { color: #ad0000; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #ad0000; } /* Float */
+code span.fu { color: #4758ab; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #5e5e5e; } /* Information */
+code span.kw { color: #007ba5; } /* Keyword */
+code span.op { color: #5e5e5e; } /* Operator */
+code span.ot { color: #007ba5; } /* Other */
+code span.pp { color: #ad0000; } /* Preprocessor */
+code span.sc { color: #20794d; } /* SpecialChar */
+code span.ss { color: #20794d; } /* SpecialString */
+code span.st { color: #20794d; } /* String */
+code span.va { color: #111111; } /* Variable */
+code span.vs { color: #20794d; } /* VerbatimString */
+code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+</style>
+
+  <!--radix_placeholder_meta_tags-->
+  <title>Waste Water Treatment</title>
+
+  <meta property="description" itemprop="description" content="Waste water samples are divided into paired units and sent to separate laboratories for testing of the Biochemical Oxygen Demand and the amount of Suspended Solids. This is done to make sure that the measurements which guide the activities of the treatment plant are accurate and consistent. The Hotelling T2 test is used to make the comparison across the two dependent variables with the State/Commercial laboratory serving as the grouping variable."/>
+
+
+  <!--  https://schema.org/Article -->
+  <meta property="article:published" itemprop="datePublished" content="2020-12-16"/>
+  <meta property="article:created" itemprop="dateCreated" content="2020-12-16"/>
+  <meta name="article:author" content="Gavin Gordon"/>
+
+  <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
+  <meta property="og:title" content="Waste Water Treatment"/>
+  <meta property="og:type" content="article"/>
+  <meta property="og:description" content="Waste water samples are divided into paired units and sent to separate laboratories for testing of the Biochemical Oxygen Demand and the amount of Suspended Solids. This is done to make sure that the measurements which guide the activities of the treatment plant are accurate and consistent. The Hotelling T2 test is used to make the comparison across the two dependent variables with the State/Commercial laboratory serving as the grouping variable."/>
+  <meta property="og:locale" content="en_US"/>
+
+  <!--  https://dev.twitter.com/cards/types/summary -->
+  <meta property="twitter:card" content="summary"/>
+  <meta property="twitter:title" content="Waste Water Treatment"/>
+  <meta property="twitter:description" content="Waste water samples are divided into paired units and sent to separate laboratories for testing of the Biochemical Oxygen Demand and the amount of Suspended Solids. This is done to make sure that the measurements which guide the activities of the treatment plant are accurate and consistent. The Hotelling T2 test is used to make the comparison across the two dependent variables with the State/Commercial laboratory serving as the grouping variable."/>
+
+  <!--/radix_placeholder_meta_tags-->
+  <!--radix_placeholder_rmarkdown_metadata-->
+
+  <script type="text/json" id="radix-rmarkdown-metadata">
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","categories","author","date","output"]}},"value":[{"type":"character","attributes":{},"value":["Waste Water Treatment"]},{"type":"character","attributes":{},"value":["Waste water samples are divided into paired units and sent to separate laboratories for testing of the Biochemical Oxygen Demand and the amount of Suspended Solids. This is done to make sure that the measurements which guide the activities of the treatment plant are accurate and consistent. The Hotelling T2 test is used to make the comparison across the two dependent variables with the State/Commercial laboratory serving as the grouping variable.\n"]},{"type":"character","attributes":{},"value":["Hotelling T2","Independent Groups"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Gavin Gordon"]},{"type":"character","attributes":{},"value":["https://example.com/norajones"]}]}]},{"type":"character","attributes":{},"value":["12-16-2020"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]}]}
+  </script>
+  <!--/radix_placeholder_rmarkdown_metadata-->
+  
+  <script type="text/json" id="radix-resource-manifest">
+  {"type":"character","attributes":{},"value":["water-quality_files/anchor-4.2.2/anchor.min.js","water-quality_files/bowser-1.9.3/bowser.min.js","water-quality_files/crosstalk-1.1.0.1/css/crosstalk.css","water-quality_files/crosstalk-1.1.0.1/js/crosstalk.js","water-quality_files/crosstalk-1.1.0.1/js/crosstalk.js.map","water-quality_files/crosstalk-1.1.0.1/js/crosstalk.min.js","water-quality_files/crosstalk-1.1.0.1/js/crosstalk.min.js.map","water-quality_files/distill-2.2.21/template.v2.js","water-quality_files/figure-html5/unnamed-chunk-4-1.png","water-quality_files/figure-html5/unnamed-chunk-5-1.png","water-quality_files/figure-html5/unnamed-chunk-7-1.png","water-quality_files/figure-html5/unnamed-chunk-8-1.png","water-quality_files/header-attrs-2.6/header-attrs.js","water-quality_files/htmlwidgets-1.5.2/htmlwidgets.js","water-quality_files/jquery-1.11.3/jquery-AUTHORS.txt","water-quality_files/jquery-1.11.3/jquery.js","water-quality_files/jquery-1.11.3/jquery.min.js","water-quality_files/jquery-1.11.3/jquery.min.map","water-quality_files/kePrint-0.0.1/kePrint.js","water-quality_files/lightable-0.0.1/lightable.css","water-quality_files/plotly-binding-4.9.2.1/plotly.js","water-quality_files/plotly-htmlwidgets-css-1.52.2/plotly-htmlwidgets.css","water-quality_files/plotly-main-1.52.2/plotly-latest.min.js","water-quality_files/typedarray-0.1/typedarray.min.js","water-quality_files/webcomponents-2.0.0/webcomponents.js"]}
+  </script>
+  <!--radix_placeholder_navigation_in_header-->
+  <!--/radix_placeholder_navigation_in_header-->
+  <!--radix_placeholder_distill-->
+
+  <style type="text/css">
+
+  body {
+    background-color: white;
+  }
+
+  .pandoc-table {
+    width: 100%;
+  }
+
+  .pandoc-table>caption {
+    margin-bottom: 10px;
+  }
+
+  .pandoc-table th:not([align]) {
+    text-align: left;
+  }
+
+  .pagedtable-footer {
+    font-size: 15px;
+  }
+
+  d-byline .byline {
+    grid-template-columns: 2fr 2fr;
+  }
+
+  d-byline .byline h3 {
+    margin-block-start: 1.5em;
+  }
+
+  d-byline .byline .authors-affiliations h3 {
+    margin-block-start: 0.5em;
+  }
+
+  .authors-affiliations .orcid-id {
+    width: 16px;
+    height:16px;
+    margin-left: 4px;
+    margin-right: 4px;
+    vertical-align: middle;
+    padding-bottom: 2px;
+  }
+
+  d-title .dt-tags {
+    margin-top: 1em;
+    grid-column: text;
+  }
+
+  .dt-tags .dt-tag {
+    text-decoration: none;
+    display: inline-block;
+    color: rgba(0,0,0,0.6);
+    padding: 0em 0.4em;
+    margin-right: 0.5em;
+    margin-bottom: 0.4em;
+    font-size: 70%;
+    border: 1px solid rgba(0,0,0,0.2);
+    border-radius: 3px;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  d-article table.gt_table td,
+  d-article table.gt_table th {
+    border-bottom: none;
+  }
+
+  .html-widget {
+    margin-bottom: 2.0em;
+  }
+
+  .l-screen-inset {
+    padding-right: 16px;
+  }
+
+  .l-screen .caption {
+    margin-left: 10px;
+  }
+
+  .shaded {
+    background: rgb(247, 247, 247);
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .shaded .html-widget {
+    margin-bottom: 0;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .shaded .shaded-content {
+    background: white;
+  }
+
+  .text-output {
+    margin-top: 0;
+    line-height: 1.5em;
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  d-article {
+    padding-top: 2.5rem;
+    padding-bottom: 30px;
+  }
+
+  d-appendix {
+    padding-top: 30px;
+  }
+
+  d-article>p>img {
+    width: 100%;
+  }
+
+  d-article h2 {
+    margin: 1rem 0 1.5rem 0;
+  }
+
+  d-article h3 {
+    margin-top: 1.5rem;
+  }
+
+  d-article iframe {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    margin-bottom: 2.0em;
+    width: 100%;
+  }
+
+  /* Tweak code blocks */
+
+  d-article div.sourceCode code,
+  d-article pre code {
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  }
+
+  d-article pre,
+  d-article div.sourceCode,
+  d-article div.sourceCode pre {
+    overflow: auto;
+  }
+
+  d-article div.sourceCode {
+    background-color: white;
+  }
+
+  d-article div.sourceCode pre {
+    padding-left: 10px;
+    font-size: 12px;
+    border-left: 2px solid rgba(0,0,0,0.1);
+  }
+
+  d-article pre {
+    font-size: 12px;
+    color: black;
+    background: none;
+    margin-top: 0;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+
+  d-article pre a {
+    border-bottom: none;
+  }
+
+  d-article pre a:hover {
+    border-bottom: none;
+    text-decoration: underline;
+  }
+
+  @media(min-width: 768px) {
+
+  d-article pre,
+  d-article div.sourceCode,
+  d-article div.sourceCode pre {
+    overflow: visible !important;
+  }
+
+  d-article div.sourceCode pre {
+    padding-left: 18px;
+    font-size: 14px;
+  }
+
+  d-article pre {
+    font-size: 14px;
+  }
+
+  }
+
+  figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+
+  /* CSS for d-contents */
+
+  .d-contents {
+    grid-column: text;
+    color: rgba(0,0,0,0.8);
+    font-size: 0.9em;
+    padding-bottom: 1em;
+    margin-bottom: 1em;
+    padding-bottom: 0.5em;
+    margin-bottom: 1em;
+    padding-left: 0.25em;
+    justify-self: start;
+  }
+
+  @media(min-width: 1000px) {
+    .d-contents.d-contents-float {
+      height: 0;
+      grid-column-start: 1;
+      grid-column-end: 4;
+      justify-self: center;
+      padding-right: 3em;
+      padding-left: 2em;
+    }
+  }
+
+  .d-contents nav h3 {
+    font-size: 18px;
+    margin-top: 0;
+    margin-bottom: 1em;
+  }
+
+  .d-contents li {
+    list-style-type: none
+  }
+
+  .d-contents nav > ul {
+    padding-left: 0;
+  }
+
+  .d-contents ul {
+    padding-left: 1em
+  }
+
+  .d-contents nav ul li {
+    margin-top: 0.6em;
+    margin-bottom: 0.2em;
+  }
+
+  .d-contents nav a {
+    font-size: 13px;
+    border-bottom: none;
+    text-decoration: none
+    color: rgba(0, 0, 0, 0.8);
+  }
+
+  .d-contents nav a:hover {
+    text-decoration: underline solid rgba(0, 0, 0, 0.6)
+  }
+
+  .d-contents nav > ul > li > a {
+    font-weight: 600;
+  }
+
+  .d-contents nav > ul > li > ul {
+    font-weight: inherit;
+  }
+
+  .d-contents nav > ul > li > ul > li {
+    margin-top: 0.2em;
+  }
+
+
+  .d-contents nav ul {
+    margin-top: 0;
+    margin-bottom: 0.25em;
+  }
+
+  .d-article-with-toc h2:nth-child(2) {
+    margin-top: 0;
+  }
+
+
+  /* Figure */
+
+  .figure {
+    position: relative;
+    margin-bottom: 2.5em;
+    margin-top: 1.5em;
+  }
+
+  .figure img {
+    width: 100%;
+  }
+
+  .figure .caption {
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 12px;
+    line-height: 1.5em;
+  }
+
+  .figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+
+  .figure .caption a {
+    color: rgba(0, 0, 0, 0.6);
+  }
+
+  .figure .caption b,
+  .figure .caption strong, {
+    font-weight: 600;
+    color: rgba(0, 0, 0, 1.0);
+  }
+
+  /* Citations */
+
+  d-article .citation {
+    color: inherit;
+    cursor: inherit;
+  }
+
+  div.hanging-indent{
+    margin-left: 1em; text-indent: -1em;
+  }
+
+
+  /* Tweak 1000px media break to show more text */
+
+  @media(min-width: 1000px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 80px [middle-start] 50px [text-start kicker-end] 65px 65px 65px 65px 65px 65px 65px 65px [text-end gutter-start] 65px [middle-end] 65px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 16px;
+    }
+
+    .grid {
+      grid-column-gap: 16px;
+    }
+
+    d-article {
+      font-size: 1.06rem;
+      line-height: 1.7em;
+    }
+    figure .caption, .figure .caption, figure figcaption {
+      font-size: 13px;
+    }
+  }
+
+  @media(min-width: 1180px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 32px;
+    }
+
+    .grid {
+      grid-column-gap: 32px;
+    }
+  }
+
+
+  /* Get the citation styles for the appendix (not auto-injected on render since
+     we do our own rendering of the citation appendix) */
+
+  d-appendix .citation-appendix,
+  .d-appendix .citation-appendix {
+    font-size: 11px;
+    line-height: 15px;
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+    padding-left: 18px;
+    border: 1px solid rgba(0,0,0,0.1);
+    background: rgba(0, 0, 0, 0.02);
+    padding: 10px 18px;
+    border-radius: 3px;
+    color: rgba(150, 150, 150, 1);
+    overflow: hidden;
+    margin-top: -12px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+
+  /* Include appendix styles here so they can be overridden */
+
+  d-appendix {
+    contain: layout style;
+    font-size: 0.8em;
+    line-height: 1.7em;
+    margin-top: 60px;
+    margin-bottom: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    color: rgba(0,0,0,0.5);
+    padding-top: 60px;
+    padding-bottom: 48px;
+  }
+
+  d-appendix h3 {
+    grid-column: page-start / text-start;
+    font-size: 15px;
+    font-weight: 500;
+    margin-top: 1em;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.65);
+  }
+
+  d-appendix h3 + * {
+    margin-top: 1em;
+  }
+
+  d-appendix ol {
+    padding: 0 0 0 15px;
+  }
+
+  @media (min-width: 768px) {
+    d-appendix ol {
+      padding: 0 0 0 30px;
+      margin-left: -30px;
+    }
+  }
+
+  d-appendix li {
+    margin-bottom: 1em;
+  }
+
+  d-appendix a {
+    color: rgba(0, 0, 0, 0.6);
+  }
+
+  d-appendix > * {
+    grid-column: text;
+  }
+
+  d-appendix > d-footnote-list,
+  d-appendix > d-citation-list,
+  d-appendix > distill-appendix {
+    grid-column: screen;
+  }
+
+  /* Include footnote styles here so they can be overridden */
+
+  d-footnote-list {
+    contain: layout style;
+  }
+
+  d-footnote-list > * {
+    grid-column: text;
+  }
+
+  d-footnote-list a.footnote-backlink {
+    color: rgba(0,0,0,0.3);
+    padding-left: 0.5em;
+  }
+
+
+
+  /* Anchor.js */
+
+  .anchorjs-link {
+    /*transition: all .25s linear; */
+    text-decoration: none;
+    border-bottom: none;
+  }
+  *:hover > .anchorjs-link {
+    margin-left: -1.125em !important;
+    text-decoration: none;
+    border-bottom: none;
+  }
+
+  /* Social footer */
+
+  .social_footer {
+    margin-top: 30px;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.67);
+  }
+
+  .disqus-comments {
+    margin-right: 30px;
+  }
+
+  .disqus-comment-count {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+  }
+
+  #disqus_thread {
+    margin-top: 30px;
+  }
+
+  .article-sharing a {
+    border-bottom: none;
+    margin-right: 8px;
+  }
+
+  .article-sharing a:hover {
+    border-bottom: none;
+  }
+
+  .sidebar-section.subscribe {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+
+  .subscribe p {
+    margin-bottom: 0.5em;
+  }
+
+
+  .article-footer .subscribe {
+    font-size: 15px;
+    margin-top: 45px;
+  }
+
+
+  .sidebar-section.custom {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+
+  .custom p {
+    margin-bottom: 0.5em;
+  }
+
+  /* Styles for listing layout (hide title) */
+  .layout-listing d-title, .layout-listing .d-title {
+    display: none;
+  }
+
+  /* Styles for posts lists (not auto-injected) */
+
+
+  .posts-with-sidebar {
+    padding-left: 45px;
+    padding-right: 45px;
+  }
+
+  .posts-list .description h2,
+  .posts-list .description p {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+  }
+
+  .posts-list .description h2 {
+    font-weight: 700;
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .posts-list h2.post-tag {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    padding-bottom: 12px;
+  }
+  .posts-list {
+    margin-top: 60px;
+    margin-bottom: 24px;
+  }
+
+  .posts-list .post-preview {
+    text-decoration: none;
+    overflow: hidden;
+    display: block;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 24px 0;
+  }
+
+  .post-preview-last {
+    border-bottom: none !important;
+  }
+
+  .posts-list .posts-list-caption {
+    grid-column: screen;
+    font-weight: 400;
+  }
+
+  .posts-list .post-preview h2 {
+    margin: 0 0 6px 0;
+    line-height: 1.2em;
+    font-style: normal;
+    font-size: 24px;
+  }
+
+  .posts-list .post-preview p {
+    margin: 0 0 12px 0;
+    line-height: 1.4em;
+    font-size: 16px;
+  }
+
+  .posts-list .post-preview .thumbnail {
+    box-sizing: border-box;
+    margin-bottom: 24px;
+    position: relative;
+    max-width: 500px;
+  }
+  .posts-list .post-preview img {
+    width: 100%;
+    display: block;
+  }
+
+  .posts-list .metadata {
+    font-size: 12px;
+    line-height: 1.4em;
+    margin-bottom: 18px;
+  }
+
+  .posts-list .metadata > * {
+    display: inline-block;
+  }
+
+  .posts-list .metadata .publishedDate {
+    margin-right: 2em;
+  }
+
+  .posts-list .metadata .dt-authors {
+    display: block;
+    margin-top: 0.3em;
+    margin-right: 2em;
+  }
+
+  .posts-list .dt-tags {
+    display: block;
+    line-height: 1em;
+  }
+
+  .posts-list .dt-tags .dt-tag {
+    display: inline-block;
+    color: rgba(0,0,0,0.6);
+    padding: 0.3em 0.4em;
+    margin-right: 0.2em;
+    margin-bottom: 0.4em;
+    font-size: 60%;
+    border: 1px solid rgba(0,0,0,0.2);
+    border-radius: 3px;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  .posts-list img {
+    opacity: 1;
+  }
+
+  .posts-list img[data-src] {
+    opacity: 0;
+  }
+
+  .posts-more {
+    clear: both;
+  }
+
+
+  .posts-sidebar {
+    font-size: 16px;
+  }
+
+  .posts-sidebar h3 {
+    font-size: 16px;
+    margin-top: 0;
+    margin-bottom: 0.5em;
+    font-weight: 400;
+    text-transform: uppercase;
+  }
+
+  .sidebar-section {
+    margin-bottom: 30px;
+  }
+
+  .categories ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .categories li {
+    color: rgba(0, 0, 0, 0.8);
+    margin-bottom: 0;
+  }
+
+  .categories li>a {
+    border-bottom: none;
+  }
+
+  .categories li>a:hover {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+  }
+
+  .categories .active {
+    font-weight: 600;
+  }
+
+  .categories .category-count {
+    color: rgba(0, 0, 0, 0.4);
+  }
+
+
+  @media(min-width: 768px) {
+    .posts-list .post-preview h2 {
+      font-size: 26px;
+    }
+    .posts-list .post-preview .thumbnail {
+      float: right;
+      width: 30%;
+      margin-bottom: 0;
+    }
+    .posts-list .post-preview .description {
+      float: left;
+      width: 45%;
+    }
+    .posts-list .post-preview .metadata {
+      float: left;
+      width: 20%;
+      margin-top: 8px;
+    }
+    .posts-list .post-preview p {
+      margin: 0 0 12px 0;
+      line-height: 1.5em;
+      font-size: 16px;
+    }
+    .posts-with-sidebar .posts-list {
+      float: left;
+      width: 75%;
+    }
+    .posts-with-sidebar .posts-sidebar {
+      float: right;
+      width: 20%;
+      margin-top: 60px;
+      padding-top: 24px;
+      padding-bottom: 24px;
+    }
+  }
+
+
+  /* Improve display for browsers without grid (IE/Edge <= 15) */
+
+  .downlevel {
+    line-height: 1.6em;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+    margin: 0;
+  }
+
+  .downlevel .d-title {
+    padding-top: 6rem;
+    padding-bottom: 1.5rem;
+  }
+
+  .downlevel .d-title h1 {
+    font-size: 50px;
+    font-weight: 700;
+    line-height: 1.1em;
+    margin: 0 0 0.5rem;
+  }
+
+  .downlevel .d-title p {
+    font-weight: 300;
+    font-size: 1.2rem;
+    line-height: 1.55em;
+    margin-top: 0;
+  }
+
+  .downlevel .d-byline {
+    padding-top: 0.8em;
+    padding-bottom: 0.8em;
+    font-size: 0.8rem;
+    line-height: 1.8em;
+  }
+
+  .downlevel .section-separator {
+    border: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .downlevel .d-article {
+    font-size: 1.06rem;
+    line-height: 1.7em;
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+  }
+
+
+  .downlevel .d-appendix {
+    padding-left: 0;
+    padding-right: 0;
+    max-width: none;
+    font-size: 0.8em;
+    line-height: 1.7em;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.5);
+    padding-top: 40px;
+    padding-bottom: 48px;
+  }
+
+  .downlevel .footnotes ol {
+    padding-left: 13px;
+  }
+
+  .downlevel .base-grid,
+  .downlevel .distill-header,
+  .downlevel .d-title,
+  .downlevel .d-abstract,
+  .downlevel .d-article,
+  .downlevel .d-appendix,
+  .downlevel .distill-appendix,
+  .downlevel .d-byline,
+  .downlevel .d-footnote-list,
+  .downlevel .d-citation-list,
+  .downlevel .distill-footer,
+  .downlevel .appendix-bottom,
+  .downlevel .posts-container {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+
+  @media(min-width: 768px) {
+    .downlevel .base-grid,
+    .downlevel .distill-header,
+    .downlevel .d-title,
+    .downlevel .d-abstract,
+    .downlevel .d-article,
+    .downlevel .d-appendix,
+    .downlevel .distill-appendix,
+    .downlevel .d-byline,
+    .downlevel .d-footnote-list,
+    .downlevel .d-citation-list,
+    .downlevel .distill-footer,
+    .downlevel .appendix-bottom,
+    .downlevel .posts-container {
+    padding-left: 150px;
+    padding-right: 150px;
+    max-width: 900px;
+  }
+  }
+
+  .downlevel pre code {
+    display: block;
+    border-left: 2px solid rgba(0, 0, 0, .1);
+    padding: 0 0 0 20px;
+    font-size: 14px;
+  }
+
+  .downlevel code, .downlevel pre {
+    color: black;
+    background: none;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+
+  .downlevel .posts-list .post-preview {
+    color: inherit;
+  }
+
+
+
+  </style>
+
+  <script type="application/javascript">
+
+  function is_downlevel_browser() {
+    if (bowser.isUnsupportedBrowser({ msie: "12", msedge: "16"},
+                                   window.navigator.userAgent)) {
+      return true;
+    } else {
+      return window.load_distill_framework === undefined;
+    }
+  }
+
+  // show body when load is complete
+  function on_load_complete() {
+
+    // add anchors
+    if (window.anchors) {
+      window.anchors.options.placement = 'left';
+      window.anchors.add('d-article > h2, d-article > h3, d-article > h4, d-article > h5');
+    }
+
+
+    // set body to visible
+    document.body.style.visibility = 'visible';
+
+    // force redraw for leaflet widgets
+    if (window.HTMLWidgets) {
+      var maps = window.HTMLWidgets.findAll(".leaflet");
+      $.each(maps, function(i, el) {
+        var map = this.getMap();
+        map.invalidateSize();
+        map.eachLayer(function(layer) {
+          if (layer instanceof L.TileLayer)
+            layer.redraw();
+        });
+      });
+    }
+
+    // trigger 'shown' so htmlwidgets resize
+    $('d-article').trigger('shown');
+  }
+
+  function init_distill() {
+
+    init_common();
+
+    // create front matter
+    var front_matter = $('<d-front-matter></d-front-matter>');
+    $('#distill-front-matter').wrap(front_matter);
+
+    // create d-title
+    $('.d-title').changeElementType('d-title');
+
+    // create d-byline
+    var byline = $('<d-byline></d-byline>');
+    $('.d-byline').replaceWith(byline);
+
+    // create d-article
+    var article = $('<d-article></d-article>');
+    $('.d-article').wrap(article).children().unwrap();
+
+    // move posts container into article
+    $('.posts-container').appendTo($('d-article'));
+
+    // create d-appendix
+    $('.d-appendix').changeElementType('d-appendix');
+
+    // flag indicating that we have appendix items
+    var appendix = $('.appendix-bottom').children('h3').length > 0;
+
+    // replace footnotes with <d-footnote>
+    $('.footnote-ref').each(function(i, val) {
+      appendix = true;
+      var href = $(this).attr('href');
+      var id = href.replace('#', '');
+      var fn = $('#' + id);
+      var fn_p = $('#' + id + '>p');
+      fn_p.find('.footnote-back').remove();
+      var text = fn_p.html();
+      var dtfn = $('<d-footnote></d-footnote>');
+      dtfn.html(text);
+      $(this).replaceWith(dtfn);
+    });
+    // remove footnotes
+    $('.footnotes').remove();
+
+    // move refs into #references-listing
+    $('#references-listing').replaceWith($('#refs'));
+
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      var id = $(this).attr('id');
+      $('.d-contents a[href="#' + id + '"]').parent().remove();
+      appendix = true;
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('d-appendix'));
+    });
+
+    // show d-appendix if we have appendix content
+    $("d-appendix").css('display', appendix ? 'grid' : 'none');
+
+    // localize layout chunks to just output
+    $('.layout-chunk').each(function(i, val) {
+
+      // capture layout
+      var layout = $(this).attr('data-layout');
+
+      // apply layout to markdown level block elements
+      var elements = $(this).children().not('div.sourceCode, pre, script');
+      elements.each(function(i, el) {
+        var layout_div = $('<div class="' + layout + '"></div>');
+        if (layout_div.hasClass('shaded')) {
+          var shaded_content = $('<div class="shaded-content"></div>');
+          $(this).wrap(shaded_content);
+          $(this).parent().wrap(layout_div);
+        } else {
+          $(this).wrap(layout_div);
+        }
+      });
+
+
+      // unwrap the layout-chunk div
+      $(this).children().unwrap();
+    });
+
+    // remove code block used to force  highlighting css
+    $('.distill-force-highlighting-css').parent().remove();
+
+    // remove empty line numbers inserted by pandoc when using a
+    // custom syntax highlighting theme
+    $('code.sourceCode a:empty').remove();
+
+    // load distill framework
+    load_distill_framework();
+
+    // wait for window.distillRunlevel == 4 to do post processing
+    function distill_post_process() {
+
+      if (!window.distillRunlevel || window.distillRunlevel < 4)
+        return;
+
+      // hide author/affiliations entirely if we have no authors
+      var front_matter = JSON.parse($("#distill-front-matter").html());
+      var have_authors = front_matter.authors && front_matter.authors.length > 0;
+      if (!have_authors)
+        $('d-byline').addClass('hidden');
+
+      // article with toc class
+      $('.d-contents').parent().addClass('d-article-with-toc');
+
+      // strip links that point to #
+      $('.authors-affiliations').find('a[href="#"]').removeAttr('href');
+
+      // add orcid ids
+      $('.authors-affiliations').find('.author').each(function(i, el) {
+        var orcid_id = front_matter.authors[i].orcidID;
+        if (orcid_id) {
+          var a = $('<a></a>');
+          a.attr('href', 'https://orcid.org/' + orcid_id);
+          var img = $('<img></img>');
+          img.addClass('orcid-id');
+          img.attr('alt', 'ORCID ID');
+          img.attr('src','data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg==');
+          a.append(img);
+          $(this).append(a);
+        }
+      });
+
+      // hide elements of author/affiliations grid that have no value
+      function hide_byline_column(caption) {
+        $('d-byline').find('h3:contains("' + caption + '")').parent().css('visibility', 'hidden');
+      }
+
+      // affiliations
+      var have_affiliations = false;
+      for (var i = 0; i<front_matter.authors.length; ++i) {
+        var author = front_matter.authors[i];
+        if (author.affiliation !== "&nbsp;") {
+          have_affiliations = true;
+          break;
+        }
+      }
+      if (!have_affiliations)
+        $('d-byline').find('h3:contains("Affiliations")').css('visibility', 'hidden');
+
+      // published date
+      if (!front_matter.publishedDate)
+        hide_byline_column("Published");
+
+      // document object identifier
+      var doi = $('d-byline').find('h3:contains("DOI")');
+      var doi_p = doi.next().empty();
+      if (!front_matter.doi) {
+        // if we have a citation and valid citationText then link to that
+        if ($('#citation').length > 0 && front_matter.citationText) {
+          doi.html('Citation');
+          $('<a href="#citation"></a>')
+            .text(front_matter.citationText)
+            .appendTo(doi_p);
+        } else {
+          hide_byline_column("DOI");
+        }
+      } else {
+        $('<a></a>')
+           .attr('href', "https://doi.org/" + front_matter.doi)
+           .html(front_matter.doi)
+           .appendTo(doi_p);
+      }
+
+       // change plural form of authors/affiliations
+      if (front_matter.authors.length === 1) {
+        var grid = $('.authors-affiliations');
+        grid.children('h3:contains("Authors")').text('Author');
+        grid.children('h3:contains("Affiliations")').text('Affiliation');
+      }
+
+      // remove d-appendix and d-footnote-list local styles
+      $('d-appendix > style:first-child').remove();
+      $('d-footnote-list > style:first-child').remove();
+
+      // move appendix-bottom entries to the bottom
+      $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
+      $('.appendix-bottom').remove();
+
+      // clear polling timer
+      clearInterval(tid);
+
+      // show body now that everything is ready
+      on_load_complete();
+    }
+
+    var tid = setInterval(distill_post_process, 50);
+    distill_post_process();
+
+  }
+
+  function init_downlevel() {
+
+    init_common();
+
+     // insert hr after d-title
+    $('.d-title').after($('<hr class="section-separator"/>'));
+
+    // check if we have authors
+    var front_matter = JSON.parse($("#distill-front-matter").html());
+    var have_authors = front_matter.authors && front_matter.authors.length > 0;
+
+    // manage byline/border
+    if (!have_authors)
+      $('.d-byline').remove();
+    $('.d-byline').after($('<hr class="section-separator"/>'));
+    $('.d-byline a').remove();
+
+    // remove toc
+    $('.d-contents').remove();
+
+    // move appendix elements
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('.d-appendix'));
+    });
+
+
+    // inject headers into references and footnotes
+    var refs_header = $('<h3></h3>');
+    refs_header.text('References');
+    $('#refs').prepend(refs_header);
+
+    var footnotes_header = $('<h3></h3');
+    footnotes_header.text('Footnotes');
+    $('.footnotes').children('hr').first().replaceWith(footnotes_header);
+
+    // move appendix-bottom entries to the bottom
+    $('.appendix-bottom').appendTo('.d-appendix').children().unwrap();
+    $('.appendix-bottom').remove();
+
+    // remove appendix if it's empty
+    if ($('.d-appendix').children().length === 0)
+      $('.d-appendix').remove();
+
+    // prepend separator above appendix
+    $('.d-appendix').before($('<hr class="section-separator" style="clear: both"/>'));
+
+    // trim code
+    $('pre>code').each(function(i, val) {
+      $(this).html($.trim($(this).html()));
+    });
+
+    // move posts-container right before article
+    $('.posts-container').insertBefore($('.d-article'));
+
+    $('body').addClass('downlevel');
+
+    on_load_complete();
+  }
+
+
+  function init_common() {
+
+    // jquery plugin to change element types
+    (function($) {
+      $.fn.changeElementType = function(newType) {
+        var attrs = {};
+
+        $.each(this[0].attributes, function(idx, attr) {
+          attrs[attr.nodeName] = attr.nodeValue;
+        });
+
+        this.replaceWith(function() {
+          return $("<" + newType + "/>", attrs).append($(this).contents());
+        });
+      };
+    })(jQuery);
+
+    // prevent underline for linked images
+    $('a > img').parent().css({'border-bottom' : 'none'});
+
+    // mark non-body figures created by knitr chunks as 100% width
+    $('.layout-chunk').each(function(i, val) {
+      var figures = $(this).find('img, .html-widget');
+      if ($(this).attr('data-layout') !== "l-body") {
+        figures.css('width', '100%');
+      } else {
+        figures.css('max-width', '100%');
+        figures.filter("[width]").each(function(i, val) {
+          var fig = $(this);
+          fig.css('width', fig.attr('width') + 'px');
+        });
+
+      }
+    });
+
+    // auto-append index.html to post-preview links in file: protocol
+    // and in rstudio ide preview
+    $('.post-preview').each(function(i, val) {
+      if (window.location.protocol === "file:")
+        $(this).attr('href', $(this).attr('href') + "index.html");
+    });
+
+    // get rid of index.html references in header
+    if (window.location.protocol !== "file:") {
+      $('.distill-site-header a[href]').each(function(i,val) {
+        $(this).attr('href', $(this).attr('href').replace("index.html", "./"));
+      });
+    }
+
+    // add class to pandoc style tables
+    $('tr.header').parent('thead').parent('table').addClass('pandoc-table');
+    $('.kable-table').children('table').addClass('pandoc-table');
+
+    // add figcaption style to table captions
+    $('caption').parent('table').addClass("figcaption");
+
+    // initialize posts list
+    if (window.init_posts_list)
+      window.init_posts_list();
+
+    // implmement disqus comment link
+    $('.disqus-comment-count').click(function() {
+      window.headroom_prevent_pin = true;
+      $('#disqus_thread').toggleClass('hidden');
+      if (!$('#disqus_thread').hasClass('hidden')) {
+        var offset = $(this).offset();
+        $(window).resize();
+        $('html, body').animate({
+          scrollTop: offset.top - 35
+        });
+      }
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    if (is_downlevel_browser())
+      init_downlevel();
+    else
+      window.addEventListener('WebComponentsReady', init_distill);
+  });
+
+  </script>
+
+  <!--/radix_placeholder_distill-->
+  <script src="water-quality_files/header-attrs-2.6/header-attrs.js"></script>
+  <script src="water-quality_files/htmlwidgets-1.5.2/htmlwidgets.js"></script>
+  <script src="water-quality_files/plotly-binding-4.9.2.1/plotly.js"></script>
+  <script src="water-quality_files/typedarray-0.1/typedarray.min.js"></script>
+  <script src="water-quality_files/jquery-1.11.3/jquery.min.js"></script>
+  <link href="water-quality_files/crosstalk-1.1.0.1/css/crosstalk.css" rel="stylesheet" />
+  <script src="water-quality_files/crosstalk-1.1.0.1/js/crosstalk.min.js"></script>
+  <link href="water-quality_files/plotly-htmlwidgets-css-1.52.2/plotly-htmlwidgets.css" rel="stylesheet" />
+  <script src="water-quality_files/plotly-main-1.52.2/plotly-latest.min.js"></script>
+  <script src="water-quality_files/kePrint-0.0.1/kePrint.js"></script>
+  <link href="water-quality_files/lightable-0.0.1/lightable.css" rel="stylesheet" />
+  <script src="water-quality_files/anchor-4.2.2/anchor.min.js"></script>
+  <script src="water-quality_files/bowser-1.9.3/bowser.min.js"></script>
+  <script src="water-quality_files/webcomponents-2.0.0/webcomponents.js"></script>
+  <script src="water-quality_files/distill-2.2.21/template.v2.js"></script>
+  <!--radix_placeholder_site_in_header-->
+  <!--/radix_placeholder_site_in_header-->
+
+
+</head>
+
+<body>
+
+<!--radix_placeholder_front_matter-->
+
+<script id="distill-front-matter" type="text/json">
+{"title":"Waste Water Treatment","description":"Waste water samples are divided into paired units and sent to separate laboratories for testing of the Biochemical Oxygen Demand and the amount of Suspended Solids. This is done to make sure that the measurements which guide the activities of the treatment plant are accurate and consistent. The Hotelling T2 test is used to make the comparison across the two dependent variables with the State/Commercial laboratory serving as the grouping variable.","authors":[{"author":"Gavin Gordon","authorURL":"https://example.com/norajones","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}],"publishedDate":"2020-12-16T00:00:00.000-04:00","citationText":"Gordon, 2020"}
+</script>
+
+<!--/radix_placeholder_front_matter-->
+<!--radix_placeholder_navigation_before_body-->
+<!--/radix_placeholder_navigation_before_body-->
+<!--radix_placeholder_site_before_body-->
+<!--/radix_placeholder_site_before_body-->
+
+<div class="d-title">
+<h1>Waste Water Treatment</h1>
+<!--radix_placeholder_categories-->
+<div class="dt-tags">
+<div class="dt=tag">Hotelling T2</div>
+<div class="dt=tag">Independent Groups</div>
+</div>
+<!--/radix_placeholder_categories-->
+<p><p>Waste water samples are divided into paired units and sent to separate laboratories for testing of the Biochemical Oxygen Demand and the amount of Suspended Solids. This is done to make sure that the measurements which guide the activities of the treatment plant are accurate and consistent. The Hotelling T2 test is used to make the comparison across the two dependent variables with the State/Commercial laboratory serving as the grouping variable.</p></p>
+</div>
+
+<div class="d-byline">
+  Gavin Gordon <a href="https://example.com/norajones" class="uri">https://example.com/norajones</a> 
+  
+<br/>12-16-2020
+</div>
+
+<div class="d-article">
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<h1 id="problem">Problem</h1>
+<p>Municipal waste water treatment plants are required by law to monitor their discharges into rivers and streams on a regular basis. Concern about the reliability of data from one of these self-monitoring programs led to a study in which samples of effluent were divided and sent to two laboratories for testing. One-half of each sample was sent to the Wisconsin State Laboratory of Hygiene, and one-half was sent to a private commercial laboratory routinely used in the monitoring program. Measurements of biochemical oxygen demand (BOD) and suspended solids (SS) were obtained, for n = 11 sample splits, from the two laboratories.</p>
+<p>This problem will be approached using the paired Hotelling T2 test.</p>
+<p><strong>Note</strong>: This problem was taken from Johnson 1992, example 6.1. I have added the exploration of assumptions in the replication of the results.<br />
+       </p>
+<div class="layout-chunk" data-layout="l-body">
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#acycojkgqd .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#acycojkgqd .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#acycojkgqd .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#acycojkgqd .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 4px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#acycojkgqd .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#acycojkgqd .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#acycojkgqd .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#acycojkgqd .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#acycojkgqd .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#acycojkgqd .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#acycojkgqd .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#acycojkgqd .gt_group_heading {
+  padding: 8px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#acycojkgqd .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#acycojkgqd .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#acycojkgqd .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#acycojkgqd .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#acycojkgqd .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 12px;
+}
+
+#acycojkgqd .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#acycojkgqd .gt_first_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+}
+
+#acycojkgqd .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#acycojkgqd .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#acycojkgqd .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#acycojkgqd .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#acycojkgqd .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#acycojkgqd .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding: 4px;
+}
+
+#acycojkgqd .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#acycojkgqd .gt_sourcenote {
+  font-size: 90%;
+  padding: 4px;
+}
+
+#acycojkgqd .gt_left {
+  text-align: left;
+}
+
+#acycojkgqd .gt_center {
+  text-align: center;
+}
+
+#acycojkgqd .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#acycojkgqd .gt_font_normal {
+  font-weight: normal;
+}
+
+#acycojkgqd .gt_font_bold {
+  font-weight: bold;
+}
+
+#acycojkgqd .gt_font_italic {
+  font-style: italic;
+}
+
+#acycojkgqd .gt_super {
+  font-size: 65%;
+}
+
+#acycojkgqd .gt_footnote_marks {
+  font-style: italic;
+  font-size: 65%;
+}
+</style>
+<div id="acycojkgqd" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="gt_table">
+  <thead class="gt_header">
+    <tr>
+      <th colspan="2" class="gt_heading gt_title gt_font_normal" style>Summary Statistics</th>
+    </tr>
+    <tr>
+      <th colspan="2" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style>for differences</th>
+    </tr>
+  </thead>
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1"><strong>Characteristic</strong></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1"><strong>N = 11</strong></th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td class="gt_row gt_left">BOD</td>
+<td class="gt_row gt_center"></td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Mean (SD)</td>
+<td class="gt_row gt_center">-9 (14)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Median (25%,75%)</td>
+<td class="gt_row gt_center">-14 (-19,0)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Range</td>
+<td class="gt_row gt_center">-27, 17</td></tr>
+    <tr><td class="gt_row gt_left">SS</td>
+<td class="gt_row gt_center"></td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Mean (SD)</td>
+<td class="gt_row gt_center">13 (20)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Median (25%,75%)</td>
+<td class="gt_row gt_center">10 (-2,14)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Range</td>
+<td class="gt_row gt_center">-7, 60</td></tr>
+  </tbody>
+  
+  
+</table></div>
+</div>
+<p>       </p>
+<h2 id="check-for-assumptions">Check for Assumptions</h2>
+<ol type="1">
+<li><strong>Outliers and Group level Normality</strong></li>
+</ol>
+<div class="layout-chunk" data-layout="l-body">
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-4"></span>
+<img src="water-quality_files/figure-html5/unnamed-chunk-4-1.png" alt="Normal Distribution plots for BOD" width="624" />
+<p class="caption">
+Figure 1: Normal Distribution plots for BOD
+</p>
+</div>
+</div>
+<p>The histogram for the BOD differences is skewed with most of the data falling in the negative number range (median equals -14 as well). The points seem to oscillate about the QQ, PP and cumulative distribution plots but seem to hug the lines; this is not ideal but can occur especially with small sample sizes. The plot behaviors show promising approximations to normality. There does not seem to be any alarming data points for consideration as outliers.</p>
+<p>       </p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-5"></span>
+<img src="water-quality_files/figure-html5/unnamed-chunk-5-1.png" alt="Normal Distribution plots for SS" width="624" />
+<p class="caption">
+Figure 2: Normal Distribution plots for SS
+</p>
+</div>
+</div>
+<p>The SS variable does not follow a normal distribution. There are two data points which have differences that are quite alarming relative to the other data points. This is most clearly shown in the histogram where these two values occur above the value of 40. It is likely that these two points will distort the normality assumption; also they present the idea that there may be a subgroup within the dataset that needs to be taken into account. None of the distribution curves seem to match well with the data.</p>
+<p>       </p>
+<center>
+<div class="layout-chunk" data-layout="l-body">
+<div id="htmlwidget-2d8b063d372bd6249350" style="width:624px;height:384px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-2d8b063d372bd6249350">{"x":{"data":[{"x":[17,16.5555555555556,16.1111111111111,15.6666666666667,15.2222222222222,14.7777777777778,14.4066540460086,14.3333333333333,13.8888888888889,13.4444444444444,13,12.5555555555556,12.1111111111111,11.9647756535722,11.6666666666667,11.2222222222222,10.7777777777778,10.4826695459579,10.3333333333333,9.88888888888889,9.44444444444444,9.37943314499241,9,8.55555555555556,8.50799398159964,8.11111111111111,7.80200562561591,7.66666666666666,7.2254077672603,7.22222222222222,6.77777777777778,6.75525380127586,6.37680026443,6.33333333333333,6.07912762799023,5.88888888888889,5.85686271818168,5.70210333359111,5.61388569257971,5.58948897413189,17,null,-27,-26.65131202915,-26.5555555555556,-26.1111111111111,-25.9799439484987,-25.6666666666667,-25.2222222222222,-25.213881252578,-24.7777777777778,-24.3336978742104,-24.3333333333333,-23.8888888888889,-23.4444444444444,-23.3005521880497,-23,-22.5555555555556,-22.1111111111111,-22.0192808793348,-21.6666666666667,-21.2222222222222,-20.7777777777778,-20.3333333333333,-19.8888888888889,-19.6561699179596,-19.4444444444444,-19,-18.5555555555556,-18.2487853788921,-18.1111111111111,-17.6666666666667,-17.2222222222222,-16.7777777777778,-16.3333333333333,-15.8888888888889,-15.4444444444444,-15.4100656167567,-15,-14.5555555555556,-14.1111111111111,-13.7642350103987,-13.6666666666667,-13.2222222222222,-12.7777777777778,-12.4569365660876,-12.3333333333333,-11.8888888888889,-11.4444444444444,-11.3680042648311,-11,-10.5555555555556,-10.4464762882403,-10.1111111111111,-9.66666666666667,-9.66023788736006,-9.22222222222222,-8.99003418505676,-8.77777777777778,-8.42006975908906,-8.33333333333334,-7.93982647182553,-7.88888888888889,-7.54062918158584,-7.44444444444445,-7.21616631474373,-7,-6.9626897720822,-6.77444892478909,-6.6513317270888,-6.5909060169616,-6.59217539431106,-6.65565777024552,-6.78352057078909,-6.97980072587938,-7,-7.2459599430812,-7.44444444444445,-7.59105996405548,-7.88888888888889,-8.0230745281881,-8.33333333333334,-8.55490746418931,-8.77777777777778,-9.20571046332929,-9.22222222222222,-9.66666666666667,-10.0050028148534,-10.1111111111111,-10.5555555555556,-11,-11.0025829028758,-11.4444444444444,-11.8888888888889,-12.3028676292816,-12.3333333333333,-12.7777777777778,-13.2222222222222,-13.6666666666667,-14.1111111111111,-14.2028732439536,-14.5555555555556,-15,-15.4444444444444,-15.8888888888889,-16.3333333333333,-16.7777777777778,-17.2222222222222,-17.6666666666667,-18.1111111111111,-18.5555555555556,-19,-19.4444444444444,-19.8888888888889,-20.3333333333333,-20.7777777777778,-21.2222222222222,-21.6666666666667,-21.7289927506017,-22.1111111111111,-22.5555555555556,-23,-23.4444444444444,-23.6127246656579,-23.8888888888889,-24.3333333333333,-24.7777777777778,-24.9048189184198,-25.2222222222222,-25.6666666666667,-25.8987545468862,-26.1111111111111,-26.5555555555556,-26.6980300266518,-27,-27,null,17,16.5819985749394,16.5555555555556,16.1111111111111,16.0707408411236,15.6666666666667,15.5111527065031,15.2222222222222,14.8927704991515,14.7777777777778,14.3333333333333,14.2067227504402,13.8888888888889,13.4444444444444,13.4390645978461,13,12.5752917584628,12.5555555555556,12.1111111111111,11.6666666666667,11.5928739737055,11.2222222222222,10.7777777777778,10.4626413851351,10.3333333333333,9.88888888888889,9.44444444444444,9.14513507951524,9,8.55555555555556,8.11111111111111,7.66666666666666,7.58752295490786,7.22222222222222,6.77777777777778,6.33333333333333,5.88888888888889,5.72629501140754,5.44444444444444,5,4.55555555555555,4.11111111111111,3.66666666666666,3.51853638192401,3.22222222222222,2.77777777777778,2.33333333333333,1.88888888888889,1.44444444444444,1.02723112093644,1,0.555555555555554,0.111111111111111,-0.333333333333336,-0.777777777777779,-1.22222222222222,-1.52959696168323,-1.66666666666667,-2.11111111111111,-2.55555555555556,-3,-3.44444444444445,-3.88888888888889,-3.95294812981441,-4.33333333333334,-4.77777777777778,-5.22222222222222,-5.66666666666667,-6.11111111111111,-6.18491392067478,-6.55555555555556,-7,-7.44444444444445,-7.88888888888889,-8.25460346786932,-8.33333333333334,-8.77777777777778,-9.22222222222222,-9.66666666666667,-10.1111111111111,-10.2045751314946,-10.5555555555556,-11,-11.4444444444444,-11.8888888888889,-12.0723039512558,-12.3333333333333,-12.7777777777778,-13.2222222222222,-13.6666666666667,-13.895379632068,-14.1111111111111,-14.5555555555556,-15,-15.4444444444444,-15.7351830134997,-15.8888888888889,-16.3333333333333,-16.7777777777778,-17.2222222222222,-17.6666666666667,-17.795818082603,-18.1111111111111,-18.5555555555556,-19,-19.4444444444444,-19.8888888888889,-20.3333333333333,-20.7777777777778,-21.2222222222222,-21.6666666666667,-22.1111111111111,-22.5555555555556,-23,-23.4444444444444,-23.8888888888889,-24.0153928299295,-24.3333333333333,-24.7777777777778,-25.2222222222222,-25.6666666666667,-26.1111111111111,-26.5555555555556,-26.6604479081927,-27,17],"y":[50.9689326359173,50.9749158395741,50.9946474848373,51.0282444973395,51.0759186849907,51.137979574893,51.2020202020202,51.214416466715,51.3035535712101,51.4081087525286,51.5288122162514,51.6665254446435,51.8222555631958,51.8787878787879,51.9949586106494,52.186734966912,52.4001623331749,52.5555555555556,52.6367543137251,52.89819966068,53.1872895925644,53.2323232323232,53.5106608802783,53.8685699666003,53.9090909090909,54.2762386668239,54.5858585858586,54.7368336552222,55.2626262626263,55.2669807358033,55.9054385297582,55.9393939393939,56.6161616161616,56.7127545002658,57.2929292929293,57.8710076902337,57.969696969697,58.6464646464647,59.3232323232323,60,50.9689326359173,null,36.02698058568,35.6363636363636,35.5319116168922,35.0818125851782,34.959595959596,34.6646922865721,34.2893350346122,34.2828282828283,33.9250037513054,33.6060606060606,33.6057713008812,33.2847316589462,33.0082749426071,32.9292929292929,32.7359462357233,32.4917591511748,32.2882325466093,32.2525252525253,32.0781808190856,31.9022650577758,31.7664811439469,31.6660509557568,31.5971673554836,31.5757575757576,31.5480771332286,31.5279392596531,31.5429491608071,31.5757575757576,31.585906039851,31.6410839811882,31.7177167520015,31.8155481302119,31.9346301733951,32.0753110828626,32.2382313833078,32.2525252525253,32.3930569329605,32.5657575706359,32.76016734264,32.9292929292929,32.9716089221477,33.1834750534924,33.4189922267117,33.6060606060606,33.6736797081997,33.9375101649092,34.2290705403764,34.2828282828283,34.5361597333816,34.8715763036242,34.959595959596,35.2338121501245,35.630319496223,35.6363636363636,36.0673547179639,36.3131313131313,36.5554106586636,36.989898989899,37.1071358344859,37.6666666666667,37.750140028246,38.3434343434343,38.5403099986449,39.020202020202,39.5961255961818,39.6969696969697,40.3737373737374,41.0505050505051,41.7272727272727,42.4040404040404,43.0808080808081,43.7575757575758,44.4343434343434,44.4866765192672,45.1111111111111,45.5058043246264,45.7878787878788,46.261042702568,46.4646464646465,46.8691314399042,47.1414141414141,47.3843526986679,47.8181818181818,47.8334344092392,48.2233909922968,48.4949494949495,48.5746071803305,48.8872443275946,49.1701747546814,49.1717171717172,49.4250336242604,49.6550799563837,49.8484848484849,49.862446839759,50.0508189815854,50.2192097668554,50.3689096933766,50.5010324474643,50.5252525252525,50.6190977865791,50.7215901435881,50.8085431587895,50.880551302979,50.9380978305247,50.9815617259006,51.0112229518671,51.0272662109408,51.0297833735046,51.0187746792722,50.9941487806183,50.9557216640992,50.9032144584585,50.8362501120717,50.7543488989661,50.6569226892708,50.5432678963598,50.5252525252525,50.4156113915555,50.2709137177837,50.1076093724214,49.9244659129912,49.8484848484849,49.7216317839462,49.4971582093652,49.2483482109605,49.1717171717172,48.9723098170231,48.6671939684758,48.4949494949495,48.327006812829,47.9478927026842,47.8181818181818,47.5177732944033,36.02698058568,null,12.7025248962567,13.3030303030303,13.3389875502061,13.927875050386,13.979797979798,14.4739496440122,14.6565656565657,14.9809526058232,15.3333333333333,15.4517112644439,15.8905686416093,16.010101010101,16.3013708384388,16.6824031083863,16.6868686868687,17.0440523600443,17.3636363636364,17.3783283141338,17.6980292963053,17.9933791003576,18.040404040404,18.2769456407203,18.5413769974129,18.7171717171717,18.7902466492597,19.0300503327137,19.2527681402416,19.3939393939394,19.4641874235527,19.6695226127185,19.861061708029,20.0400803424139,20.0707070707071,20.2177873767717,20.3865833167998,20.5452817620844,20.6948691189506,20.7474747474747,20.843609222232,20.9886456199166,21.126448706161,21.2578039688194,21.3834384037772,21.4242424242424,21.511391956462,21.6381945745083,21.7606870840411,21.8794430258051,21.9949855746115,22.1010101010101,22.1084838793222,22.2302566865536,22.3498108548151,22.46751199132,22.5836751240736,22.6985658035497,22.7777777777778,22.816339684492,22.9420956696422,23.0669399189674,23.190963517401,23.3142129715407,23.4366936375281,23.4545454545455,23.571636718607,23.707853693828,23.8429503680095,23.976786634177,24.1091991438916,24.1313131313131,24.2558773906484,24.403730133537,24.5492823368304,24.6922809296342,24.8080808080808,24.8366135333848,24.9970578443945,25.1536665145778,25.3061372157256,25.4541846186594,25.4848484848485,25.6202605393379,25.7865963638,25.9466965620821,26.1002774638924,26.1616161616162,26.26802597809,26.4420127569098,26.6069058451292,26.7624684795819,26.8383838383838,26.9300602225031,27.1080129455136,27.2727337573733,27.4241441231638,27.5151515151515,27.5812249064336,27.7555416474758,27.9102763480024,28.0458301932876,28.1627204300646,28.1919191919192,28.3000714647282,28.424315529125,28.5207161130522,28.5911519157379,28.6374816774953,28.6615004649959,28.6649061797603,28.6492751070848,28.6160451519934,28.5665053765238,28.5017905152003,28.4228792662327,28.330595306215,28.2256101351118,28.1919191919192,28.1306560174377,28.0347780037127,27.9288469927956,27.8128147191658,27.6865479111313,27.5498260488168,27.5151515151515,27.4243959223123,12.7025248962567],"text":"level: 1e-04","type":"scatter","mode":"lines","line":{"width":1.88976377952756,"color":"transparent","dash":"solid"},"fill":"toself","fillcolor":"rgba(19,43,67,1)","hoveron":"fills","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[17,16.5555555555556,16.1111111111111,15.6666666666667,15.2222222222222,15.0103609148023,14.7777777777778,14.3333333333333,14.2395249953501,13.8888888888889,13.8656804036159,13.7565719773369,17,null,-18.1111111111111,-18.5555555555556,-19,-19.0719891989098,-19.4444444444444,-19.8888888888889,-20.3333333333333,-20.3864789968224,-20.7777777777778,-20.9612126259645,-21.2222222222222,-21.2349837847135,-21.2678163167553,-21.2222222222222,-21.0744200505787,-20.7777777777778,-20.6123360335039,-20.3333333333333,-19.8888888888889,-19.6647736873344,-19.4444444444444,-19,-18.5555555555556,-18.1111111111111,-17.6666666666667,-17.2222222222222,-16.7777777777778,-16.3618625775909,-16.3333333333333,-15.8888888888889,-15.4444444444444,-15.4081950534529,-15,-14.9400606506422,-14.7474138797509,-14.7771622117443,-15,-15.0361781621421,-15.4444444444444,-15.6181644822109,-15.8888888888889,-16.3333333333333,-16.7777777777778,-16.9337636186961,-17.2222222222222,-17.6666666666667,-18.1111111111111,-18.1111111111111,null,12.6568884074439,13,13.4444444444444,13.5300977819952,13.8888888888889,14.2440017163349,14.3333333333333,14.7777777777778,14.8291211367605,15.2222222222222,15.3066408383052,15.6666666666667,15.6918818504144,15.997015271452,16.1111111111111,16.2306647273773,16.400306903149,16.5115731090091,16.5555555555556,16.5704187289841,16.5815336950966,16.5555555555556,16.5486576880805,16.4765598341114,16.3681163850012,16.2261539080119,16.1111111111111,16.0540868638312,15.8556089060925,15.6666666666667,15.6307092115285,15.3835508406693,15.2222222222222,15.1128197355072,14.8193210814125,14.7777777777778,14.503322243017,14.3333333333333,14.1616189525054,13.8888888888889,13.7918480436224,13.4444444444444,13.3904270747563,13,12.9524416455186,12.5555555555556,12.4714898639933,12.1111111111111,11.9394724905702,11.6666666666667,11.3463172614594,11.2222222222222,10.7777777777778,10.6798258686074,10.3333333333333,9.92445444253933,9.88888888888889,9.44444444444444,9.0599179549813,9,8.55555555555556,8.11111111111111,8.06009022664933,7.66666666666666,7.22222222222222,6.89099317917423,6.77777777777778,6.33333333333333,5.88888888888889,5.51170185957321,5.44444444444444,5,4.55555555555555,4.11111111111111,3.88040474726398,3.66666666666666,3.22222222222222,2.77777777777778,2.33333333333333,1.98332973865816,1.88888888888889,1.44444444444444,1,0.555555555555554,0.111111111111111,-0.121600813079173,-0.333333333333336,-0.777777777777779,-1.22222222222222,-1.66666666666667,-2.11111111111111,-2.30704357505964,-2.55555555555556,-3,-3.44444444444445,-3.88888888888889,-4.33333333333334,-4.46660065195199,-4.77777777777778,-5.22222222222222,-5.66666666666667,-6.11111111111111,-6.55555555555556,-6.57679864741363,-7,-7.44444444444445,-7.88888888888889,-8.33333333333334,-8.6732070553158,-8.77777777777778,-9.22222222222222,-9.66666666666667,-10.1111111111111,-10.5555555555556,-10.8321152061304,-11,-11.4444444444444,-11.8888888888889,-12.3333333333333,-12.7777777777778,-13.1735431238519,-13.2222222222222,-13.6666666666667,-14.1111111111111,-14.5555555555556,-15,-15.4444444444444,-15.8888888888889,-15.9762537687068,-16.3333333333333,-16.7777777777778,-17.2222222222222,-17.6666666666667,-18.1111111111111,-18.5555555555556,-19,-19.4444444444444,-19.8888888888889,-20.3333333333333,-20.7777777777778,-21.2222222222222,-21.6666666666667,-22.1111111111111,-22.5555555555556,-23,-23.4444444444444,-23.8888888888889,-24.3333333333333,-24.7777777777778,-25.2222222222222,-25.6666666666667,-26.1111111111111,-26.5555555555556,-27,12.6568884074439],"y":[57.4381299578258,57.4637491350088,57.5415527965013,57.6720947055699,57.8563052366882,57.969696969697,58.141443573394,58.5454458877301,58.6464646464647,59.2753454717086,59.3232323232323,60,57.4381299578258,null,44.5679263199172,44.5339114388455,44.454531292749,44.4343434343434,44.2998598537613,44.0797402821168,43.7983202466867,43.7575757575758,43.3215289693769,43.0808080808081,42.4397549959971,42.4040404040404,41.7272727272727,41.5513099342245,41.0505050505051,40.5911777611402,40.3737373737374,40.1332831187765,39.820312278843,39.6969696969697,39.6049059461666,39.4700295750583,39.3857416265213,39.3512305235888,39.3660544366044,39.4301343092614,39.5437512683598,39.6969696969697,39.7107632246153,39.9910792460772,40.3399302974958,40.3737373737374,40.9521521103713,41.0505050505051,41.7272727272727,42.4040404040404,42.9973143105832,43.0808080808081,43.5800740273439,43.7575757575758,43.947546999324,44.1983374253719,44.3883433074502,44.4343434343434,44.5004289949182,44.5567966213917,44.5679263199172,44.5679263199172,null,-7,-6.74749639714381,-6.39485649207722,-6.32323232323232,-5.99505149157018,-5.64646464646465,-5.54835978854838,-5.0323281022582,-4.96969696969697,-4.41739695852353,-4.29292929292929,-3.66207669790063,-3.61616161616162,-2.93939393939394,-2.6126935348479,-2.26262626262626,-1.58585858585859,-0.909090909090909,-0.403422362631074,-0.232323232323232,0.444444444444445,0.976589083636082,1.12121212121212,1.7979797979798,2.47474747474748,3.15151515151515,3.60227497730691,3.82828282828283,4.50505050505051,5.07304598864934,5.18181818181818,5.85858585858586,6.26168497759607,6.53535353535354,7.21212121212121,7.30144577390649,7.88888888888889,8.22701493694653,8.56565656565657,9.06651512562884,9.24242424242424,9.82952203661768,9.91919191919192,10.5239789053287,10.5959595959596,11.1572348110396,11.2727272727273,11.7363200017591,11.949494949495,12.2677721696492,12.6262626262626,12.7572849351284,13.207680855254,13.3030303030303,13.6230893558178,13.979797979798,14.0094438667769,14.3664862709579,14.6565656565657,14.7001131291482,15.0105942343632,15.3012579715952,15.3333333333333,15.5739607987146,15.8297613992503,16.010101010101,16.0706717251429,16.298817794941,16.5138413270342,16.6868686868687,16.7175154318783,16.9130829077323,17.0986397028043,17.2752455066611,17.3636363636364,17.4458730708835,17.6112953796641,17.7701550807542,17.9232809407521,18.040404040404,18.0724630214316,18.2209672242463,18.3655333779814,18.5067804863347,18.6452702867952,18.7171717171717,18.7841057762872,18.9237994990271,19.0617909809557,19.1984241901062,19.33398605744,19.3939393939394,19.4723018362282,19.6126197445943,19.7521321757943,19.8909149670602,20.0289973581837,20.0707070707071,20.1717449238155,20.3158260482215,20.4587673683135,20.6004480394045,20.7407237319919,20.7474747474747,20.8880439516356,21.0337244943103,21.1771238675948,21.3180432184815,21.4242424242424,21.4587277298193,21.6042902675336,21.7463523660042,21.8847255617257,22.0192340396084,22.1010101010101,22.1539928307612,22.2912591030941,22.4236500295643,22.5510410791499,22.6733238673861,22.7777777777778,22.7916778732336,22.9146439325237,23.0315417304007,23.142315168792,23.2469194300503,23.3453189302915,23.4374852084939,23.4545454545455,23.5311836435886,23.6196686423116,23.7009836312165,23.7751195728378,23.8420651143159,23.9018041784047,23.9543135803192,23.9995606649641,24.0375009551108,24.0680757975275,24.0912099908155,24.1068093756873,24.1147583655447,24.1149173923983,24.1071202403158,24.0911712356211,24.0668422598921,24.0338695483398,23.9919502322957,23.9407385802014,23.8798418865625,23.8088159527023,23.7271600966821,23.634311622318,23.5296396686454,-7],"text":"level: 2e-04","type":"scatter","mode":"lines","line":{"width":1.88976377952756,"color":"transparent","dash":"solid"},"fill":"toself","fillcolor":"rgba(29,63,94,1)","hoveron":"fills","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[4.79834986486684,5,5.44444444444444,5.88888888888889,6.33333333333333,6.59276802759859,6.77777777777778,7.22222222222222,7.66666666666666,8.01833521324105,8.11111111111111,8.55555555555556,9,9.13397980416771,9.44444444444444,9.88888888888889,10.0090105378576,10.3333333333333,10.696102585284,10.7777777777778,11.2222222222222,11.2331384074131,11.6462162686034,11.6666666666667,11.9552272553948,12.1111111111111,12.1762181810811,12.3195131048142,12.3952986631029,12.4110737725147,12.3734185047806,12.2880605336352,12.1598886202681,12.1111111111111,11.9925141466216,11.7894826888204,11.6666666666667,11.5527936401984,11.2837741972901,11.2222222222222,10.9820236706838,10.7777777777778,10.6466729385284,10.3333333333333,10.2749217769363,9.88888888888889,9.86232388378103,9.44444444444444,9.40264065019581,9,8.88768401515981,8.55555555555556,8.30714809254157,8.11111111111111,7.66666666666666,7.64818325594571,7.22222222222222,6.89189600310657,6.77777777777778,6.33333333333333,6.01842921549814,5.88888888888889,5.44444444444444,5.00260102917268,5,4.55555555555555,4.11111111111111,3.81503889918233,3.66666666666666,3.22222222222222,2.77777777777778,2.43672334439664,2.33333333333333,1.88888888888889,1.44444444444444,1,0.869136076397205,0.555555555555554,0.111111111111111,-0.333333333333336,-0.777777777777779,-0.845279842741356,-1.22222222222222,-1.66666666666667,-2.11111111111111,-2.55555555555556,-2.63380365515677,-3,-3.44444444444445,-3.88888888888889,-4.33333333333334,-4.4371761553551,-4.77777777777778,-5.22222222222222,-5.66666666666667,-6.11111111111111,-6.23808429318036,-6.55555555555556,-7,-7.44444444444445,-7.88888888888889,-8.05744325522759,-8.33333333333334,-8.77777777777778,-9.22222222222222,-9.66666666666667,-9.94457145839343,-10.1111111111111,-10.5555555555556,-11,-11.4444444444444,-11.8888888888889,-11.9814242970942,-12.3333333333333,-12.7777777777778,-13.2222222222222,-13.6666666666667,-14.1111111111111,-14.3282805313255,-14.5555555555556,-15,-15.4444444444444,-15.8888888888889,-16.3333333333333,-16.7777777777778,-17.2222222222222,-17.4955508718536,-17.6666666666667,-18.1111111111111,-18.5555555555556,-19,-19.4444444444444,-19.8888888888889,-20.3333333333333,-20.7777777777778,-21.2222222222222,-21.6666666666667,-22.1111111111111,-22.5555555555556,-23,-23.4444444444444,-23.8888888888889,-24.3333333333333,-24.7777777777778,-25.2222222222222,-25.3119475246421,-25.6666666666667,-26.1111111111111,-26.5555555555556,-27,4.79834986486684,null,-25.2137628842575,-25.2222222222222,-25.5335681904923,-25.6666666666667,-25.8055719638739,-26.0415221074924,-26.1111111111111,-26.2531356933173,-26.4507373363369,-26.5555555555556,-26.6452855259897,-26.847127113694,-27,-25.2137628842575],"y":[-7,-6.92974055637651,-6.77025065241818,-6.60391053251278,-6.42958015939825,-6.32323232323232,-6.24293696349699,-6.0409871329669,-5.8265103056799,-5.64646464646465,-5.59508676659287,-5.3361674554368,-5.05822619284173,-4.96969696969697,-4.74212237032616,-4.39289828094442,-4.29292929292929,-3.98517977506976,-3.61616161616162,-3.51857457731029,-2.95402229784001,-2.93939393939394,-2.26262626262626,-2.21974798636935,-1.58585858585859,-1.11394970300539,-0.909090909090909,-0.232323232323232,0.444444444444445,1.12121212121212,1.7979797979798,2.47474747474748,3.15151515151515,3.34884143148001,3.82828282828283,4.50505050505051,4.85720450936545,5.18181818181818,5.85858585858586,5.99787633106847,6.53535353535354,6.94994042325789,7.21212121212121,7.78422961901866,7.88888888888889,8.52301334002547,8.56565656565657,9.1824017146892,9.24242424242424,9.77527341754872,9.91919191919192,10.3125218447289,10.5959595959596,10.8034036658049,11.2545908372095,11.2727272727273,11.6618387038518,11.949494949495,12.0425358230366,12.3908747943418,12.6262626262626,12.7175035597077,13.0185049203516,13.3030303030303,13.3046204677413,13.5678230789485,13.8188981923379,13.979797979798,14.0569758117239,14.2809674717086,14.4964084272573,14.6565656565657,14.7034329961107,14.9006003803113,15.0921294582651,15.2789672914301,15.3333333333333,15.4600786921845,15.6370727166696,15.8114389151002,15.9838537497692,16.010101010101,16.1537079242669,16.3221507256623,16.4898263153349,16.6571222278823,16.6868686868687,16.8241314190674,16.9908823361893,17.1575560436832,17.3242608414285,17.3636363636364,17.4917499211207,17.6591461719048,17.826115094634,17.992547222414,18.040404040404,18.1598611778408,18.3265820530686,18.4918059201062,18.6553057820809,18.7171717171717,18.8190129127313,18.9815081385841,19.1411236947137,19.2976138043187,19.3939393939394,19.4525047451388,19.6064637935649,19.7561791055545,19.901449166044,20.0420868161772,20.0707070707071,20.1822292226261,20.3181237978903,20.4484540933725,20.5730954114922,20.6919345410078,20.7474747474747,20.8077442205316,20.9198781757254,21.0254207775888,21.1242965953731,21.2164320007898,21.3017527782697,21.3801817232542,21.4242424242424,21.4532433869051,21.5213199111515,21.5816962014006,21.6342728727133,21.6789355228671,21.7155521541789,21.7439705420753,21.7640155267742,21.7754862012286,21.7781529653043,21.7717544129188,21.7559940154481,21.7305365609998,21.6950043050517,21.6489727833473,21.5919662327109,21.5234525594616,21.4428377882423,21.4242424242424,21.3523447460687,21.2494148728882,21.1324848412382,21.000636038399,-7,null,-7,-6.98266961433051,-6.32323232323232,-5.99600750561685,-5.64646464646465,-4.96969696969697,-4.74857994789939,-4.29292929292929,-3.61616161616162,-3.25150594525753,-2.93939393939394,-2.26262626262626,-1.78867728983939,-7],"text":"level: 3e-04","type":"scatter","mode":"lines","line":{"width":1.88976377952756,"color":"transparent","dash":"solid"},"fill":"toself","fillcolor":"rgba(40,84,122,1)","hoveron":"fills","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[-3.64550876932349,-3.44444444444445,-3,-2.55555555555556,-2.11111111111111,-1.83859213698428,-1.66666666666667,-1.22222222222222,-0.777777777777779,-0.333333333333336,-0.0396825288210617,0.111111111111111,0.555555555555554,1,1.44444444444444,1.68490080628626,1.88888888888889,2.33333333333333,2.77777777777778,3.22222222222222,3.22960613522095,3.66666666666666,4.11111111111111,4.52075999860952,4.55555555555555,5,5.44444444444444,5.54979177330003,5.88888888888889,6.33333333333333,6.34888747320771,6.77777777777778,6.95337236300736,7.22222222222222,7.4007730851931,7.66666666666666,7.71801294817989,7.92383901050556,8.03771978584427,8.07086043009637,8.03307873577226,7.93278297584849,7.7769068863971,7.66666666666666,7.56859065881528,7.31042687739928,7.22222222222222,7.00227672278372,6.77777777777778,6.64383212327815,6.33333333333333,6.23065013746966,5.88888888888889,5.75634164131231,5.44444444444444,5.21262651716776,5,4.58950855181562,4.55555555555555,4.11111111111111,3.87059111253952,3.66666666666666,3.22222222222222,3.04379440744269,2.77777777777778,2.33333333333333,2.09459425517186,1.88888888888889,1.44444444444444,1.0161341271868,1,0.555555555555554,0.111111111111111,-0.18640647074036,-0.333333333333336,-0.777777777777779,-1.22222222222222,-1.48979000078424,-1.66666666666667,-2.11111111111111,-2.55555555555556,-2.86140497900313,-3,-3.44444444444445,-3.88888888888889,-4.27259187799322,-4.33333333333334,-4.77777777777778,-5.22222222222222,-5.66666666666667,-5.70948154359515,-6.11111111111111,-6.55555555555556,-7,-7.17703290807662,-7.44444444444445,-7.88888888888889,-8.33333333333334,-8.69948262955833,-8.77777777777778,-9.22222222222222,-9.66666666666667,-10.1111111111111,-10.314582179483,-10.5555555555556,-11,-11.4444444444444,-11.8888888888889,-12.0893169384286,-12.3333333333333,-12.7777777777778,-13.2222222222222,-13.6666666666667,-14.1111111111111,-14.152576060873,-14.5555555555556,-15,-15.4444444444444,-15.8888888888889,-16.3333333333333,-16.7777777777778,-16.8916157027288,-17.2222222222222,-17.6666666666667,-18.1111111111111,-18.5555555555556,-19,-19.4444444444444,-19.8888888888889,-20.3333333333333,-20.7777777777778,-21.2222222222222,-21.6666666666667,-22.1111111111111,-22.5555555555556,-23,-23.4444444444444,-23.8888888888889,-24.3333333333333,-24.7777777777778,-24.9845015643256,-25.2222222222222,-25.6666666666667,-26.1111111111111,-26.5555555555556,-26.981183442157,-27,-3.64550876932349,null,-21.5537893653414,-21.6666666666667,-22.0523347414214,-22.1111111111111,-22.4506858511952,-22.5555555555556,-22.7771203090468,-23,-23.0531061802975,-23.2936761604332,-23.4444444444444,-23.5161701543657,-23.7332220673464,-23.8888888888889,-23.9593866669794,-24.2058041346392,-24.3333333333333,-24.484094368666,-24.7777777777778,-24.8031993874721,-25.168135563924,-25.2222222222222,-25.5815957254547,-25.6666666666667,-26.0414494383174,-26.1111111111111,-26.5410183673889,-26.5555555555556,-27,-21.5537893653414],"y":[-7,-6.92289098908844,-6.75434297980167,-6.58774384978275,-6.42304356556681,-6.32323232323232,-6.25701449667956,-6.08805854692586,-5.92091682866702,-5.75519147960144,-5.64646464646465,-5.58707488362621,-5.41312738637829,-5.23925139850017,-5.06468216851449,-4.96969696969697,-4.88264627133801,-4.69115332764743,-4.49610352439949,-4.29631316807653,-4.29292929292929,-4.07206971253068,-3.83939743735287,-3.61616161616162,-3.59477024705479,-3.31177045778457,-3.01333184964177,-2.93939393939394,-2.66249325904733,-2.27678685545644,-2.26262626262626,-1.79112675867801,-1.58585858585859,-1.1887325665312,-0.909090909090909,-0.346980877476636,-0.232323232323232,0.444444444444445,1.12121212121212,1.7979797979798,2.47474747474748,3.15151515151515,3.82828282828283,4.18877787079326,4.50505050505051,5.18181818181818,5.37811558423624,5.85858585858586,6.28580848212511,6.53535353535354,7.04691918563429,7.21212121212121,7.70331291420473,7.88888888888889,8.28181082273065,8.56565656565657,8.80125594449827,9.24242424242424,9.27561672810265,9.69761446816547,9.91919191919192,10.0907847934749,10.4539435989594,10.5959595959596,10.7902959741098,11.1065688636559,11.2727272727273,11.4048718721068,11.6847494222574,11.949494949495,11.9587574750866,12.2111785353238,12.4604294131395,12.6262626262626,12.7027487544282,12.9335731380538,13.1638598787829,13.3030303030303,13.3894312905937,13.6078038882331,13.8272831081327,13.979797979798,14.045063473899,14.2567945781784,14.4702804924904,14.6565656565657,14.6845712557374,14.8924383083503,15.1018048942421,15.3127162484571,15.3333333333333,15.5177665826931,15.7226045062807,15.9278130557124,16.010101010101,16.1294503292582,16.3278976432266,16.5252030248332,16.6868686868687,16.7203254542401,16.9098922114056,17.0967340787291,17.2805173652424,17.3636363636364,17.4596620476482,17.6336694762995,17.8031871911669,17.9679295869599,18.040404040404,18.1273183186402,18.2808496324957,18.4284582201348,18.5699318494698,18.7050693215555,18.7171717171717,18.8343098399932,18.9565884202613,19.0716678763959,19.1793933423597,19.2796098154166,19.3721592879463,19.3939393939394,19.4577561090317,19.5353900815089,19.6045720667533,19.6651259495101,19.7168580228609,19.7595537819453,19.7929746268057,19.8168544485764,19.8308960685781,19.8347674953353,19.8280979599566,19.8104736855785,19.7814333415405,19.7404631274744,19.6869914264316,19.6203829593569,19.5399323655113,19.4448571246432,19.3939393939394,19.3339338278087,19.2059422272333,19.0599971422093,18.8948471635138,18.7171717171717,18.7088769218517,-7,null,-7,-6.8554134681908,-6.32323232323232,-6.22840803219702,-5.64646464646465,-5.43603150771393,-4.96969696969697,-4.4270313772182,-4.29292929292929,-3.61616161616162,-3.16078854273605,-2.93939393939394,-2.26262626262626,-1.79846113188365,-1.58585858585859,-0.909090909090909,-0.59994395032129,-0.232323232323232,0.390313292170388,0.444444444444445,1.12121212121212,1.20922360481449,1.7979797979798,1.9222489518912,2.47474747474748,2.56812430237661,3.15151515151515,3.16983718518623,3.73822822351299,-7],"text":"level: 4e-04","type":"scatter","mode":"lines","line":{"width":1.88976377952756,"color":"transparent","dash":"solid"},"fill":"toself","fillcolor":"rgba(51,106,152,1)","hoveron":"fills","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[-12.7628502772973,-12.3333333333333,-11.8888888888889,-11.4444444444444,-11,-10.5555555555556,-10.1111111111111,-9.66666666666667,-9.5908647816447,-9.22222222222222,-8.77777777777778,-8.33333333333334,-7.88888888888889,-7.68868981814738,-7.44444444444445,-7,-6.55555555555556,-6.11111111111111,-6.07898317331631,-5.66666666666667,-5.22222222222222,-4.77777777777778,-4.61662998793251,-4.33333333333334,-3.88888888888889,-3.44444444444445,-3.25597707970167,-3,-2.55555555555556,-2.11111111111111,-1.99807962111201,-1.66666666666667,-1.22222222222222,-0.866807438994894,-0.777777777777779,-0.333333333333336,0.108917292074887,0.111111111111111,0.555555555555554,0.909204980349192,1,1.44444444444444,1.53301892641189,1.88888888888889,1.99078453977157,2.30035935930899,2.33333333333333,2.47732439556986,2.54024612420744,2.50205036950335,2.37375723046294,2.33333333333333,2.15983473631694,1.88888888888889,1.86924886092713,1.50046109844262,1.44444444444444,1.05607588348852,1,0.555555555555554,0.535360800294894,0.111111111111111,-0.063426457557871,-0.333333333333336,-0.737689614552369,-0.777777777777779,-1.22222222222222,-1.48543872235656,-1.66666666666667,-2.11111111111111,-2.29983554451275,-2.55555555555556,-3,-3.17283469267315,-3.44444444444445,-3.88888888888889,-4.09617681180219,-4.33333333333334,-4.77777777777778,-5.06449682957596,-5.22222222222222,-5.66666666666667,-6.07726510351675,-6.11111111111111,-6.55555555555556,-7,-7.13717767321609,-7.44444444444445,-7.88888888888889,-8.2570290855998,-8.33333333333334,-8.77777777777778,-9.22222222222222,-9.45385532713377,-9.66666666666667,-10.1111111111111,-10.5555555555556,-10.7573922553081,-11,-11.4444444444444,-11.8888888888889,-12.2156054005371,-12.3333333333333,-12.7777777777778,-13.2222222222222,-13.6666666666667,-13.9224304955364,-14.1111111111111,-14.5555555555556,-15,-15.4444444444444,-15.8888888888889,-16.1212202233556,-16.3333333333333,-16.7777777777778,-17.2222222222222,-17.6666666666667,-18.1111111111111,-18.5555555555556,-19,-19.4444444444444,-19.8888888888889,-20.3333333333333,-20.7777777777778,-21.2222222222222,-21.6666666666667,-22.1111111111111,-22.5555555555556,-23,-23.4444444444444,-23.8888888888889,-24.3333333333333,-24.7039812541194,-24.7777777777778,-25.2222222222222,-25.6666666666667,-26.1111111111111,-26.190495680533,-26.5555555555556,-27,-12.7628502772973,null,-14.7353129223072,-15,-15.4444444444444,-15.8888888888889,-16.3333333333333,-16.7777777777778,-17.0958991046678,-17.2222222222222,-17.6666666666667,-18.1111111111111,-18.1180949472241,-18.5555555555556,-18.7888751402959,-19,-19.2851529401314,-19.4444444444444,-19.6722748431258,-19.8888888888889,-19.9935185266179,-20.2772142422024,-20.3333333333333,-20.545131703724,-20.7777777777778,-20.8221254338099,-21.1205592856581,-21.2222222222222,-21.4576698580526,-21.6666666666667,-21.8452369799002,-22.1111111111111,-22.2893654273554,-22.5555555555556,-22.7913371260453,-23,-23.3468290020784,-23.4444444444444,-23.8888888888889,-23.9440657177744,-24.3333333333333,-24.5659359673544,-24.7777777777778,-25.1975090646908,-25.2222222222222,-25.6666666666667,-25.8160367583694,-26.1111111111111,-26.4078313745709,-26.5555555555556,-26.9587668170335,-27,-14.7353129223072],"y":[-7,-6.94886730740245,-6.87997181313797,-6.7966322156418,-6.70028868424646,-6.59230614798066,-6.47397462872746,-6.34650945322834,-6.32323232323232,-6.20114488154955,-6.04690931666261,-5.88704513962417,-5.72257421423702,-5.64646464646465,-5.54579156293292,-5.35949041649773,-5.17181239476357,-4.98342961256365,-4.96969696969697,-4.77740493129362,-4.57127872953047,-4.36678288868805,-4.29292929292929,-4.14984257002874,-3.9276086013635,-3.70834206367273,-3.61616161616162,-3.47639640122677,-3.23637598718964,-2.99932545914967,-2.93939393939394,-2.73988731016749,-2.47424218011864,-2.26262626262626,-2.20111219280491,-1.89337073754805,-1.58585858585859,-1.58403731258701,-1.21087560526165,-0.909090909090909,-0.81289418606584,-0.33101738742148,-0.232323232323232,0.289655340312449,0.444444444444445,1.12121212121212,1.24302754317455,1.7979797979798,2.47474747474748,3.15151515151515,3.82828282828283,3.95760374051674,4.50505050505051,5.13656800940821,5.18181818181818,5.85858585858586,5.94446326989577,6.53535353535354,6.60852083793222,7.18592605698107,7.21212121212121,7.69088623530317,7.88888888888889,8.15818624562898,8.56565656565657,8.60146528260422,9.00130122312935,9.24242424242424,9.39021637784791,9.75902831570642,9.91919191919192,10.1130362695023,10.4581605084935,10.5959595959596,10.7899885962475,11.1161539561109,11.2727272727273,11.4337873427376,11.7436937437696,11.949494949495,12.0517171608349,12.346607086024,12.6262626262626,12.6471881763196,12.9273849244598,13.2131660163057,13.3030303030303,13.486369610716,13.7548900821079,13.979797979798,14.0226039838824,14.2737096855112,14.5252419995469,14.6565656565657,14.7681221968993,15.0001339453827,15.229914983963,15.3333333333333,15.4492928802433,15.6584305474694,15.8630668883269,16.010101010101,16.0600521437422,16.2438936646434,16.4214510962452,16.5923447932201,16.6868686868687,16.7533418189713,16.9029624109735,17.0446372664288,17.1780584247399,17.3029171562901,17.3636363636364,17.4171424285788,17.5202972606673,17.6139437991391,17.6977868146726,17.7715131007864,17.8347872069124,17.887246997056,17.9284990143056,17.958113623572,17.9756198972784,17.9805002011776,17.9721844298805,17.9500438338832,17.9133843716986,17.8614395119329,17.7933624006029,17.708217298431,17.6049701810503,17.4824783817293,17.3636363636364,17.337940185488,17.1622033977085,16.9608657550556,16.7319724204126,16.6868686868687,16.4523023822255,16.1317622448214,-7,null,-7,-6.96860818024506,-6.88957983070612,-6.78175717182202,-6.64296068317035,-6.47091211745789,-6.32323232323232,-6.25537780859898,-5.97707360985556,-5.65219827262156,-5.64646464646465,-5.22350221346337,-4.96969696969697,-4.69752906782975,-4.29292929292929,-4.02702512895714,-3.61616161616162,-3.16903112846993,-2.93939393939394,-2.26262626262626,-2.12544092489842,-1.58585858585859,-1.02031569004388,-0.909090909090909,-0.232323232323232,-0.0310983322256694,0.444444444444445,0.806708567825661,1.12121212121212,1.52410312719378,1.7979797979798,2.15456752630915,2.47474747474748,2.72658852404166,3.15151515151515,3.26020155139779,3.76445151558354,3.82828282828283,4.24861532302834,4.50505050505051,4.72842279424844,5.18181818181818,5.20800019444913,5.6916569646441,5.85858585858586,6.19121296603174,6.53535353535354,6.7129743935825,7.21212121212121,7.26664842919274,-7],"text":"level: 5e-04","type":"scatter","mode":"lines","line":{"width":1.88976377952756,"color":"transparent","dash":"solid"},"fill":"toself","fillcolor":"rgba(62,129,183,1)","hoveron":"fills","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[-16.3333333333333,-16.7777777777778,-17.2222222222222,-17.6666666666667,-18.1111111111111,-18.5555555555556,-19,-19.4444444444444,-19.8888888888889,-20.3333333333333,-20.7777777777778,-21.2222222222222,-21.6666666666667,-22.1111111111111,-22.5555555555556,-23,-23.4444444444444,-23.5822427037727,-23.8888888888889,-24.3333333333333,-24.7395375018378,-24.7777777777778,-25.2222222222222,-25.4290524265714,-25.6666666666667,-25.8605357159464,-26.1090119524228,-26.1111111111111,-26.2048051008843,-26.1756875766719,-26.1111111111111,-26.0315536848394,-25.7810708292357,-25.6666666666667,-25.4296209497967,-25.2222222222222,-24.9823306548536,-24.7777777777778,-24.4437656457991,-24.3333333333333,-23.8888888888889,-23.8190960435625,-23.4444444444444,-23.1159222517309,-23,-22.5555555555556,-22.3485893902843,-22.1111111111111,-21.6666666666667,-21.5372624227848,-21.2222222222222,-20.7777777777778,-20.7054783038176,-20.3333333333333,-19.8888888888889,-19.8818011685026,-19.4444444444444,-19.0885975710007,-19,-18.5555555555556,-18.3533032234898,-18.1111111111111,-17.6926209715459,-17.6666666666667,-17.2222222222222,-17.092444665056,-16.7777777777778,-16.5461996717689,-16.3333333333333,-16.0226488541964,-15.8888888888889,-15.4707619676888,-15.4444444444444,-15,-14.7705109504778,-14.5555555555556,-14.1111111111111,-13.6666666666667,-13.5549158028369,-13.2222222222222,-12.7777777777778,-12.3333333333333,-11.8888888888889,-11.4444444444444,-11,-10.9221283093933,-10.5555555555556,-10.1111111111111,-9.66666666666667,-9.22348709672161,-9.22222222222222,-8.77777777777778,-8.33333333333334,-8.15833820195134,-7.88888888888889,-7.44444444444445,-7.35226437198616,-7,-6.73528944539948,-6.55555555555556,-6.27138465352132,-6.11111111111111,-5.94190545467341,-5.72983894598676,-5.66666666666667,-5.62120426751322,-5.60128020836444,-5.65631913769707,-5.66666666666667,-5.77709898001303,-5.95483307658422,-6.11111111111111,-6.18545906814867,-6.46744727606986,-6.55555555555556,-6.80120621687536,-7,-7.18903766957631,-7.44444444444445,-7.63442278465093,-7.88888888888889,-8.14200383915716,-8.33333333333334,-8.71779852647583,-8.77777777777778,-9.22222222222222,-9.36924953375051,-9.66666666666667,-10.106754541578,-10.1111111111111,-10.5555555555556,-10.9455826658889,-11,-11.4444444444444,-11.8888888888889,-11.9085096802221,-12.3333333333333,-12.7777777777778,-13.0364831232913,-13.2222222222222,-13.6666666666667,-14.1111111111111,-14.4046810238243,-14.5555555555556,-15,-15.4444444444444,-15.8888888888889,-16.2164564925384,-16.3333333333333,-16.3333333333333],"y":[15.3684827309045,15.4904240685622,15.6001240103487,15.6969507168243,15.7802342212957,15.8492591766159,15.9032570362033,15.941397626626,15.9627800546397,15.96642287653,15.9512534418493,15.9160963069351,15.8596605956883,15.7805261656688,15.6771284162573,15.5477415520178,15.3904600879963,15.3333333333333,15.1829016857545,14.9277441216486,14.6565656565657,14.6244252853628,14.2024149106772,13.979797979798,13.6251107061951,13.3030303030303,12.6262626262626,12.6125361555127,11.949494949495,11.2727272727273,10.9654041408058,10.5959595959596,9.91919191919192,9.69421563167949,9.24242424242424,8.92286100377712,8.56565656565657,8.30289895447829,7.88888888888889,7.76499830089716,7.28463143660192,7.21212121212121,6.84563769708901,6.53535353535354,6.42868804838953,6.0352566080906,5.85858585858586,5.654537386215,5.28525158552875,5.18181818181818,4.92023279061513,4.56111947894472,4.50505050505051,4.19584505110481,3.83380258479614,3.82828282828283,3.45222321721638,3.15151515151515,3.06675676600069,2.65641095234146,2.47474747474748,2.22268980191563,1.7979797979798,1.76710715324441,1.26256396808463,1.12121212121212,0.722362972844178,0.444444444444445,0.156805839635292,-0.232323232323232,-0.409581923667196,-0.909090909090909,-0.939754623562923,-1.38928922432543,-1.58585858585859,-1.74977143468485,-2.02152937351299,-2.22655688046607,-2.26262626262626,-2.35235189161866,-2.42171404688246,-2.44467759390929,-2.4260785614043,-2.37070851102636,-2.28321639573408,-2.26262626262626,-2.14957395542439,-1.98361708360649,-1.79407271446358,-1.58585858585859,-1.58515747959595,-1.31389861587329,-1.02772343339925,-0.909090909090909,-0.689528763128046,-0.313200008566253,-0.232323232323232,0.149186028600611,0.444444444444445,0.700958574127337,1.12121212121212,1.44341070470354,1.7979797979798,2.47474747474748,2.85895970083285,3.15151515151515,3.82828282828283,4.50505050505051,4.56062888374071,5.18181818181818,5.85858585858586,6.30786076170824,6.53535353535354,7.21212121212121,7.38217164571899,7.88888888888889,8.22471540279913,8.56565656565657,8.94348509301015,9.24242424242424,9.57224550072634,9.91919191919192,10.1368501673523,10.5959595959596,10.6560301692038,11.1153333809436,11.2727272727273,11.5409933232401,11.949494949495,11.9529560691671,12.3088926373471,12.6262626262626,12.6645748587884,12.9767940402743,13.2893599344717,13.3030303030303,13.5613977583917,13.8277726490588,13.979797979798,14.0766007335769,14.301374363774,14.518646394211,14.6565656565657,14.7203287271434,14.8988703974344,15.0674424701508,15.2253779044961,15.3333333333333,15.3684827309045,15.3684827309045],"text":"level: 6e-04","type":"scatter","mode":"lines","line":{"width":1.88976377952756,"color":"transparent","dash":"solid"},"fill":"toself","fillcolor":"rgba(74,153,214,1)","hoveron":"fills","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[-17.2222222222222,-17.6666666666667,-18.1111111111111,-18.5555555555556,-19,-19.4444444444444,-19.8888888888889,-20.3333333333333,-20.7777777777778,-21.2222222222222,-21.2430900131114,-21.6666666666667,-21.9142672914967,-22.1111111111111,-22.1252253691163,-22.1111111111111,-22.0445766496522,-21.738346870996,-21.6666666666667,-21.2222222222222,-21.217180843147,-20.7777777777778,-20.4441657966097,-20.3333333333333,-19.8888888888889,-19.4444444444444,-19.3452366116877,-19,-18.5555555555556,-18.1111111111111,-17.6666666666667,-17.4056014433545,-17.2222222222222,-16.7777777777778,-16.3333333333333,-15.8888888888889,-15.4785495595361,-15.4444444444444,-15,-14.5555555555556,-14.3211208829725,-14.1111111111111,-13.9508004932964,-13.8839716141631,-14.032228629721,-14.1111111111111,-14.3809802405509,-14.5555555555556,-14.9358552997192,-15,-15.4444444444444,-15.761292610685,-15.8888888888889,-16.3333333333333,-16.7777777777778,-17.0495962621278,-17.2222222222222,-17.2222222222222],"y":[12.6880058649032,12.8219533643185,12.9300993580184,13.0092620509706,13.0558626794731,13.0658585888064,13.0346642059917,12.9570574851719,12.8270688194551,12.637848672988,12.6262626262626,12.242949845643,11.949494949495,11.3276740220188,11.2727272727273,11.1481537016646,10.5959595959596,9.91919191919192,9.82123684191441,9.24846214016357,9.24242424242424,8.84788914883515,8.56565656565657,8.48735585273747,8.20328542699771,7.9404150624017,7.88888888888889,7.72926209342518,7.54915748822018,7.39424126381175,7.26703659390628,7.21212121212121,7.17596856666356,7.12374188629552,7.10885089852665,7.13768718656375,7.21212121212121,7.2200933301594,7.39569040149581,7.6773904146412,7.88888888888889,8.22413341202195,8.56565656565657,9.24242424242424,9.91919191919192,10.0700947717166,10.5959595959596,10.8085196201894,11.2727272727273,11.3279799109912,11.6950482283448,11.949494949495,12.0262704531465,12.2730910016549,12.5015184391054,12.6262626262626,12.6880058649032,12.6880058649032],"text":"level: 7e-04","type":"scatter","mode":"lines","line":{"width":1.88976377952756,"color":"transparent","dash":"solid"},"fill":"toself","fillcolor":"rgba(86,177,247,1)","hoveron":"fills","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[-20],"y":[0],"name":"99_7c9b8ab3b81f80c65e5a40ba7079184e","type":"scatter","mode":"markers","opacity":0,"hoverinfo":"skip","showlegend":false,"marker":{"color":[0,1],"colorscale":[[0,"#132B43"],[0.00334448160535118,"#132B44"],[0.00668896321070234,"#132C44"],[0.0100334448160535,"#142C45"],[0.0133779264214047,"#142D45"],[0.0167224080267559,"#142D46"],[0.020066889632107,"#142D46"],[0.0234113712374582,"#142E47"],[0.0267558528428094,"#152E47"],[0.0301003344481605,"#152F48"],[0.0334448160535117,"#152F48"],[0.0367892976588629,"#152F49"],[0.0401337792642141,"#153049"],[0.0434782608695652,"#16304A"],[0.0468227424749164,"#16304A"],[0.0501672240802676,"#16314B"],[0.0535117056856187,"#16314B"],[0.0568561872909699,"#16324C"],[0.0602006688963211,"#17324D"],[0.0635451505016722,"#17324D"],[0.0668896321070234,"#17334E"],[0.0702341137123745,"#17334E"],[0.0735785953177257,"#17344F"],[0.0769230769230769,"#18344F"],[0.0802675585284281,"#183450"],[0.0836120401337793,"#183550"],[0.0869565217391304,"#183551"],[0.0903010033444816,"#183651"],[0.0936454849498328,"#193652"],[0.096989966555184,"#193652"],[0.100334448160535,"#193753"],[0.103678929765886,"#193754"],[0.107023411371237,"#193854"],[0.110367892976589,"#1A3855"],[0.11371237458194,"#1A3955"],[0.117056856187291,"#1A3956"],[0.120401337792642,"#1A3956"],[0.123745819397993,"#1A3A57"],[0.127090301003344,"#1B3A57"],[0.130434782608696,"#1B3B58"],[0.133779264214047,"#1B3B59"],[0.137123745819398,"#1B3B59"],[0.140468227424749,"#1C3C5A"],[0.1438127090301,"#1C3C5A"],[0.147157190635451,"#1C3D5B"],[0.150501672240803,"#1C3D5B"],[0.153846153846154,"#1C3D5C"],[0.157190635451505,"#1D3E5C"],[0.160535117056856,"#1D3E5D"],[0.163879598662207,"#1D3F5D"],[0.167224080267559,"#1D3F5E"],[0.17056856187291,"#1D3F5F"],[0.173913043478261,"#1E405F"],[0.177257525083612,"#1E4060"],[0.180602006688963,"#1E4160"],[0.183946488294314,"#1E4161"],[0.187290969899666,"#1E4261"],[0.190635451505017,"#1F4262"],[0.193979933110368,"#1F4263"],[0.197324414715719,"#1F4363"],[0.20066889632107,"#1F4364"],[0.204013377926421,"#1F4464"],[0.207357859531773,"#204465"],[0.210702341137124,"#204465"],[0.214046822742475,"#204566"],[0.217391304347826,"#204566"],[0.220735785953177,"#214667"],[0.224080267558528,"#214668"],[0.22742474916388,"#214768"],[0.230769230769231,"#214769"],[0.234113712374582,"#214769"],[0.237458193979933,"#22486A"],[0.240802675585284,"#22486A"],[0.244147157190635,"#22496B"],[0.247491638795987,"#22496C"],[0.250836120401338,"#224A6C"],[0.254180602006689,"#234A6D"],[0.25752508361204,"#234A6D"],[0.260869565217391,"#234B6E"],[0.264214046822742,"#234B6E"],[0.267558528428094,"#244C6F"],[0.270903010033445,"#244C70"],[0.274247491638796,"#244C70"],[0.277591973244147,"#244D71"],[0.280936454849498,"#244D71"],[0.28428093645485,"#254E72"],[0.287625418060201,"#254E72"],[0.290969899665552,"#254F73"],[0.294314381270903,"#254F74"],[0.297658862876254,"#254F74"],[0.301003344481605,"#265075"],[0.304347826086957,"#265075"],[0.307692307692308,"#265176"],[0.311036789297659,"#265176"],[0.31438127090301,"#275277"],[0.317725752508361,"#275278"],[0.321070234113712,"#275278"],[0.324414715719063,"#275379"],[0.327759197324415,"#275379"],[0.331103678929766,"#28547A"],[0.334448160535117,"#28547B"],[0.337792642140468,"#28557B"],[0.341137123745819,"#28557C"],[0.344481605351171,"#28567C"],[0.347826086956522,"#29567D"],[0.351170568561873,"#29567D"],[0.354515050167224,"#29577E"],[0.357859531772575,"#29577F"],[0.361204013377926,"#2A587F"],[0.364548494983278,"#2A5880"],[0.367892976588629,"#2A5980"],[0.37123745819398,"#2A5981"],[0.374581939799331,"#2A5982"],[0.377926421404682,"#2B5A82"],[0.381270903010033,"#2B5A83"],[0.384615384615385,"#2B5B83"],[0.387959866220736,"#2B5B84"],[0.391304347826087,"#2C5C85"],[0.394648829431438,"#2C5C85"],[0.397993311036789,"#2C5D86"],[0.40133779264214,"#2C5D86"],[0.404682274247492,"#2C5D87"],[0.408026755852843,"#2D5E87"],[0.411371237458194,"#2D5E88"],[0.414715719063545,"#2D5F89"],[0.418060200668896,"#2D5F89"],[0.421404682274247,"#2E608A"],[0.424749163879599,"#2E608A"],[0.42809364548495,"#2E618B"],[0.431438127090301,"#2E618C"],[0.434782608695652,"#2E618C"],[0.438127090301003,"#2F628D"],[0.441471571906355,"#2F628D"],[0.444816053511706,"#2F638E"],[0.448160535117057,"#2F638F"],[0.451505016722408,"#30648F"],[0.454849498327759,"#306490"],[0.45819397993311,"#306590"],[0.461538461538462,"#306591"],[0.464882943143813,"#306592"],[0.468227424749164,"#316692"],[0.471571906354515,"#316693"],[0.474916387959866,"#316793"],[0.478260869565217,"#316794"],[0.481605351170569,"#326895"],[0.48494983277592,"#326895"],[0.488294314381271,"#326996"],[0.491638795986622,"#326996"],[0.494983277591973,"#326997"],[0.498327759197324,"#336A98"],[0.501672240802675,"#336A98"],[0.505016722408027,"#336B99"],[0.508361204013378,"#336B99"],[0.511705685618729,"#346C9A"],[0.51505016722408,"#346C9B"],[0.518394648829431,"#346D9B"],[0.521739130434783,"#346D9C"],[0.525083612040134,"#346E9D"],[0.528428093645485,"#356E9D"],[0.531772575250836,"#356E9E"],[0.535117056856187,"#356F9E"],[0.538461538461538,"#356F9F"],[0.54180602006689,"#3670A0"],[0.545150501672241,"#3670A0"],[0.548494983277592,"#3671A1"],[0.551839464882943,"#3671A1"],[0.555183946488294,"#3772A2"],[0.558528428093645,"#3772A3"],[0.561872909698997,"#3773A3"],[0.565217391304348,"#3773A4"],[0.568561872909699,"#3773A4"],[0.57190635451505,"#3874A5"],[0.575250836120401,"#3874A6"],[0.578595317725752,"#3875A6"],[0.581939799331104,"#3875A7"],[0.585284280936455,"#3976A8"],[0.588628762541806,"#3976A8"],[0.591973244147157,"#3977A9"],[0.595317725752508,"#3977A9"],[0.59866220735786,"#3978AA"],[0.602006688963211,"#3A78AB"],[0.605351170568562,"#3A79AB"],[0.608695652173913,"#3A79AC"],[0.612040133779264,"#3A79AC"],[0.615384615384615,"#3B7AAD"],[0.618729096989967,"#3B7AAE"],[0.622073578595318,"#3B7BAE"],[0.625418060200669,"#3B7BAF"],[0.62876254180602,"#3C7CB0"],[0.632107023411371,"#3C7CB0"],[0.635451505016722,"#3C7DB1"],[0.638795986622073,"#3C7DB1"],[0.642140468227425,"#3C7EB2"],[0.645484949832776,"#3D7EB3"],[0.648829431438127,"#3D7FB3"],[0.652173913043478,"#3D7FB4"],[0.655518394648829,"#3D7FB5"],[0.658862876254181,"#3E80B5"],[0.662207357859532,"#3E80B6"],[0.665551839464883,"#3E81B6"],[0.668896321070234,"#3E81B7"],[0.672240802675585,"#3F82B8"],[0.675585284280936,"#3F82B8"],[0.678929765886288,"#3F83B9"],[0.682274247491639,"#3F83BA"],[0.68561872909699,"#4084BA"],[0.688963210702341,"#4084BB"],[0.692307692307692,"#4085BB"],[0.695652173913044,"#4085BC"],[0.698996655518395,"#4086BD"],[0.702341137123746,"#4186BD"],[0.705685618729097,"#4186BE"],[0.709030100334448,"#4187BF"],[0.712374581939799,"#4187BF"],[0.715719063545151,"#4288C0"],[0.719063545150502,"#4288C1"],[0.722408026755853,"#4289C1"],[0.725752508361204,"#4289C2"],[0.729096989966555,"#438AC2"],[0.732441471571906,"#438AC3"],[0.735785953177258,"#438BC4"],[0.739130434782609,"#438BC4"],[0.74247491638796,"#438CC5"],[0.745819397993311,"#448CC6"],[0.749163879598662,"#448DC6"],[0.752508361204013,"#448DC7"],[0.755852842809365,"#448EC8"],[0.759197324414716,"#458EC8"],[0.762541806020067,"#458FC9"],[0.765886287625418,"#458FC9"],[0.769230769230769,"#458FCA"],[0.77257525083612,"#4690CB"],[0.775919732441471,"#4690CB"],[0.779264214046823,"#4691CC"],[0.782608695652174,"#4691CD"],[0.785953177257525,"#4792CD"],[0.789297658862876,"#4792CE"],[0.792642140468227,"#4793CF"],[0.795986622073579,"#4793CF"],[0.79933110367893,"#4894D0"],[0.802675585284281,"#4894D0"],[0.806020066889632,"#4895D1"],[0.809364548494983,"#4895D2"],[0.812709030100334,"#4896D2"],[0.816053511705686,"#4996D3"],[0.819397993311037,"#4997D4"],[0.822742474916388,"#4997D4"],[0.826086956521739,"#4998D5"],[0.82943143812709,"#4A98D6"],[0.832775919732441,"#4A99D6"],[0.836120401337793,"#4A99D7"],[0.839464882943144,"#4A9AD8"],[0.842809364548495,"#4B9AD8"],[0.846153846153846,"#4B9BD9"],[0.849498327759197,"#4B9BDA"],[0.852842809364548,"#4B9BDA"],[0.8561872909699,"#4C9CDB"],[0.859531772575251,"#4C9CDB"],[0.862876254180602,"#4C9DDC"],[0.866220735785953,"#4C9DDD"],[0.869565217391304,"#4D9EDD"],[0.872909698996655,"#4D9EDE"],[0.876254180602007,"#4D9FDF"],[0.879598662207358,"#4D9FDF"],[0.882943143812709,"#4DA0E0"],[0.88628762541806,"#4EA0E1"],[0.889632107023411,"#4EA1E1"],[0.892976588628763,"#4EA1E2"],[0.896321070234114,"#4EA2E3"],[0.899665551839465,"#4FA2E3"],[0.903010033444816,"#4FA3E4"],[0.906354515050167,"#4FA3E5"],[0.909698996655518,"#4FA4E5"],[0.91304347826087,"#50A4E6"],[0.916387959866221,"#50A5E7"],[0.919732441471572,"#50A5E7"],[0.923076923076923,"#50A6E8"],[0.926421404682274,"#51A6E8"],[0.929765886287625,"#51A7E9"],[0.933110367892977,"#51A7EA"],[0.936454849498328,"#51A8EA"],[0.939799331103679,"#52A8EB"],[0.94314381270903,"#52A9EC"],[0.946488294314381,"#52A9EC"],[0.949832775919732,"#52AAED"],[0.953177257525084,"#53AAEE"],[0.956521739130435,"#53ABEE"],[0.959866220735786,"#53ABEF"],[0.963210702341137,"#53ACF0"],[0.966555183946488,"#54ACF0"],[0.969899665551839,"#54ADF1"],[0.973244147157191,"#54ADF2"],[0.976588628762542,"#54AEF2"],[0.979933110367893,"#55AEF3"],[0.983277591973244,"#55AFF4"],[0.986622073578595,"#55AFF4"],[0.989966555183946,"#55B0F5"],[0.993311036789298,"#56B0F6"],[0.996655518394649,"#56B1F6"],[1,"#56B1F7"]],"colorbar":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.88976377952756,"thickness":23.04,"title":"level","titlefont":{"color":"rgba(0,0,0,1)","family":"","size":15.9402241594022},"tickmode":"array","ticktext":["1e-04","2e-04","3e-04","4e-04","5e-04","6e-04"],"tickvals":[0,0.166666666666667,0.333333333333333,0.5,0.666666666666667,0.833333333333333],"tickfont":{"color":"rgba(0,0,0,1)","family":"","size":15.9402241594022},"ticklen":2,"len":0.5}},"xaxis":"x","yaxis":"y","frame":null}],"layout":{"margin":{"t":45.4063926940639,"r":7.30593607305936,"b":45.8115400581154,"l":41.2453300124533},"plot_bgcolor":"rgba(255,255,255,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"title":{"text":"Bivariate Density plot for BOD and SS","font":{"color":"rgba(0,0,0,1)","family":"","size":17.5342465753425},"x":0.5,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-29.2,19.2],"tickmode":"array","ticktext":["-20","-10","0","10"],"tickvals":[-20,-10,0,10],"categoryorder":"array","categoryarray":["-20","-10","0","10"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"y","title":{"text":"BOD","font":{"color":"rgba(0,0,0,1)","family":"","size":18.5969281859693}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-10.35,63.35],"tickmode":"array","ticktext":["0","20","40","60"],"tickvals":[0,20,40,60],"categoryorder":"array","categoryarray":["0","20","40","60"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"x","title":{"text":"SS","font":{"color":"rgba(0,0,0,1)","family":"","size":18.5969281859693}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":"transparent","line":{"color":"rgba(51,51,51,1)","width":0.66417600664176,"linetype":"solid"},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":false,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.88976377952756,"font":{"color":"rgba(0,0,0,1)","family":"","size":15.9402241594022}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","showSendToCloud":false},"source":"A","attrs":{"41703f6578da":{"fill":{},"x":{},"y":{},"type":"scatter"}},"cur_data":"41703f6578da","visdat":{"41703f6578da":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</center>
+<p>The bivariate normal distribution seems to be bimodal which adds more evidence to the idea that there may be a subgroup present within the data. Overall the normality assumption is not to a satisfactory level when all of the data is included.</p>
+<p>       </p>
+<h3 id="outlier-removal">Outlier Removal</h3>
+<div class="layout-chunk" data-layout="l-body">
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-7"></span>
+<img src="water-quality_files/figure-html5/unnamed-chunk-7-1.png" alt="Normal Distribution plots for SS with outliers removed" width="624" />
+<p class="caption">
+Figure 3: Normal Distribution plots for SS with outliers removed
+</p>
+</div>
+</div>
+<p>When the two outliers are removed, the BOD variable shows even more acceptable behavior with respect to normality.</p>
+<p>       </p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-8"></span>
+<img src="water-quality_files/figure-html5/unnamed-chunk-8-1.png" alt="Distribution Plots for Commerical Lab BOD Variable" width="624" />
+<p class="caption">
+Figure 4: Distribution Plots for Commerical Lab BOD Variable
+</p>
+</div>
+</div>
+<p>With the removal of the two outliers another problem surfaces with the SS variable. It would seem that there is another grouping of the data points such that four are positive while five are negative. It is unlikely that any meaningful information can be derived with respect to this variable; an investigation targeting this variable should be undertaken. The bivariate contour plot seems to have lost it’s interpretability for this data.</p>
+<p>       </p>
+<ol start="2" type="1">
+<li><strong>Sub-populations within the vector means</strong>: Details on the methodology of the experiment were not given to affirm the randomization of the experimental units when being sent to the commercial/state laboratory although this can be assumed given the nature/sensitivity of the problem. There are no other variables available to conduct subgroup analysis to confirm/reject the idea that there are other factors that contribute to the outcome of the experiment. There does seem to be evidence that indicates a sub-population is present thus this assumption is considered to be violated.<br />
+</li>
+<li><strong>Independence of the paired experimental units</strong>: the problem description suggests that samples were taken and then each was split to produce the pair. We will assume that the samples were taken independently of each other with the dependence being formed by the split.</li>
+</ol>
+<p>If this technique were to used under these conditions the results should be taken with caution; there should be an investigation into the bimodal nature of the distribution. The analysis will proceed for illustrative purposes.</p>
+<p>       </p>
+<h2 id="data-analysis">Data Analysis</h2>
+<center>
+<div class="layout-chunk" data-layout="l-body">
+<table style="width:40%; float: left; margin-right: 10px;" class="table">
+<caption>
+<span id="tab:unnamed-chunk-9">Table 1: </span>Hotelling Output
+</caption>
+<thead>
+<tr>
+<th style="text-align:center;">
+T2 Stat
+</th>
+<th style="text-align:left;">
+F value
+</th>
+<th style="text-align:center;">
+P value
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center;">
+13.64
+</td>
+<td style="text-align:left;">
+6.14
+</td>
+<td style="text-align:center;">
+0.02
+</td>
+</tr>
+</tbody>
+</table>
+<table style="width:40%; " class="table">
+<caption>
+<span id="tab:unnamed-chunk-9">Table 1: </span>Confidence Intervals
+</caption>
+<thead>
+<tr>
+<th style="text-align:center;">
+Variable
+</th>
+<th style="text-align:left;">
+Lower
+</th>
+<th style="text-align:center;">
+Upper
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center;">
+BOD
+</td>
+<td style="text-align:left;">
+-22.45
+</td>
+<td style="text-align:center;">
+3.73
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+SS
+</td>
+<td style="text-align:left;">
+-5.70
+</td>
+<td style="text-align:center;">
+32.25
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</center>
+<p>So as you might have noticed we have a rather peculiar situation. The test statistic p value would suggest that the means of BOD and SS are significantly different from zero. However the confidence intervals include zero which usually indicate that, since zero is a possibility then you may not assume a difference. The explanation given states that the confidence intervals are constructed around a value which is represented as a linear combination of the differences in BOD and SS; for all of the possible linear combinations only two result in intervals that contain zero being the (1,0) and (0,1) pairs. All other linear combinations do not contain zero.</p>
+<p>The interpretation that will be adopted is that there seems to be a difference in the results from the two labs given that most of the data from the BOD variable is highly skewed in one direction that is below the zero margin.</p>
+<p> <br />
+ <br />
+ </p>
+<h2 id="references">References</h2>
+<p>Johnson, R. A., &amp; Wichern, D. W. (1992). Applied multivariate statistical analysis. Englewood Cliffs, N.J: Prentice Hall</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<!--radix_placeholder_article_footer-->
+<!--/radix_placeholder_article_footer-->
+</div>
+
+<div class="d-appendix">
+</div>
+
+
+<!--radix_placeholder_site_after_body-->
+<!--/radix_placeholder_site_after_body-->
+<!--radix_placeholder_appendices-->
+<div class="appendix-bottom"></div>
+<!--/radix_placeholder_appendices-->
+<!--radix_placeholder_navigation_after_body-->
+<!--/radix_placeholder_navigation_after_body-->
+
+</body>
+
+</html>
