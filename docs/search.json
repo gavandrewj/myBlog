@@ -5,15 +5,15 @@
       "title": "About this blog",
       "description": "Some additional details about the blog",
       "author": [],
-      "contents": "\r\n\r\n\r\n\r\n",
-      "last_modified": "2020-12-16T12:49:31-04:00"
+      "contents": "\r\nHi there, I often find myself worried that I don’t get enough exposure to data handling activities; whether this be importing data, exploratory analysis, checking the appropriateness of analysis techniques and so on. As somewhat of a solution I decided to replicate various analysis that I come across while studying, for which the data is made available by the authors.\r\nSuch a project has no doubt expanded my data analytics toolbox such as to improve on my reporting to which I’m able to switch easily between multiple formats (although still perfecting each), to learning about new analysis techniques when I find that a particular approach might not have been appropriate, as well as trying alternative techniques.\r\nIt is also serving as a check that I do not take my Statistical literature lightly as I often have to write the code and this requires sufficient conceptual understanding of the process.\r\n\r\n\r\n\r\n",
+      "last_modified": "2020-12-16T15:55:11-04:00"
     },
     {
       "path": "index.html",
-      "title": "My Blog",
+      "title": "Multivariate Analysis Techniques",
       "author": [],
       "contents": "\r\n\r\n\r\n\r\n",
-      "last_modified": "2020-12-16T12:49:33-04:00"
+      "last_modified": "2020-12-16T15:28:56-04:00"
     }
   ],
   "collections": ["posts/posts.json"]
