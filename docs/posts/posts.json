@@ -56,5 +56,22 @@
     "preview": "posts/2020-12-16-lizards-cnemidophorus-vs-sceloporus/lizards-cnemidophorus-vs-sceloporus_files/figure-html5/unnamed-chunk-4-1.png",
     "last_modified": "2020-12-16T17:08:53-04:00",
     "input_file": "lizards-cnemidophorus-vs-sceloporus.utf8.md"
+  },
+  {
+    "path": "posts/2020-12-16-numeric-representation-and-cognition/",
+    "title": "Numeric Representation and Cognition",
+    "description": "A short description of the post.",
+    "author": [
+      {
+        "name": "Gavin Gordon",
+        "url": "https://example.com/norajones"
+      }
+    ],
+    "date": "2020-12-16",
+    "categories": [],
+    "contents": "\r\nProblem\r\nThe data was collected to test two psychological models of numerical cognition. Does the processing of numbers depend on the way the numbers are presented (words, Arabic digits)? Thirty-two subjects were required to make a series of quick numerical judgements about two numbers presented as either two number words (“two”,“four”) or two single Arabic digits (“2”,“4”). The subjects were asked to respond “same” if the two numbers had the same numerical parity (both were even or odd) and “different” if the two numbers had a different parity (one even, one odd). Half of the subjects were assigned a block of Arabic digit trials, followed by a block of number word trials, and half of the subjects received the blocks of trials in the reverse order. Within each block, the order of “same” and “different” parity trials was randomized for each subject. For each of the four combinations of parity format, the mean reaction times for correct responses were recorded for each subject.\r\nA test for the main effects of number type and parity as well as the interaction is performed using the one sample Hotelling T2.\r\nPreamble\r\nThis situation seemed kind of weird. Because you are testing the effects of one factor with a blocking variable on one dependent variable across time, so it should count as a repeated measures anova. Which it is. Yet I found it in the Hotelling T2 section for multivariate techniques. The problem is reduced to a hotelling T2 test so that I suspect this is what is called the Hotelling Trace test.\r\nSo I have a problem with the question which asks to test for interaction. Yet in their design they treated the number representation as a blocking variable and randomized over the parity. Seems like this is the opposite of how to go about answering their question. You apply the block because it has an effect you’d like to remove and thus estimate the remaining factor. So this means that the experiment was designed to investigate the effect of parity and in the process remove the effect of number representation. Now its complicated by that’s not how blocking is applied according to my introductory knowledge on the topic. This may have been a progamer move in that they divided the sample into two blocks. Not sure to what extent this allows the calculation of the interaction.\r\nThe test you would apply should be based on the correlation matrix yet there was not so much talk about this in johnson 1992.\r\nHow the measurements are correlated is important. Looking at this thing called compound symmetry. It says that each variable is correlated with the next by the same amount.\r\nTreatment order matters when the covariance of the treatments are different from each other.\r\nAssumptions\r\nThe measurements within the experimental units are correlated while the measurements between the units are not.\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n",
+    "preview": {},
+    "last_modified": "2020-12-17T10:21:01-04:00",
+    "input_file": "numeric-representation-and-cognition.utf8.md"
   }
 ]
