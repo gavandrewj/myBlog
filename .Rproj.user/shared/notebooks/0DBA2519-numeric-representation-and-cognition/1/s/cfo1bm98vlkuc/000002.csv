@@ -1,0 +1,4 @@
+"0","datafile <- read_csv(""C:/Users/gavin/Documents/GitHub/data/numberscognition.csv"")
+"
+"2","Error: 'C:/Users/gavin/Documents/GitHub/data/numberscognition.csv' does not exist.
+"

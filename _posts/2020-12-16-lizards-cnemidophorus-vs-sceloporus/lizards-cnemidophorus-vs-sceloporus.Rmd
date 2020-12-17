@@ -40,7 +40,6 @@ library(xtable)
 library(MVN)
 library(mvnormalTest)
 library(Hotelling)
-library(rayshader)
 ```
 
 ```{r}
