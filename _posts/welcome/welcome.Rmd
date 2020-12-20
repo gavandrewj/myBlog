@@ -1,8 +1,7 @@
 ---
-title: "Welcome bigots"
+title: "Multivariate Analysis"
 description: |
-  We're gonna be doin all kinds of shit folks; anything but developing meaningful and rewarding relationships with my friends cause.. thats, not very 2020 is it now? NOOO!! So we're exploring Multivariate Analysis. I hope you either learn something against your will or are implicated in a charity scheme associated with this blog which of course I'd never do, I have fascist friends. 
-  
+  This section contains questions that use various multivariate techniques. Each problem explores the assumptions required to use the technique, performs exploratory analysis where possible and in some cases comment on the experimental design when it is available. In cases where the technique is not found to be appropriate the aim will be to suggest alternatives.  
 author:
   - name: Gavin Gordon 
     url: https://example.com/norajones
@@ -21,21 +20,12 @@ knitr::opts_chunk$set(echo = FALSE)
 # https://rstudio.github.io/distill/blog.html
 
 ```
+Planned features:  
 
-Here is the vision and lifelong quote by **ME**, the author: 
+Dashboards   
 
-*"I'm gonna trade this life for fortune and fame  
-I'd even cut my hair and change my name"*  
+Not sure about shiny apps. 
 
-and also by **THIs guy**:
+Section for monte carlo
 
-
-*"Every good gold digger's gonna wind up there  
-Every Playboy Bunny with her bleached blond hair"*  
-
-
-
-This reminds you of nothing.
-
-
-
+Section for designs of experiments

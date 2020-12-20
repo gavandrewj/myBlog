@@ -168,7 +168,7 @@ The above show the marginal density plots without any form of distribution impos
 
 <center>
 
-```{r fig.align = 'center'}
+```{r fig.align = 'center', preview = TRUE}
 #Plot for the bivariate density
 
 
