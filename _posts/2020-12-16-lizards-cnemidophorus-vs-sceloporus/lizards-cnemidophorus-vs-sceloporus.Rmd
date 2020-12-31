@@ -430,3 +430,7 @@ covmat <- cov(datafile[,3:5])
 det(covmat)
 
 # do the regular t test interval for variable but use the bonferroni correction for p variables so alpha/p
+
+
+## References
+Johnson, R. A., & Wichern, D. W. (1992). Applied multivariate statistical analysis. Englewood Cliffs, N.J: Prentice Hall

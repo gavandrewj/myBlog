@@ -1,0 +1,23 @@
+---
+title: "Testing New Anesthetics"
+description: |
+  Will work on this later
+author:
+  - name: Gavin Gordon
+    url: https://example.com/norajones
+date: 12-29-2020
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+Distill is a publication format for scientific and technical writing, native to the web.
+
+Learn more about using Distill at <https://rstudio.github.io/distill>.
+
+

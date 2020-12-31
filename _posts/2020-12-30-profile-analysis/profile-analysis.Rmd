@@ -1,0 +1,109 @@
+---
+title: "Profile Analysis"
+description: |
+  Introduction to profile analysis. The example problem details the comparison between husband and wife pairs for the same questions about how they feel to each other. 
+base_url: https://github.com/gavandrewj/myBlog/
+preview: images/profilewife.png
+
+categories:
+  - Profile Analysis
+author:
+  - name: Gavin Gordon
+    url: https://example.com/norajones
+date: 12-30-2020
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+# What is Profile Analysis?
+This is used to compare a collection of variable means between groups or individuals. The design can take the form of a  repeated measures design by having the variable(s) be measured over time/space (or other applicable feature); or the design may involve different variables measured at one instance which would be compared across the groups/individuals simultaneously.   
+
+This comparison is done by answering three questions sequentially. First the question of whether the profiles are parallel to each other; second whether the means when grouped by variables have the same magnitude; third whether there is a magnitude that holds for all variables across groups. The first two questions concern whether the profiles are the same while the third concerns the behavior of the profiles after establishing they are the same.  
+
+If a test fails along the sequence the rest are not completed; the similarity of the profiles is judged based on the number of tests where the null hypothesis is considered to be a reasonable possibility. 
+
+
+## Problem Statement (Question 6.27)
+This question is taken from **johnson(1992)**; the package profileR also comes with data on this question.  
+
+As part of a study on love and marriage, a sample of husbands and wifes were asked to respond to these questions:  
+
+1. What is the level of passionate love you feel for your partner?  
+2. What is the level of passionate love your partner feels for you?  
+3. What is the level of compassionate love that you feel for your partner?  
+4. What is the level of compassionate love that your partner feels for you?    
+
+The responses were recorded on a five point scale.
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE,cache = T,warning = F,message = F)
+```
+
+```{r}
+library(vroom)
+library(tidyverse)
+library(plotly)
+library(profileR)
+library(pander)
+library(shiny)
+```
+
+```{r}
+datafile <- vroom("C:/Users/gavin/Documents/GitHub/blogdata/johnson6.27.csv")
+data(spouse)
+
+```
+
+## Analysis
+
+I am unsure of the distribution assumptions that must be met. The technique in this case uses ordinal variables. It speaks of satisfying normality due to the central limit theorem. For this case what are the proper summary statistics to show; going by what the technique uses it should be the mean, which of course must be accompanied by a standard deviation. Yet does that make sense in on ordinal setting.  
+
+
+Below shows a plot of the variable means between the spouses.The plot indicates (at the cross between the first and second variable) that the assumption of parallel profiles may be unlikely.
+
+
+
+```{r,fig.cap="Profiles showing average Husband vs Wife Response",fig.align='center'}
+#Plotting of the profile graph
+meansdata <- data.frame(means = round(apply(datafile,MARGIN = 2,FUN = mean),2),
+                        spouse = c(rep(1,4),rep(2,4)),
+                        x = c(1,2,3,4,1,2,3,4)
+)
+
+meansdata$spouse <- factor(meansdata$spouse,
+                          levels = c(1,2),
+                          labels = c("Husband","Wife"))
+
+```
+
+
+
+```{r}
+div(ggplotly(ggplot(data = meansdata,aes(x = x,y = means,color = spouse)) + 
+  geom_line() +
+  geom_point() + 
+  theme_bw() + 
+  theme(plot.title = element_text(hjust = 0.5)) +
+  labs(x = "Variables",y = "Score",color = "Spouse",title = "Profile means for Spouse")
+),align = 'center')
+```
+
+
+### The First Test for Parallel behavior
+
+```{r}
+profile1 <- pbg(data = spouse[,1:4], group = spouse[,5], original.names = FALSE, profile.plot = F)
+
+pander(profile1$profile.test[1],caption = "Test for Parallel Profiles")
+
+
+```
+A value of 0.06 for the p values indicates that, assuming the profiles are in fact parallel then it would highly unlikely for this particular data to be observed from the population. This would serve as evidence that the profiles are likely to not be parallel.  
+
+Given the outcome the remaining two tests are not carried out. Although there is some similarity that occurs for variables two to four, with this variable profile we will not conclude that Husbands and wives feel about each other in the same way.  
+
+
+## References
+Johnson, R. A., & Wichern, D. W. (1992). Applied multivariate statistical analysis. Englewood Cliffs, N.J: Prentice Hall

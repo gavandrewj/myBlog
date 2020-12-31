@@ -1,5 +1,41 @@
 [
   {
+    "path": "posts/2020-12-30-profile-analysis/",
+    "title": "Profile Analysis",
+    "description": "Introduction to profile analysis. The example problem details the comparison between husband and wife pairs for the same questions about how they feel to each other.",
+    "author": [
+      {
+        "name": "Gavin Gordon",
+        "url": "https://example.com/norajones"
+      }
+    ],
+    "date": "2020-12-30",
+    "categories": [
+      "Profile Analysis"
+    ],
+    "contents": "\r\nWhat is Profile Analysis?\r\nThis is used to compare a collection of variable means between groups or individuals. The design can take the form of a repeated measures design by having the variable(s) be measured over time/space (or other applicable feature); or the design may involve different variables measured at one instance which would be compared across the groups/individuals simultaneously.\r\nThis comparison is done by answering three questions sequentially. First the question of whether the profiles are parallel to each other; second whether the means when grouped by variables have the same magnitude; third whether there is a magnitude that holds for all variables across groups. The first two questions concern whether the profiles are the same while the third concerns the behavior of the profiles after establishing they are the same.\r\nIf a test fails along the sequence the rest are not completed; the similarity of the profiles is judged based on the number of tests where the null hypothesis is considered to be a reasonable possibility.\r\nProblem Statement (Question 6.27)\r\nThis question is taken from johnson(1992); the package profileR also comes with data on this question.\r\nAs part of a study on love and marriage, a sample of husbands and wifes were asked to respond to these questions:\r\nWhat is the level of passionate love you feel for your partner?\r\nWhat is the level of passionate love your partner feels for you?\r\nWhat is the level of compassionate love that you feel for your partner?\r\nWhat is the level of compassionate love that your partner feels for you?\r\nThe responses were recorded on a five point scale.\r\n\r\n\r\n\r\n\r\n\r\n\r\nAnalysis\r\nI am unsure of the distribution assumptions that must be met. The technique in this case uses ordinal variables. It speaks of satisfying normality due to the central limit theorem. For this case what are the proper summary statistics to show; going by what the technique uses it should be the mean, which of course must be accompanied by a standard deviation. Yet does that make sense in on ordinal setting.\r\nBelow shows a plot of the variable means between the spouses.The plot indicates (at the cross between the first and second variable) that the assumption of parallel profiles may be unlikely.\r\n\r\n\r\n\r\n\r\npreserve3f7cd5cf2e693753\r\n\r\nThe First Test for Parallel behavior\r\n\r\nHo: Profiles are parallel:\r\nMultivariate.Test\r\nStatistic\r\nApprox.F\r\nnum.df\r\nden.df\r\np.value\r\nWilks\r\n0.8786\r\n2.58\r\n3\r\n56\r\n0.06256\r\nPillai\r\n0.1214\r\n2.58\r\n3\r\n56\r\n0.06256\r\nHotelling-Lawley\r\n0.1382\r\n2.58\r\n3\r\n56\r\n0.06256\r\nRoy\r\n0.1382\r\n2.58\r\n3\r\n56\r\n0.06256\r\n\r\n\r\nA value of 0.06 for the p values indicates that, assuming the profiles are in fact parallel then it would highly unlikely for this particular data to be observed from the population. This would serve as evidence that the profiles are likely to not be parallel.\r\nGiven the outcome the remaining two tests are not carried out. Although there is some similarity that occurs for variables two to four, with this variable profile we will not conclude that Husbands and wives feel about each other in the same way.\r\nReferences\r\nJohnson, R. A., & Wichern, D. W. (1992). Applied multivariate statistical analysis. Englewood Cliffs, N.J: Prentice Hall\r\n\r\n\r\n\r\n",
+    "preview": {},
+    "last_modified": "2020-12-31T12:02:54-04:00",
+    "input_file": "profile-analysis.utf8.md"
+  },
+  {
+    "path": "posts/2020-12-29-testing-new-anesthetics/",
+    "title": "Testing New Anesthetics",
+    "description": "Will work on this later",
+    "author": [
+      {
+        "name": "Gavin Gordon",
+        "url": "https://example.com/norajones"
+      }
+    ],
+    "date": "2020-12-29",
+    "categories": [],
+    "contents": "\r\nDistill is a publication format for scientific and technical writing, native to the web.\r\nLearn more about using Distill at https://rstudio.github.io/distill.\r\n\r\n\r\n\r\n",
+    "preview": {},
+    "last_modified": "2020-12-30T06:24:06-04:00",
+    "input_file": "testing-new-anesthetics.utf8.md"
+  },
+  {
     "path": "posts/welcome/",
     "title": "Multivariate Analysis",
     "description": "This section contains questions that use various multivariate techniques. Each problem explores the assumptions required to use the technique, performs exploratory analysis where possible and in some cases comment on the experimental design when it is available. In cases where the technique is not found to be appropriate the aim will be to suggest alternatives.",
