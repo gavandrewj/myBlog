@@ -1,7 +1,7 @@
 ---
 title: "Painted Turtles"
 description: |
-  An application of the Hotelling T2 test where the measurements of the carapaces of painted turtles are compared across sex.
+  An application of the Hotelling T2 test where the measurements of the carapaces of painted turtles are compared across sex. Shows a visualization of the utility that accounting for several variables under one technique can have.
 
 base_url: https://github.com/gavandrewj/myBlog/
 
@@ -173,7 +173,7 @@ par(mfrow = c(2, 2),mar = c(2,2,1.75,1.75))
 
 ```
 
-We can see the separation noted in the earlier beanplot now reflected in the lower left portion of each plot. Still, most of the features are fitted well by a normal distribution curve. The data should be inspected for subgroup but the technique may still generalize well to the question at hand.
+We can see the separation noted in the earlier beanplot now reflected in the lower left portion of each plot. If this subgroup is found to exist and be inconsequential, since most of the features are fitted well by a normal distribution curve the technique may still generalize well to the data.
 
 
 
@@ -206,7 +206,7 @@ par(mfrow = c(2, 2),mar = c(2,2,1.75,1.75))
 
 
 ```
-If the outlier identifed in the previous plot is removed we now see a strange pattern emerging where the lower range of points are above the distribution fitted lines while the upper range are below the line. I'm not sure if this has any meaning whatsoever. This will for other purposes, satisfy the normality assumption. 
+If the outlier identifed in the previous plot is removed we now see a strange pattern emerging where the lower range of points are above the distribution fitted lines while the upper range are below the line. I'm not sure if this has any meaning whatsoever; this will otherwise satisfy the normality assumption. 
 
 ```{r fig.cap="Normal Distribution plots of Width for Male; Outlier Removal",fig.pos='H',fig.align='center'}
 
