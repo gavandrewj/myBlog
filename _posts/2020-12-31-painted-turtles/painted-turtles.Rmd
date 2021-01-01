@@ -1,0 +1,373 @@
+---
+title: "Painted Turtles"
+description: |
+  An application of the Hotelling T2 test where the measurements of the carapaces of painted turtles are compared across sex.
+
+base_url: https://github.com/gavandrewj/myBlog/
+
+categories:
+  - Hotelling T2
+  - Independent Samples 
+  
+author:
+  - name: Gavin Gordon
+    url: https://example.com/norajones
+date: 12-31-2020
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE,cache = T,message = F,warning = F)
+```
+
+```{r}
+library(tidyverse)
+library(fitdistrplus)
+library(vroom)
+library(plotly)
+library(gt)
+library(gtsummary)
+library(Hotelling)
+library(expss)
+library(beanplot)
+```
+# Problem (Question 6.18)
+This problem is taken from **Johnson 1992**. Measurements on the carapaces from a study of  painted turtles are given. The aim is to determine whether or not there are differences across the sex. 
+
+```{r}
+#Importing data
+data <- vroom("C:/Users/gavin/Documents/GitHub/blogdata/paintedturtle.csv")
+data$sex <- factor(data$sex)
+data$loglength <- log(data$length)
+data$logwidth <- log(data$width)
+data$logheight <- log(data$height)
+```
+
+
+
+
+```{r}
+data %>% 
+  apply_labels(length= "Length",width = "Width",height = "Height") %>% 
+  tbl_summary(by = sex,
+              type = all_continuous() ~ "continuous2",
+              statistic = all_continuous() ~ c("{mean} ({sd})", 
+                                               "{median} ({p25},{p75})",
+                                               "{min}, {max}"),
+              missing = "no") %>% 
+  as_gt() %>%
+  tab_header(
+    title = "Summary Statistics",
+    subtitle = "across Sex"
+  ) 
+
+```
+## A Visualization of the Problem
+### Univariate Plots
+The first three graphs will look at the problem from a univariate perspective. The particular graph that was chosen (beanplot) to represent the information allows for comment on the distribution features so this will be done at the same time.
+
+```{r fig.cap= "Distributions of Length over Sex",fig.align='center'}
+ beanplot(length ~ sex,data = data,col = "lightblue") 
+  
+```
+ We can see that Females have one major and one minor mode with the presence of a potential outlier that approaches the value of 180. The Males seem to have one mode, with a distribution that is eerily symmetric. The grand average of the data is 124 with the median for the Females as well as most of it's data points falling above this value with the opposite occurring for the Males.  
+ The reason why there seems to be a minor mode should be inspected as perhaps there is a subgroup present within the dataset that should be accounted for. Given the information thus far it would not be surprising to know that the univariate *welch t-test* reports a difference in the two sexes over the feature of length. Most of the overlap between the two distributions seem to happen with the 75% quantile of the males and the lower 25% quantile of the females. 
+ 
+ 
+ 
+ 
+```{r fig.cap= "Distributions of Width over Sex",fig.align='center'}
+ beanplot(width ~ sex,data = data,col = "lightgreen") 
+  
+```
+We can see that the densities both have a single mode. There seems to be a similar sort of overlap between the sample points as with the feature length. It is the case that the univariate *welch t test* reports a difference in width between the two sexes. There is a potential outlier in the male distribution but overall there isn't any alarming feature.
+ 
+```{r fig.cap= "Distributions of Height over Sex",fig.align='center'}
+ beanplot(height ~ sex,data = data,col = "lightyellow") 
+  
+```
+Most of what was already discussed applies to describing the above plot. Both are considered to have single modes. Even though there is somewhat of a distortion in the upper percentiles for the female, there are not enough data points developing that mode to indicate a potential subgroup; this is probability better explained by a higher level of variation in the population. 
+
+
+### Bivariate Plots
+Now we will try to see what value adding another variable can bring to the analysis.
+
+```{r}
+ggplotly(ggplot(data,aes(x = length,y = width,color = sex)) + 
+  geom_point() + 
+  theme_bw() + 
+  labs(x = "Width",y = "Length",title = "Length vs Width Difference") + 
+  theme(plot.title = element_text(hjust = 0.5))
+)
+```
+We are concerned about the overlap between the distributions for the univariate plots. In some cases the variation may be enough to cloud any difference that may actually exist. Ideally the addition of another variable, in this case Width to the plot of length gives another dimension to essentially sort the data and allows us to compute the mean in a more accurate manner. From the above plot this does not seem to be the case; the overlap in the upper and lower percentiles as mentioned before, are now visualized better.   
+
+```{r}
+ggplotly(ggplot(data,aes(x = length,y = height,color = sex)) + 
+  geom_point() + 
+  theme_bw() + 
+  labs(x = "Length",y = "Height",title = "Length vs Height Difference") + 
+  theme(plot.title = element_text(hjust = 0.5))
+)
+```
+The plot of length against height brings us closer to what we hope to achieve. In the lower ranges, from the univariate perspective those points are intertwined with each other; however the addition of the Height feature to length has highlighted the difference in the two sexes as there is now some distance between the colored points. This is not perfect but it will make the estimates more accurate. 
+
+```{r}
+ggplotly(ggplot(data,aes(x = height,y = width,color = sex)) + 
+  geom_point() + 
+  theme_bw() + 
+  labs(x = "Height",y = "Width",title = "Width vs Height Difference") + 
+  theme(plot.title = element_text(hjust = 0.5))
+)
+```
+A similar case to the previous plot is observed where there is some separation when Height is combined with Width. It would seem that the Height variable adds valuable discriminatory power to the analysis.
+
+```{r}
+plot_ly(data = data, x = data$length,y = data$width,z = data$height,color = data$sex) %>% layout(title = "Plot of All Dependent Variables",
+                scene = list(
+                  xaxis = list(title = "Length"),
+                  yaxis = list(title = "Width"),
+                  zaxis = list(title = "Height")
+                  )
+                )
+
+```
+Finally we examine the 3D plot of the dependent variables. This requires you to interact with the graph presented. If you were to move the chart such that you were looking down with the length and width features in the typically x and y plane then you would replicate the first chart where the separation power is not ideal. Now you should rotate the chart such that the height feature comes into focus, as you rotate it then you might notice how the feature lifts some of the green points (females) out of the cloud of blue points (males). Although you can ask for this "lifting effect" to be greater, nevertheless it speaks to the limitations of univariate cases and what can be accomplished by accounting for more variables in the same analysis technique.
+
+## Assumptions
+1. Normality and Outliers  
+
+Although assessing normality may not be necessary because of the Central Limit Theorem, it is unclear whether these within group count of observations qualify as a large sample size. Thus the normality of the variables are inspected.
+
+
+
+```{r fig.cap="Normal Distribution plots of Length for Male",fig.pos='H',fig.align='center'}
+
+#Compute distribution checking plots for the variable of interest
+norm <- data %>% filter(sex == "Male")  %>% dplyr::select(length)  
+norm <- fitdist(norm$length, distr = "norm")
+par(mfrow = c(2, 2),mar = c(2,2,1.75,1.75))
+ denscomp(list(norm))
+ qqcomp(list(norm))
+  cdfcomp(list(norm))
+  ppcomp(list(norm))
+```
+ 
+ The plots above all show satisfactory features; there does not seem to be any outliers present or any severe distortion to the assumption. 
+
+
+```{r fig.cap="Normal Distribution plots of Length for Female",fig.pos='H',fig.align='center'}
+
+#Compute distribution checking plots for the variable of interest
+norm <- data %>% filter(sex == "Female")  %>% dplyr::select(length)  
+norm <- fitdist(norm$length, distr = "norm")
+par(mfrow = c(2, 2),mar = c(2,2,1.75,1.75))
+ denscomp(list(norm))
+ qqcomp(list(norm))
+  cdfcomp(list(norm))
+  ppcomp(list(norm))
+
+
+```
+
+We can see the separation noted in the earlier beanplot now reflected in the lower left portion of each plot. Still, most of the features are fitted well by a normal distribution curve. The data should be inspected for subgroup but the technique may still generalize well to the question at hand.
+
+
+
+
+```{r fig.cap="Normal Distribution plots of Width for Male",fig.pos='H',fig.align='center'}
+
+#Compute distribution checking plots for the variable of interest
+norm <- data %>% filter(sex == "Male")  %>% dplyr::select(width)  
+norm <- fitdist(norm$width, distr = "norm")
+par(mfrow = c(2, 2),mar = c(2,2,1.75,1.75))
+ denscomp(list(norm))
+ qqcomp(list(norm))
+  cdfcomp(list(norm))
+  ppcomp(list(norm))
+
+
+```
+All of the plots are satisfactory with the exception of the single data point.
+
+```{r fig.cap="Normal Distribution plots of Width for Male; Outlier Removal",fig.pos='H',fig.align='center'}
+
+#Compute distribution checking plots for the variable of interest
+norm <- data %>% filter(sex == "Male",width < 103)  %>% dplyr::select(width)
+norm <- fitdist(norm$width, distr = "norm")
+par(mfrow = c(2, 2),mar = c(2,2,1.75,1.75))
+ denscomp(list(norm))
+ qqcomp(list(norm))
+  cdfcomp(list(norm))
+  ppcomp(list(norm))
+
+
+```
+If the outlier identifed in the previous plot is removed we now see a strange pattern emerging where the lower range of points are above the distribution fitted lines while the upper range are below the line. I'm not sure if this has any meaning whatsoever. This will for other purposes, satisfy the normality assumption. 
+
+```{r fig.cap="Normal Distribution plots of Width for Male; Outlier Removal",fig.pos='H',fig.align='center'}
+
+#Compute distribution checking plots for the variable of interest
+norm <- data %>% filter(sex == "Female")  %>% dplyr::select(width)
+norm <- fitdist(norm$width, distr = "norm")
+par(mfrow = c(2, 2),mar = c(2,2,1.75,1.75))
+ denscomp(list(norm))
+ qqcomp(list(norm))
+  cdfcomp(list(norm))
+  ppcomp(list(norm))
+
+
+```
+There are no alarming features about this subset other than peraps some skewness that is likely tolerable. 
+
+
+
+
+```{r fig.cap="Normal Distribution plots of Height for Male; Outlier Removal",fig.pos='H',fig.align='center'}
+
+#Compute distribution checking plots for the variable of interest
+norm <- data %>% filter(sex == "Female")  %>% dplyr::select(height)
+norm <- fitdist(norm$height, distr = "norm")
+par(mfrow = c(2, 2),mar = c(2,2,1.75,1.75))
+ denscomp(list(norm))
+ qqcomp(list(norm))
+  cdfcomp(list(norm))
+  ppcomp(list(norm))
+
+
+```
+It may be that the many values that are repeated in the center of the distribution are responsible for the behaviour of the plot middle.
+
+
+
+<center>
+
+```{r fig.align = 'center', preview = TRUE}
+#Plot for the bivariate density
+
+
+male <- filter(data,sex == "Male")
+
+kd <- with(male, MASS::kde2d(length, width))
+fig <- plot_ly(x = kd$x, y = kd$y, z = kd$z) %>% add_surface() %>% layout(title="Bivariate Density Plot for Males: Length vs Width")
+
+fig
+
+```
+
+</center>
+
+
+<center>
+
+```{r fig.align = 'center', preview = TRUE}
+#Plot for the bivariate density
+
+
+male <- filter(data,sex == "Male")
+
+kd <- with(male, MASS::kde2d(length, height))
+fig <- plot_ly(x = kd$x, y = kd$y, z = kd$z) %>% add_surface() %>% layout(title="Bivariate Density Plot for Males: Length vs Height")
+
+fig
+
+
+```
+
+</center>
+<center>
+
+```{r fig.align = 'center', preview = TRUE}
+#Plot for the bivariate density
+
+
+male <- filter(data,sex == "Male")
+
+kd <- with(male, MASS::kde2d(height, width))
+fig <- plot_ly(x = kd$x, y = kd$y, z = kd$z) %>% add_surface() %>% layout(title="Bivariate Density Plot for Males: Height vs Width")
+
+fig
+
+```
+
+
+</center>
+
+
+
+<center>
+
+```{r fig.align = 'center', preview = TRUE}
+#Plot for the bivariate density
+
+
+male <- filter(data,sex == "Female")
+
+kd <- with(male, MASS::kde2d(length, width))
+fig <- plot_ly(x = kd$x, y = kd$y, z = kd$z) %>% add_surface() %>% layout(title="Bivariate Density Plot for Females: Length vs Width")
+
+fig
+
+```
+
+
+</center>
+
+<center>
+
+```{r fig.align = 'center', preview = TRUE}
+#Plot for the bivariate density
+
+
+male <- filter(data,sex == "Female")
+
+kd <- with(male, MASS::kde2d(length, height))
+fig <- plot_ly(x = kd$x, y = kd$y, z = kd$z) %>% add_surface() %>% layout(title="Bivariate Density Plot for Females: Length vs Height")
+
+fig
+
+```
+<center>
+
+```{r fig.align = 'center', preview = TRUE}
+#Plot for the bivariate density
+
+
+male <- filter(data,sex == "Female")
+
+kd <- with(male, MASS::kde2d(height, width))
+fig <- plot_ly(x = kd$x, y = kd$y, z = kd$z) %>% add_surface() %>% layout(title="Bivariate Density Plot for Females: Height vs Width")
+
+fig
+
+```
+
+
+## Plots showing Difference information
+```{r}
+ggplotly(ggplot(data,aes(x = length,y = width,color = sex)) + 
+  geom_point() + 
+  theme_bw() + 
+  labs(x = "Width",y = "Length",title = "Length vs Width Difference") + 
+  theme(plot.title = element_text(hjust = 0.5))
+)
+```
+```{r}
+ggplotly(ggplot(data,aes(x = length,y = height,color = sex)) + 
+  geom_point() + 
+  theme_bw() + 
+  labs(x = "Length",y = "Height",title = "Length vs Height Difference") + 
+  theme(plot.title = element_text(hjust = 0.5))
+)
+```
+```{r}
+ggplotly(ggplot(data,aes(x = height,y = width,color = sex)) + 
+  geom_point() + 
+  theme_bw() + 
+  labs(x = "Height",y = "Width",title = "Width vs Height Difference") + 
+  theme(plot.title = element_text(hjust = 0.5))
+)
+```

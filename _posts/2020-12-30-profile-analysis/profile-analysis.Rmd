@@ -79,7 +79,6 @@ meansdata$spouse <- factor(meansdata$spouse,
 ```
 
 
-
 ```{r}
 div(ggplotly(ggplot(data = meansdata,aes(x = x,y = means,color = spouse)) + 
   geom_line() +
