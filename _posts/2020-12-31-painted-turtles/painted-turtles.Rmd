@@ -230,4 +230,4 @@ Johnson, R. A., & Wichern, D. W. (1992). Applied multivariate statistical analys
 
 Krishnamoorthy, K., & Yu, J. (2004). Modified Nel and Van der Merwe test for the multivariate Behrens–Fisher problem. Statistics & probability letters, 66(2), 161-169.
 
-
+NCSS Hotelling’S Twosample T2. [pdf] Available at: <https://ncss-wpengine.netdna-ssl.com/wp-content/themes/ncss/pdf/Procedures/NCSS/Hotellings_Two-Sample_T2.pdf> 
