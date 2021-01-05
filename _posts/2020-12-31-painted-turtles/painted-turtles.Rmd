@@ -80,7 +80,7 @@ The first three graphs will look at the problem from a univariate perspective. T
  beanplot(loglength ~ sex,data = data,col = "lightblue") 
   
 ```
- We can see that Females have one major and one minor mode with the presence of a potential outlier that is roughly 180. The Males seem to have one mode, with a distribution that is eerily symmetric. The grand average of the data is 124 with the median for the Females as well as most of it's data points falling above this value with the opposite occurring for the Males.  
+ We can see that Females have one major and one minor mode with the presence of a potential outlier that is roughly 5.2. The Males seem to have one mode, with a distribution that is eerily symmetric. The median for the Females as well as most of it's data points fall above this the grand average (dotted line) with the opposite occurring for the Males.  
  The reason why there seems to be a minor mode should be inspected as perhaps there is a subgroup present within the dataset that should be accounted for. Given the information thus far it would not be surprising to know that the univariate *welch t-test* reports a difference in the two sexes over the feature of length. Most of the overlap between the two distributions seem to happen with the 75% quantile of the males and the lower 25% quantile of the females. 
  
  
@@ -111,7 +111,7 @@ ggplotly(ggplot(data,aes(x = loglength,y = logwidth,color = sex)) +
   stat_ellipse()  
 )
 ```
-We are concerned about the overlap between the distributions for the univariate plots. In some cases the variation may be enough to cloud any difference that may actually exist. Ideally the addition of another variable, in this case Width to the plot of length gives another dimension to essentially sort the data and allows us to compute the mean in a more accurate manner. From the above plot this does not seem to be the case; the overlap in the upper and lower percentiles as mentioned before, are now visualized better.   
+We are concerned about the overlap between the distributions for the univariate plots. In some cases the variation may be enough to cloud any difference that may actually exist. Ideally the addition of another variable, in this case Width to the plot of length gives another dimension to essentially separate the data points and allows us to compute the mean in a more accurate manner. From the above plot this does not seem to be the case; the overlap in the upper and lower percentiles as mentioned before, is now visualized better.   
 
 ```{r}
 ggplotly(ggplot(data,aes(x = loglength,y = logheight,color = sex)) + 
@@ -133,7 +133,10 @@ ggplotly(ggplot(data,aes(x = logheight,y = logwidth,color = sex)) +
     stat_ellipse()
 )
 ```
+
 A similar case to the previous plot is observed where there is some separation when Height is combined with Width. It would seem that the Height variable adds valuable discriminatory power to the analysis.
+
+&nbsp;
 
 ```{r}
 plot_ly(data = data, x = data$loglength,y = data$logwidth,z = data$logheight,color = data$sex) %>% layout(title = "Plot of All Dependent Variables",
@@ -145,6 +148,7 @@ plot_ly(data = data, x = data$loglength,y = data$logwidth,z = data$logheight,col
                 )
 
 ```
+
 Finally we examine the 3D plot of the dependent variables. This requires you to interact with the graph presented. If you were to move the chart such that you were looking down with the length and width features in the typically x and y plane then you would replicate the first chart where the separation power is not ideal. Now you should rotate the chart such that the height feature comes into focus, as you rotate it then you might notice how the feature lifts some of the green points (females) out of the cloud of blue points (males). Although you can ask for this "lifting effect" to be greater, nevertheless it speaks to the limitations of univariate cases and what can be accomplished by accounting for more variables in the same analysis technique.
 
 ## Assumptions
