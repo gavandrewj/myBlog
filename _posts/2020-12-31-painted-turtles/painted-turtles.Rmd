@@ -70,12 +70,13 @@ data %>%
   ) 
 
 ```
+Most of the analysis will be done on the Logarithm scale.
 ## A Visualization of the Problem
 ### Univariate Plots
 The first three graphs will look at the problem from a univariate perspective. The particular graph that was chosen (beanplot) to represent the information allows for comment on the distribution features so this will be done at the same time.
 
 ```{r fig.cap= "Distributions of Length over Sex",fig.align='center'}
- beanplot(length ~ sex,data = data,col = "lightblue") 
+ beanplot(loglength ~ sex,data = data,col = "lightblue") 
   
 ```
  We can see that Females have one major and one minor mode with the presence of a potential outlier that is roughly 180. The Males seem to have one mode, with a distribution that is eerily symmetric. The grand average of the data is 124 with the median for the Females as well as most of it's data points falling above this value with the opposite occurring for the Males.  
@@ -196,7 +197,7 @@ The p value attempts to quantify how often we may come across such a dataset giv
 
 ### Confidence Intervals for each Variable
 
-The original question asked for the calculation of both simultaneous and bonferroni intervals. Since we are not assuming equality of variances, it may be improper to construct intervals using a pooled covariance matrix. This only the bonferroni intervals are constructed. 
+The original question asked for the calculation of both simultaneous and bonferroni intervals. Since we are not assuming equality of variances, I am unsure as to whether simultaneous confidence intervals can be constructed. Thus only the bonferroni intervals are constructed. 
 
 
 <center>
