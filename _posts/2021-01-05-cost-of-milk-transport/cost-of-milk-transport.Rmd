@@ -1,0 +1,223 @@
+---
+title: "Cost of Milk Transport"
+description: |
+  A short description of the post.
+author:
+  - name: Gavin Gordon
+    url: https://example.com/norajones
+date: 01-05-2021
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE,cache = T,message = F,warning = F)
+```
+
+```{r}
+library(tidyverse)
+library(fitdistrplus)
+library(SHT)
+library(vroom)
+library(plotly)
+library(gt)
+library(gtsummary)
+library(Hotelling)
+library(pander)
+library(expss)
+library(beanplot)
+library(pairwiseCI)
+library(heplots)
+```
+# Problem (Question 6.18)
+This problem is taken from **Johnson 1992**. This is survey data taken from a firm involved in milk production. Cost data on the fuel, capital and repair on a per mile basis were measured; we are to investigate to find any difference between diesel and gasoline trucks.
+
+```{r}
+#Importing data
+data <- vroom("C:/Users/gavin/Documents/GitHub/blogdata/trucking.csv")
+data$truck <- factor(data$truck,labels = c("Diesel","Gasoline"))
+#data$fuel <- log(data$fuel)
+#data$capital <- log(data$width)
+#data$repair <- log(data$height)
+```
+
+
+
+
+```{r}
+data %>% 
+  select(repair,fuel,capital,truck) %>%
+  apply_labels(repair= "Repair",fuel = "Fuel",capital = "Capital") %>% 
+  tbl_summary(by = truck,
+              type = all_continuous() ~ "continuous2",
+              statistic = all_continuous() ~ c("{mean} ({sd})", 
+                                               "{median} ({p25},{p75})",
+                                               "{min}, {max}"),
+              missing = "no") %>% 
+  as_gt() %>%
+  tab_header(
+    title = "Summary Statistics",
+    subtitle = "across Truck Types"
+  ) 
+
+```
+
+
+## A Visualization of the Problem
+### Univariate Plots
+The first three graphs will look at the problem from a univariate perspective. The particular graph that was chosen (beanplot) to represent the information allows for comment on the distribution features so this will be done at the same time.
+
+```{r fig.cap= "Distributions of Repair over Truck Type",fig.align='center'}
+ beanplot(repair ~ truck,data = data,col = "lightblue") 
+  
+```
+ 
+ 
+ 
+ 
+```{r fig.cap= "Distributions of Capital over Truck",fig.align='center'}
+ beanplot(capital ~ truck,data = data,col = "lightgreen") 
+  
+```
+
+ 
+```{r fig.cap= "Distributions of Fuel over Truck Types",fig.align='center'}
+ beanplot(fuel ~ truck,data = data,col = "lightyellow") 
+  
+```
+
+
+
+### Bivariate Plots
+Now we will try to see what value adding another variable can bring to the analysis.
+
+```{r}
+ggplotly(ggplot(data,aes(x = fuel,y = capital,color = truck)) + 
+  geom_point() + 
+  theme_bw() + 
+  labs(x = "Fuel",y = "Capital",title = "Fuel vs Capital Costs",color = "Truck Type") + 
+  theme(plot.title = element_text(hjust = 0.5)) + 
+  stat_ellipse()  
+)
+```
+
+
+```{r}
+ggplotly(ggplot(data,aes(x = fuel,y = repair,color = truck)) + 
+  geom_point() + 
+  theme_bw() + 
+  labs(x = "Fuel",y = "Repair",title = "Fuel vs Repair Costs") + 
+  theme(plot.title = element_text(hjust = 0.5)) + 
+    stat_ellipse()
+)
+```
+
+```{r}
+ggplotly(ggplot(data,aes(x = repair,y = capital,color = truck)) + 
+  geom_point() + 
+  theme_bw() + 
+  labs(x = "Repair",y = "Capital",title = "Repair vs Capital Costs") + 
+  theme(plot.title = element_text(hjust = 0.5)) + 
+    stat_ellipse()
+)
+```
+
+A similar case to the previous plot is observed where there is some separation when Height is combined with Width. It would seem that the Height variable adds valuable discriminatory power to the analysis.
+
+&nbsp;
+
+```{r}
+plot_ly(data = data, x = data$fuel,y = data$capital,z = data$repair,color = data$truck) %>% layout(title = "Plot of All Dependent Variables",
+                scene = list(
+                  xaxis = list(title = "Fuel"),
+                  yaxis = list(title = "Capital"),
+                  zaxis = list(title = "Repairs")
+                  )
+                )
+
+```
+
+
+
+## Assumptions
+
+1. **Independence of Observations**  
+
+
+
+2. **Normality and Outliers**  
+
+  
+
+
+
+3. **Equality of Variance**
+
+<center>
+
+```{r,fig.align='center'}
+pander(boxM(cbind(capital,repair,fuel) ~ truck,data = data),caption = "Box's M-test for Homogeneity of Covariance Matrices")
+
+```
+
+</center>
+
+The test shows that the variables do not have the same variance across the groups. Although this assumption was aided by the use of the logarithm transformation, the overall problem was not reduced to satisfactory level.  
+Since we do not have equality of variances, we now consider a similar technique that does not require this assumption. It falls into the same problem category as the *Welch's t test* known as the *Behrens–Fisher* type problems. 
+
+&nbsp;  
+  
+
+## Analysis
+
+<center>
+
+```{r}
+#options(scipen=999)
+males <- as.matrix(subset(data,truck == "gasoline")[,1:3])
+females <- as.matrix(subset(data ,truck == "dies")[,1:3])
+pander(mean2.2004KY(males,females),caption = "Two-sample Test for Multivariate Means",digits = 6)
+
+```
+</center>
+
+&nbsp;  
+This analysis uses the technique established in **Krishnamoorthy 2004**.
+
+The p value attempts to quantify how often we may come across such a dataset given that the null hypothesis is true. If we were to assume that there is no difference between the truck across the variables of Length, Width and Height then the data that was collected would be considered to be an extremely rare event. Therefore, this should serve as evidence that there is a difference between the truckes along one or more of the variables considered until some other explanation arises that may state otherwise.
+
+&nbsp;  
+
+### Confidence Intervals for each Variable
+
+The original question asked for the calculation of both simultaneous and bonferroni intervals. Since we are not assuming equality of variances, I am unsure as to whether simultaneous confidence intervals can be constructed. Thus only the bonferroni intervals are constructed. 
+
+
+<center>
+
+```{r}
+
+length <- pairwiseCI(data = data , length ~ truck, conf.level = 0.95/6)
+width <- pairwiseCI(data = data , width ~ truck, conf.level = 0.95/6)
+height <- pairwiseCI(data = data , height ~ truck, conf.level = 0.95/6)
+
+intervals <- data.frame(Variable = c("Length","Width","Height"), Estimate = round(c(length$byout[[1]]$estimate,width$byout[[1]]$estimate,height$byout[[1]]$estimate),2),Lower = round(c( length$byout[[1]]$lower,width$byout[[1]]$lower,height$byout[[1]]$lower),2),Upper = round(c(length$byout[[1]]$upper,width$byout[[1]]$upper,height$byout[[1]]$upper),2))
+
+pander(intervals,caption = "Bonferonni Confidence Intervals for Features")
+
+```
+
+</center>
+
+&nbsp;  
+&nbsp; 
+
+## References
+
+Johnson, R. A., & Wichern, D. W. (1992). Applied multivariate statistical analysis. Englewood Cliffs, N.J: Prentice Hall  
+
+Krishnamoorthy, K., & Yu, J. (2004). Modified Nel and Van der Merwe test for the multivariate Behrens–Fisher problem. Statistics & probability letters, 66(2), 161-169.
+
+NCSS Hotelling’S Twosample T2. [pdf] Available at: <https://ncss-wpengine.netdna-ssl.com/wp-content/themes/ncss/pdf/Procedures/NCSS/Hotellings_Two-Sample_T2.pdf> 
