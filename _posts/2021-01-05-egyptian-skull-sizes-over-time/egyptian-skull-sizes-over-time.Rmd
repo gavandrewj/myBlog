@@ -1,0 +1,148 @@
+---
+title: "Egyptian Skull Sizes over Time"
+description: |
+  An attempt at an application of the Manova. The main contention with this problem is the overwhelming lack of linearity between pairs of dependent variables. 
+
+base_url: https://github.com/gavandrewj/myBlog/
+
+categories:
+  - Manova
+  - Independent Samples   
+  
+author:
+  - name: Gavin Gordon
+    url: https://example.com/norajones
+date: 01-05-2021
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE,cache = T,message = F,warning = F)
+```
+
+```{r}
+library(tidyverse)
+library(fitdistrplus)
+library(SHT)
+library(vroom)
+library(plotly)
+library(gt)
+library(gtsummary)
+library(Hotelling)
+library(pander)
+library(expss)
+library(beanplot)
+library(pairwiseCI)
+library(heplots)
+library(GGally)
+library(Hmisc)
+library(ellipse)
+library(RColorBrewer)
+```
+# Problem (Question 6.18)
+This problem is taken from **Johnson 1992**. Researchers have suggested that the change in skull size over time is evidence of the interbreeding of a resident population with immigrant populations. Four measurements were made of male Egyptian skulls over five time periods. The aim of this test is to determine if there is a difference in the skull sizes over time. 
+
+```{r}
+#Importing data
+data("Skulls")
+data <- Skulls
+rm(Skulls)
+
+data$epoch <- factor(data$epoch)
+#var.labels <- c("Epoch","MaxBreath","BasHeight","Baslength","NasHeight","Outliers")
+#data$loglength <- log(data$length)
+#data$logwidth <- log(data$width)
+#data$logheight <- log(data$height)
+```
+
+```{r }
+data$madist <- Mahalanobis(data[,2:5])
+#summary( Mahalanobis(data[,2:5]))
+#plot(density(Mahalanobis(data[,2:5])))
+data$pout <- factor(data$madist > 9)
+
+```
+
+We will start off by taking a look at outliers. Honestly I don't know what to make of this dataset when it comes to applying the Manova. 
+
+```{r}
+my_colors <- brewer.pal(5, "Spectral")
+my_colors <- colorRampPalette(my_colors)(100)
+
+seecor <- data  %>% select(!c(madist,pout)) %>%
+  filter(epoch == "c4000BC") %>% select(!epoch) %>% cor()
+
+ord <- order(seecor[1, ])
+data_ord <- seecor[ord, ord]
+plotcorr(data_ord , col=my_colors[data_ord*50+50] , mar=c(1,1,1,1)  )
+
+
+```
+
+```{r fig.align='center' , fig.cap= "Bivariate Plots for c4000BC Epoch"}
+pl_colorscale = list(c(0.0, '#119dff'),
+                  c(0.5, '#119dff'),
+                  c(0.5, '#ef553b'),
+                  c(1, '#ef553b'))
+
+axis = list(showline=FALSE,
+            zeroline=FALSE,
+            gridcolor='#ffff',
+            ticklen=4)
+
+fig <- data %>% filter(epoch == "c4000BC") %>%
+  plot_ly() 
+fig <- fig %>%
+  add_trace(
+    type = 'splom',
+    dimensions = list(
+      list(label='MaxBreath', values=~mb),
+      list(label='BasHeight', values=~bh),
+      list(label='BasLength', values=~bl),
+      list(label='NasHeight', values=~nh)
+    ),
+    text=~factor(pout, labels=c("non-diabetic","diabetic")),
+    diagonal=list(visible=F),
+    marker = list(
+      color = ~pout,
+      colorscale = pl_colorscale,
+      size = 5,
+      line = list(
+        width = 1,
+        color = 'rgb(230,230,230)'
+      )
+    )
+  ) 
+
+fig <- fig %>%
+  layout(
+    title= 'ScatterPlots in Epoch c4000BC',
+    hovermode='closest',
+    dragmode= 'select',
+    plot_bgcolor='rgba(240,240,240, 0.95)',
+    xaxis=list(domain=NULL, showline=F, zeroline=F, gridcolor='#ffff', ticklen=4),
+    yaxis=list(domain=NULL, showline=F, zeroline=F, gridcolor='#ffff', ticklen=4),
+    xaxis2=axis,
+    xaxis3=axis,
+    xaxis4=axis,
+    yaxis2=axis,
+    yaxis3=axis,
+    yaxis4=axis
+  )
+
+fig %>% style(showupperhalf = F)
+
+```
+
+
+
+
+## References
+
+Johnson, R. A., & Wichern, D. W. (1992). Applied multivariate statistical analysis. Englewood Cliffs, N.J: Prentice Hall  
+
+
+NCSS Hotelling’S Twosample T2. [pdf] Available at: <https://ncss-wpengine.netdna-ssl.com/wp-content/themes/ncss/pdf/Procedures/NCSS/Hotellings_Two-Sample_T2.pdf> 
