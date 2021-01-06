@@ -176,9 +176,9 @@ Since we do not have equality of variances, we now consider a similar technique 
 
 ```{r}
 #options(scipen=999)
-males <- as.matrix(subset(data,truck == "gasoline")[,1:3])
-females <- as.matrix(subset(data ,truck == "dies")[,1:3])
-pander(mean2.2004KY(males,females),caption = "Two-sample Test for Multivariate Means",digits = 6)
+gasoline <- as.matrix(subset(data,truck == "Gasoline")[,1:3])
+diesel <- as.matrix(subset(data ,truck == "Diesel")[,1:3])
+pander(mean2.2004KY(gasoline,diesel),caption = "Two-sample Test for Multivariate Means",digits = 6)
 
 ```
 </center>
@@ -186,7 +186,7 @@ pander(mean2.2004KY(males,females),caption = "Two-sample Test for Multivariate M
 &nbsp;  
 This analysis uses the technique established in **Krishnamoorthy 2004**.
 
-The p value attempts to quantify how often we may come across such a dataset given that the null hypothesis is true. If we were to assume that there is no difference between the truck across the variables of Length, Width and Height then the data that was collected would be considered to be an extremely rare event. Therefore, this should serve as evidence that there is a difference between the truckes along one or more of the variables considered until some other explanation arises that may state otherwise.
+
 
 &nbsp;  
 
@@ -199,11 +199,11 @@ The original question asked for the calculation of both simultaneous and bonferr
 
 ```{r}
 
-length <- pairwiseCI(data = data , length ~ truck, conf.level = 0.95/6)
-width <- pairwiseCI(data = data , width ~ truck, conf.level = 0.95/6)
-height <- pairwiseCI(data = data , height ~ truck, conf.level = 0.95/6)
+repair <- pairwiseCI(data = data , repair ~ truck, conf.level = 0.95/6)
+fuel <- pairwiseCI(data = data , fuel ~ truck, conf.level = 0.95/6)
+capital <- pairwiseCI(data = data , capital ~ truck, conf.level = 0.95/6)
 
-intervals <- data.frame(Variable = c("Length","Width","Height"), Estimate = round(c(length$byout[[1]]$estimate,width$byout[[1]]$estimate,height$byout[[1]]$estimate),2),Lower = round(c( length$byout[[1]]$lower,width$byout[[1]]$lower,height$byout[[1]]$lower),2),Upper = round(c(length$byout[[1]]$upper,width$byout[[1]]$upper,height$byout[[1]]$upper),2))
+intervals <- data.frame(Variable = c("repair","fuel","capital"), Estimate = round(c(repair$byout[[1]]$estimate,fuel$byout[[1]]$estimate,capital$byout[[1]]$estimate),2),Lower = round(c( repair$byout[[1]]$lower,fuel$byout[[1]]$lower,capital$byout[[1]]$lower),2),Upper = round(c(repair$byout[[1]]$upper,fuel$byout[[1]]$upper,capital$byout[[1]]$upper),2))
 
 pander(intervals,caption = "Bonferonni Confidence Intervals for Features")
 

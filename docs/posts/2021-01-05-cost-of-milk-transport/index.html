@@ -1,0 +1,2642 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+  <meta name="generator" content="distill" />
+
+  <style type="text/css">
+  /* Hide doc at startup (prevent jankiness while JS renders/transforms) */
+  body {
+    visibility: hidden;
+  }
+  </style>
+
+ <!--radix_placeholder_import_source-->
+ <!--/radix_placeholder_import_source-->
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ad0000; } /* Alert */
+code span.an { color: #5e5e5e; } /* Annotation */
+code span.at { color: #20794d; } /* Attribute */
+code span.bn { color: #ad0000; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007ba5; } /* ControlFlow */
+code span.ch { color: #20794d; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #5e5e5e; } /* Comment */
+code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+code span.dt { color: #ad0000; } /* DataType */
+code span.dv { color: #ad0000; } /* DecVal */
+code span.er { color: #ad0000; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #ad0000; } /* Float */
+code span.fu { color: #4758ab; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #5e5e5e; } /* Information */
+code span.kw { color: #007ba5; } /* Keyword */
+code span.op { color: #5e5e5e; } /* Operator */
+code span.ot { color: #007ba5; } /* Other */
+code span.pp { color: #ad0000; } /* Preprocessor */
+code span.sc { color: #20794d; } /* SpecialChar */
+code span.ss { color: #20794d; } /* SpecialString */
+code span.st { color: #20794d; } /* String */
+code span.va { color: #111111; } /* Variable */
+code span.vs { color: #20794d; } /* VerbatimString */
+code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+</style>
+
+  <!--radix_placeholder_meta_tags-->
+<title>Toolkit: Cost of Milk Transport</title>
+
+<meta property="description" itemprop="description" content="A short description of the post."/>
+
+
+<!--  https://schema.org/Article -->
+<meta property="article:published" itemprop="datePublished" content="2021-01-05"/>
+<meta property="article:created" itemprop="dateCreated" content="2021-01-05"/>
+<meta name="article:author" content="Gavin Gordon"/>
+
+<!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
+<meta property="og:title" content="Toolkit: Cost of Milk Transport"/>
+<meta property="og:type" content="article"/>
+<meta property="og:description" content="A short description of the post."/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:site_name" content="Toolkit"/>
+
+<!--  https://dev.twitter.com/cards/types/summary -->
+<meta property="twitter:card" content="summary"/>
+<meta property="twitter:title" content="Toolkit: Cost of Milk Transport"/>
+<meta property="twitter:description" content="A short description of the post."/>
+
+<!--/radix_placeholder_meta_tags-->
+  <!--radix_placeholder_rmarkdown_metadata-->
+
+<script type="text/json" id="radix-rmarkdown-metadata">
+{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output"]}},"value":[{"type":"character","attributes":{},"value":["Cost of Milk Transport"]},{"type":"character","attributes":{},"value":["A short description of the post."]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Gavin Gordon"]},{"type":"character","attributes":{},"value":["https://example.com/norajones"]}]}]},{"type":"character","attributes":{},"value":["01-05-2021"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]}]}
+</script>
+<!--/radix_placeholder_rmarkdown_metadata-->
+  
+  <script type="text/json" id="radix-resource-manifest">
+  {"type":"character","attributes":{},"value":["cost-of-milk-transport_files/figure-html5/unnamed-chunk-4-1.png","cost-of-milk-transport_files/figure-html5/unnamed-chunk-5-1.png","cost-of-milk-transport_files/figure-html5/unnamed-chunk-6-1.png"]}
+  </script>
+  <!--radix_placeholder_navigation_in_header-->
+<meta name="distill:offset" content="../.."/>
+
+<script type="application/javascript">
+
+  window.headroom_prevent_pin = false;
+
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+
+    // initialize headroom for banner
+    var header = $('header').get(0);
+    var headerHeight = header.offsetHeight;
+    var headroom = new Headroom(header, {
+      tolerance: 5,
+      onPin : function() {
+        if (window.headroom_prevent_pin) {
+          window.headroom_prevent_pin = false;
+          headroom.unpin();
+        }
+      }
+    });
+    headroom.init();
+    if(window.location.hash)
+      headroom.unpin();
+    $(header).addClass('headroom--transition');
+
+    // offset scroll location for banner on hash change
+    // (see: https://github.com/WickyNilliams/headroom.js/issues/38)
+    window.addEventListener("hashchange", function(event) {
+      window.scrollTo(0, window.pageYOffset - (headerHeight + 25));
+    });
+
+    // responsive menu
+    $('.distill-site-header').each(function(i, val) {
+      var topnav = $(this);
+      var toggle = topnav.find('.nav-toggle');
+      toggle.on('click', function() {
+        topnav.toggleClass('responsive');
+      });
+    });
+
+    // nav dropdowns
+    $('.nav-dropbtn').click(function(e) {
+      $(this).next('.nav-dropdown-content').toggleClass('nav-dropdown-active');
+      $(this).parent().siblings('.nav-dropdown')
+         .children('.nav-dropdown-content').removeClass('nav-dropdown-active');
+    });
+    $("body").click(function(e){
+      $('.nav-dropdown-content').removeClass('nav-dropdown-active');
+    });
+    $(".nav-dropdown").click(function(e){
+      e.stopPropagation();
+    });
+  });
+</script>
+
+<style type="text/css">
+
+/* Theme (user-documented overrideables for nav appearance) */
+
+.distill-site-nav {
+  color: rgba(255, 255, 255, 0.8);
+  background-color: #0F2E3D;
+  font-size: 15px;
+  font-weight: 300;
+}
+
+.distill-site-nav a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.distill-site-nav a:hover {
+  color: white;
+}
+
+@media print {
+  .distill-site-nav {
+    display: none;
+  }
+}
+
+.distill-site-header {
+
+}
+
+.distill-site-footer {
+
+}
+
+
+/* Site Header */
+
+.distill-site-header {
+  width: 100%;
+  box-sizing: border-box;
+  z-index: 3;
+}
+
+.distill-site-header .nav-left {
+  display: inline-block;
+  margin-left: 8px;
+}
+
+@media screen and (max-width: 768px) {
+  .distill-site-header .nav-left {
+    margin-left: 0;
+  }
+}
+
+
+.distill-site-header .nav-right {
+  float: right;
+  margin-right: 8px;
+}
+
+.distill-site-header a,
+.distill-site-header .title {
+  display: inline-block;
+  text-align: center;
+  padding: 14px 10px 14px 10px;
+}
+
+.distill-site-header .title {
+  font-size: 18px;
+  min-width: 150px;
+}
+
+.distill-site-header .logo {
+  padding: 0;
+}
+
+.distill-site-header .logo img {
+  display: none;
+  max-height: 20px;
+  width: auto;
+  margin-bottom: -4px;
+}
+
+.distill-site-header .nav-image img {
+  max-height: 18px;
+  width: auto;
+  display: inline-block;
+  margin-bottom: -3px;
+}
+
+
+
+@media screen and (min-width: 1000px) {
+  .distill-site-header .logo img {
+    display: inline-block;
+  }
+  .distill-site-header .nav-left {
+    margin-left: 20px;
+  }
+  .distill-site-header .nav-right {
+    margin-right: 20px;
+  }
+  .distill-site-header .title {
+    padding-left: 12px;
+  }
+}
+
+
+.distill-site-header .nav-toggle {
+  display: none;
+}
+
+.nav-dropdown {
+  display: inline-block;
+  position: relative;
+}
+
+.nav-dropdown .nav-dropbtn {
+  border: none;
+  outline: none;
+  color: rgba(255, 255, 255, 0.8);
+  padding: 16px 10px;
+  background-color: transparent;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  margin: 0;
+  margin-top: 1px;
+  z-index: 2;
+}
+
+.nav-dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: white;
+  min-width: 200px;
+  border: 1px solid rgba(0,0,0,0.15);
+  border-radius: 4px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
+  z-index: 1;
+  margin-top: 2px;
+  white-space: nowrap;
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+.nav-dropdown-content hr {
+  margin-top: 4px;
+  margin-bottom: 4px;
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.nav-dropdown-active {
+  display: block;
+}
+
+.nav-dropdown-content a, .nav-dropdown-content .nav-dropdown-header {
+  color: black;
+  padding: 6px 24px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+.nav-dropdown-content .nav-dropdown-header {
+  display: block;
+  padding: 5px 24px;
+  padding-bottom: 0;
+  text-transform: uppercase;
+  font-size: 14px;
+  color: #999999;
+  white-space: nowrap;
+}
+
+.nav-dropdown:hover .nav-dropbtn {
+  color: white;
+}
+
+.nav-dropdown-content a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.nav-right .nav-dropdown-content {
+  margin-left: -45%;
+  right: 0;
+}
+
+@media screen and (max-width: 768px) {
+  .distill-site-header a, .distill-site-header .nav-dropdown  {display: none;}
+  .distill-site-header a.nav-toggle {
+    float: right;
+    display: block;
+  }
+  .distill-site-header .title {
+    margin-left: 0;
+  }
+  .distill-site-header .nav-right {
+    margin-right: 0;
+  }
+  .distill-site-header {
+    overflow: hidden;
+  }
+  .nav-right .nav-dropdown-content {
+    margin-left: 0;
+  }
+}
+
+
+@media screen and (max-width: 768px) {
+  .distill-site-header.responsive {position: relative; min-height: 500px; }
+  .distill-site-header.responsive a.nav-toggle {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  .distill-site-header.responsive a,
+  .distill-site-header.responsive .nav-dropdown {
+    display: block;
+    text-align: left;
+  }
+  .distill-site-header.responsive .nav-left,
+  .distill-site-header.responsive .nav-right {
+    width: 100%;
+  }
+  .distill-site-header.responsive .nav-dropdown {float: none;}
+  .distill-site-header.responsive .nav-dropdown-content {position: relative;}
+  .distill-site-header.responsive .nav-dropdown .nav-dropbtn {
+    display: block;
+    width: 100%;
+    text-align: left;
+  }
+}
+
+/* Site Footer */
+
+.distill-site-footer {
+  width: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
+  z-index: 3;
+  margin-top: 30px;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  text-align: center;
+}
+
+/* Headroom */
+
+d-title {
+  padding-top: 6rem;
+}
+
+@media print {
+  d-title {
+    padding-top: 4rem;
+  }
+}
+
+.headroom {
+  z-index: 1000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.headroom--transition {
+  transition: all .4s ease-in-out;
+}
+
+.headroom--unpinned {
+  top: -100px;
+}
+
+.headroom--pinned {
+  top: 0;
+}
+
+</style>
+
+<link href="../../site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet"/>
+<link href="../../site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet"/>
+<script src="../../site_libs/headroom-0.9.4/headroom.min.js"></script>
+<script src="../../site_libs/autocomplete-0.37.1/autocomplete.min.js"></script>
+<script src="../../site_libs/fuse-6.4.1/fuse.min.js"></script>
+
+<script type="application/javascript">
+
+function getMeta(metaName) {
+  var metas = document.getElementsByTagName('meta');
+  for (let i = 0; i < metas.length; i++) {
+    if (metas[i].getAttribute('name') === metaName) {
+      return metas[i].getAttribute('content');
+    }
+  }
+  return '';
+}
+
+function offsetURL(url) {
+  var offset = getMeta('distill:offset');
+  return offset ? offset + '/' + url : url;
+}
+
+function createFuseIndex() {
+
+  // create fuse index
+  var options = {
+    keys: [
+      { name: 'title', weight: 20 },
+      { name: 'categories', weight: 15 },
+      { name: 'description', weight: 10 },
+      { name: 'contents', weight: 5 },
+    ],
+    ignoreLocation: true,
+    threshold: 0
+  };
+  var fuse = new window.Fuse([], options);
+
+  // fetch the main search.json
+  return fetch(offsetURL('search.json'))
+    .then(function(response) {
+      if (response.status == 200) {
+        return response.json().then(function(json) {
+          // index main articles
+          json.articles.forEach(function(article) {
+            fuse.add(article);
+          });
+          // download collections and index their articles
+          return Promise.all(json.collections.map(function(collection) {
+            return fetch(offsetURL(collection)).then(function(response) {
+              if (response.status === 200) {
+                return response.json().then(function(articles) {
+                  articles.forEach(function(article) {
+                    fuse.add(article);
+                  });
+                })
+              } else {
+                return Promise.reject(
+                  new Error('Unexpected status from search index request: ' +
+                            response.status)
+                );
+              }
+            });
+          })).then(function() {
+            return fuse;
+          });
+        });
+
+      } else {
+        return Promise.reject(
+          new Error('Unexpected status from search index request: ' +
+                      response.status)
+        );
+      }
+    });
+}
+
+window.document.addEventListener("DOMContentLoaded", function (event) {
+
+  // get search element (bail if we don't have one)
+  var searchEl = window.document.getElementById('distill-search');
+  if (!searchEl)
+    return;
+
+  createFuseIndex()
+    .then(function(fuse) {
+
+      // make search box visible
+      searchEl.classList.remove('hidden');
+
+      // initialize autocomplete
+      var options = {
+        autoselect: true,
+        hint: false,
+        minLength: 2,
+      };
+      window.autocomplete(searchEl, options, [{
+        source: function(query, callback) {
+          const searchOptions = {
+            isCaseSensitive: false,
+            shouldSort: true,
+            minMatchCharLength: 2,
+            limit: 10,
+          };
+          var results = fuse.search(query, searchOptions);
+          callback(results
+            .map(function(result) { return result.item; })
+            .filter(function(item) { return !!item.description; })
+          );
+        },
+        templates: {
+          suggestion: function(suggestion) {
+            var html = `
+              <div class="search-item">
+                <h3>${suggestion.title}</h3>
+                <div class="search-item-description">
+                  ${suggestion.description}
+                </div>
+                <div class="search-item-preview">
+                  <img src="${suggestion.preview ? offsetURL(suggestion.preview) : ''}"</img>
+                </div>
+              </div>
+            `;
+            return html;
+          }
+        }
+      }]).on('autocomplete:selected', function(event, suggestion) {
+        window.location.href = offsetURL(suggestion.path);
+      });
+      // remove inline display style on autocompleter (we want to
+      // manage responsive display via css)
+      $('.algolia-autocomplete').css("display", "");
+    })
+    .catch(function(error) {
+      console.log(error);
+    });
+
+});
+
+</script>
+
+<style type="text/css">
+
+/* Algolioa Autocomplete */
+
+.algolia-autocomplete {
+  display: inline-block;
+  margin-left: 10px;
+  vertical-align: sub;
+  background-color: white;
+  color: black;
+  padding: 6px;
+  padding-top: 8px;
+  padding-bottom: 0;
+  border-radius: 6px;
+  border: 1px #0F2E3D solid;
+  width: 180px;
+}
+
+
+@media screen and (max-width: 768px) {
+  .distill-site-nav .algolia-autocomplete {
+    display: none;
+    visibility: hidden;
+  }
+  .distill-site-nav.responsive .algolia-autocomplete {
+    display: inline-block;
+    visibility: visible;
+  }
+  .distill-site-nav.responsive .algolia-autocomplete .aa-dropdown-menu {
+    margin-left: 0;
+    width: 400px;
+    max-height: 400px;
+  }
+}
+
+.algolia-autocomplete .aa-input, .algolia-autocomplete .aa-hint {
+  width: 90%;
+  outline: none;
+  border: none;
+}
+
+.algolia-autocomplete .aa-hint {
+  color: #999;
+}
+.algolia-autocomplete .aa-dropdown-menu {
+  width: 550px;
+  max-height: 70vh;
+  overflow-x: visible;
+  overflow-y: scroll;
+  padding: 5px;
+  margin-top: 3px;
+  margin-left: -150px;
+  background-color: #fff;
+  border-radius: 5px;
+  border: 1px solid #999;
+  border-top: none;
+}
+
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion {
+  cursor: pointer;
+  padding: 5px 4px;
+  border-bottom: 1px solid #eee;
+}
+
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion:last-of-type {
+  border-bottom: none;
+  margin-bottom: 2px;
+}
+
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item {
+  overflow: hidden;
+  font-size: 0.8em;
+  line-height: 1.4em;
+}
+
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item h3 {
+  margin-block-start: 0;
+  margin-block-end: 5px;
+}
+
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-description {
+  display: inline-block;
+  overflow: hidden;
+  height: 2.8em;
+  width: 80%;
+  margin-right: 4%;
+}
+
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview {
+  display: inline-block;
+  width: 15%;
+}
+
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview img {
+  height: 3em;
+  width: auto;
+  display: none;
+}
+
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview img[src] {
+  display: initial;
+}
+
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion.aa-cursor {
+  background-color: #eee;
+}
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion em {
+  font-weight: bold;
+  font-style: normal;
+}
+
+</style>
+
+
+<!--/radix_placeholder_navigation_in_header-->
+  <!--radix_placeholder_distill-->
+
+<style type="text/css">
+
+body {
+  background-color: white;
+}
+
+.pandoc-table {
+  width: 100%;
+}
+
+.pandoc-table>caption {
+  margin-bottom: 10px;
+}
+
+.pandoc-table th:not([align]) {
+  text-align: left;
+}
+
+.pagedtable-footer {
+  font-size: 15px;
+}
+
+d-byline .byline {
+  grid-template-columns: 2fr 2fr;
+}
+
+d-byline .byline h3 {
+  margin-block-start: 1.5em;
+}
+
+d-byline .byline .authors-affiliations h3 {
+  margin-block-start: 0.5em;
+}
+
+.authors-affiliations .orcid-id {
+  width: 16px;
+  height:16px;
+  margin-left: 4px;
+  margin-right: 4px;
+  vertical-align: middle;
+  padding-bottom: 2px;
+}
+
+d-title .dt-tags {
+  margin-top: 1em;
+  grid-column: text;
+}
+
+.dt-tags .dt-tag {
+  text-decoration: none;
+  display: inline-block;
+  color: rgba(0,0,0,0.6);
+  padding: 0em 0.4em;
+  margin-right: 0.5em;
+  margin-bottom: 0.4em;
+  font-size: 70%;
+  border: 1px solid rgba(0,0,0,0.2);
+  border-radius: 3px;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+d-article table.gt_table td,
+d-article table.gt_table th {
+  border-bottom: none;
+}
+
+.html-widget {
+  margin-bottom: 2.0em;
+}
+
+.l-screen-inset {
+  padding-right: 16px;
+}
+
+.l-screen .caption {
+  margin-left: 10px;
+}
+
+.shaded {
+  background: rgb(247, 247, 247);
+  padding-top: 20px;
+  padding-bottom: 20px;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.shaded .html-widget {
+  margin-bottom: 0;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.shaded .shaded-content {
+  background: white;
+}
+
+.text-output {
+  margin-top: 0;
+  line-height: 1.5em;
+}
+
+.hidden {
+  display: none !important;
+}
+
+d-article {
+  padding-top: 2.5rem;
+  padding-bottom: 30px;
+}
+
+d-appendix {
+  padding-top: 30px;
+}
+
+d-article>p>img {
+  width: 100%;
+}
+
+d-article h2 {
+  margin: 1rem 0 1.5rem 0;
+}
+
+d-article h3 {
+  margin-top: 1.5rem;
+}
+
+d-article iframe {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  margin-bottom: 2.0em;
+  width: 100%;
+}
+
+/* Tweak code blocks */
+
+d-article div.sourceCode code,
+d-article pre code {
+  font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+}
+
+d-article pre,
+d-article div.sourceCode,
+d-article div.sourceCode pre {
+  overflow: auto;
+}
+
+d-article div.sourceCode {
+  background-color: white;
+}
+
+d-article div.sourceCode pre {
+  padding-left: 10px;
+  font-size: 12px;
+  border-left: 2px solid rgba(0,0,0,0.1);
+}
+
+d-article pre {
+  font-size: 12px;
+  color: black;
+  background: none;
+  margin-top: 0;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  line-height: 1.5;
+
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
+  tab-size: 4;
+
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
+}
+
+d-article pre a {
+  border-bottom: none;
+}
+
+d-article pre a:hover {
+  border-bottom: none;
+  text-decoration: underline;
+}
+
+@media(min-width: 768px) {
+
+d-article pre,
+d-article div.sourceCode,
+d-article div.sourceCode pre {
+  overflow: visible !important;
+}
+
+d-article div.sourceCode pre {
+  padding-left: 18px;
+  font-size: 14px;
+}
+
+d-article pre {
+  font-size: 14px;
+}
+
+}
+
+figure img.external {
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+  padding: 18px;
+  box-sizing: border-box;
+}
+
+/* CSS for d-contents */
+
+.d-contents {
+  grid-column: text;
+  color: rgba(0,0,0,0.8);
+  font-size: 0.9em;
+  padding-bottom: 1em;
+  margin-bottom: 1em;
+  padding-bottom: 0.5em;
+  margin-bottom: 1em;
+  padding-left: 0.25em;
+  justify-self: start;
+}
+
+@media(min-width: 1000px) {
+  .d-contents.d-contents-float {
+    height: 0;
+    grid-column-start: 1;
+    grid-column-end: 4;
+    justify-self: center;
+    padding-right: 3em;
+    padding-left: 2em;
+  }
+}
+
+.d-contents nav h3 {
+  font-size: 18px;
+  margin-top: 0;
+  margin-bottom: 1em;
+}
+
+.d-contents li {
+  list-style-type: none
+}
+
+.d-contents nav > ul {
+  padding-left: 0;
+}
+
+.d-contents ul {
+  padding-left: 1em
+}
+
+.d-contents nav ul li {
+  margin-top: 0.6em;
+  margin-bottom: 0.2em;
+}
+
+.d-contents nav a {
+  font-size: 13px;
+  border-bottom: none;
+  text-decoration: none
+  color: rgba(0, 0, 0, 0.8);
+}
+
+.d-contents nav a:hover {
+  text-decoration: underline solid rgba(0, 0, 0, 0.6)
+}
+
+.d-contents nav > ul > li > a {
+  font-weight: 600;
+}
+
+.d-contents nav > ul > li > ul {
+  font-weight: inherit;
+}
+
+.d-contents nav > ul > li > ul > li {
+  margin-top: 0.2em;
+}
+
+
+.d-contents nav ul {
+  margin-top: 0;
+  margin-bottom: 0.25em;
+}
+
+.d-article-with-toc h2:nth-child(2) {
+  margin-top: 0;
+}
+
+
+/* Figure */
+
+.figure {
+  position: relative;
+  margin-bottom: 2.5em;
+  margin-top: 1.5em;
+}
+
+.figure img {
+  width: 100%;
+}
+
+.figure .caption {
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 12px;
+  line-height: 1.5em;
+}
+
+.figure img.external {
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+  padding: 18px;
+  box-sizing: border-box;
+}
+
+.figure .caption a {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.figure .caption b,
+.figure .caption strong, {
+  font-weight: 600;
+  color: rgba(0, 0, 0, 1.0);
+}
+
+/* Citations */
+
+d-article .citation {
+  color: inherit;
+  cursor: inherit;
+}
+
+div.hanging-indent{
+  margin-left: 1em; text-indent: -1em;
+}
+
+
+/* Tweak 1000px media break to show more text */
+
+@media(min-width: 1000px) {
+  .base-grid,
+  distill-header,
+  d-title,
+  d-abstract,
+  d-article,
+  d-appendix,
+  distill-appendix,
+  d-byline,
+  d-footnote-list,
+  d-citation-list,
+  distill-footer {
+    grid-template-columns: [screen-start] 1fr [page-start kicker-start] 80px [middle-start] 50px [text-start kicker-end] 65px 65px 65px 65px 65px 65px 65px 65px [text-end gutter-start] 65px [middle-end] 65px [page-end gutter-end] 1fr [screen-end];
+    grid-column-gap: 16px;
+  }
+
+  .grid {
+    grid-column-gap: 16px;
+  }
+
+  d-article {
+    font-size: 1.06rem;
+    line-height: 1.7em;
+  }
+  figure .caption, .figure .caption, figure figcaption {
+    font-size: 13px;
+  }
+}
+
+@media(min-width: 1180px) {
+  .base-grid,
+  distill-header,
+  d-title,
+  d-abstract,
+  d-article,
+  d-appendix,
+  distill-appendix,
+  d-byline,
+  d-footnote-list,
+  d-citation-list,
+  distill-footer {
+    grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
+    grid-column-gap: 32px;
+  }
+
+  .grid {
+    grid-column-gap: 32px;
+  }
+}
+
+
+/* Get the citation styles for the appendix (not auto-injected on render since
+   we do our own rendering of the citation appendix) */
+
+d-appendix .citation-appendix,
+.d-appendix .citation-appendix {
+  font-size: 11px;
+  line-height: 15px;
+  border-left: 1px solid rgba(0, 0, 0, 0.1);
+  padding-left: 18px;
+  border: 1px solid rgba(0,0,0,0.1);
+  background: rgba(0, 0, 0, 0.02);
+  padding: 10px 18px;
+  border-radius: 3px;
+  color: rgba(150, 150, 150, 1);
+  overflow: hidden;
+  margin-top: -12px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+/* Include appendix styles here so they can be overridden */
+
+d-appendix {
+  contain: layout style;
+  font-size: 0.8em;
+  line-height: 1.7em;
+  margin-top: 60px;
+  margin-bottom: 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  color: rgba(0,0,0,0.5);
+  padding-top: 60px;
+  padding-bottom: 48px;
+}
+
+d-appendix h3 {
+  grid-column: page-start / text-start;
+  font-size: 15px;
+  font-weight: 500;
+  margin-top: 1em;
+  margin-bottom: 0;
+  color: rgba(0,0,0,0.65);
+}
+
+d-appendix h3 + * {
+  margin-top: 1em;
+}
+
+d-appendix ol {
+  padding: 0 0 0 15px;
+}
+
+@media (min-width: 768px) {
+  d-appendix ol {
+    padding: 0 0 0 30px;
+    margin-left: -30px;
+  }
+}
+
+d-appendix li {
+  margin-bottom: 1em;
+}
+
+d-appendix a {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+d-appendix > * {
+  grid-column: text;
+}
+
+d-appendix > d-footnote-list,
+d-appendix > d-citation-list,
+d-appendix > distill-appendix {
+  grid-column: screen;
+}
+
+/* Include footnote styles here so they can be overridden */
+
+d-footnote-list {
+  contain: layout style;
+}
+
+d-footnote-list > * {
+  grid-column: text;
+}
+
+d-footnote-list a.footnote-backlink {
+  color: rgba(0,0,0,0.3);
+  padding-left: 0.5em;
+}
+
+
+
+/* Anchor.js */
+
+.anchorjs-link {
+  /*transition: all .25s linear; */
+  text-decoration: none;
+  border-bottom: none;
+}
+*:hover > .anchorjs-link {
+  margin-left: -1.125em !important;
+  text-decoration: none;
+  border-bottom: none;
+}
+
+/* Social footer */
+
+.social_footer {
+  margin-top: 30px;
+  margin-bottom: 0;
+  color: rgba(0,0,0,0.67);
+}
+
+.disqus-comments {
+  margin-right: 30px;
+}
+
+.disqus-comment-count {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+}
+
+#disqus_thread {
+  margin-top: 30px;
+}
+
+.article-sharing a {
+  border-bottom: none;
+  margin-right: 8px;
+}
+
+.article-sharing a:hover {
+  border-bottom: none;
+}
+
+.sidebar-section.subscribe {
+  font-size: 12px;
+  line-height: 1.6em;
+}
+
+.subscribe p {
+  margin-bottom: 0.5em;
+}
+
+
+.article-footer .subscribe {
+  font-size: 15px;
+  margin-top: 45px;
+}
+
+
+.sidebar-section.custom {
+  font-size: 12px;
+  line-height: 1.6em;
+}
+
+.custom p {
+  margin-bottom: 0.5em;
+}
+
+/* Styles for listing layout (hide title) */
+.layout-listing d-title, .layout-listing .d-title {
+  display: none;
+}
+
+/* Styles for posts lists (not auto-injected) */
+
+
+.posts-with-sidebar {
+  padding-left: 45px;
+  padding-right: 45px;
+}
+
+.posts-list .description h2,
+.posts-list .description p {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+}
+
+.posts-list .description h2 {
+  font-weight: 700;
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.posts-list h2.post-tag {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  padding-bottom: 12px;
+}
+.posts-list {
+  margin-top: 60px;
+  margin-bottom: 24px;
+}
+
+.posts-list .post-preview {
+  text-decoration: none;
+  overflow: hidden;
+  display: block;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 24px 0;
+}
+
+.post-preview-last {
+  border-bottom: none !important;
+}
+
+.posts-list .posts-list-caption {
+  grid-column: screen;
+  font-weight: 400;
+}
+
+.posts-list .post-preview h2 {
+  margin: 0 0 6px 0;
+  line-height: 1.2em;
+  font-style: normal;
+  font-size: 24px;
+}
+
+.posts-list .post-preview p {
+  margin: 0 0 12px 0;
+  line-height: 1.4em;
+  font-size: 16px;
+}
+
+.posts-list .post-preview .thumbnail {
+  box-sizing: border-box;
+  margin-bottom: 24px;
+  position: relative;
+  max-width: 500px;
+}
+.posts-list .post-preview img {
+  width: 100%;
+  display: block;
+}
+
+.posts-list .metadata {
+  font-size: 12px;
+  line-height: 1.4em;
+  margin-bottom: 18px;
+}
+
+.posts-list .metadata > * {
+  display: inline-block;
+}
+
+.posts-list .metadata .publishedDate {
+  margin-right: 2em;
+}
+
+.posts-list .metadata .dt-authors {
+  display: block;
+  margin-top: 0.3em;
+  margin-right: 2em;
+}
+
+.posts-list .dt-tags {
+  display: block;
+  line-height: 1em;
+}
+
+.posts-list .dt-tags .dt-tag {
+  display: inline-block;
+  color: rgba(0,0,0,0.6);
+  padding: 0.3em 0.4em;
+  margin-right: 0.2em;
+  margin-bottom: 0.4em;
+  font-size: 60%;
+  border: 1px solid rgba(0,0,0,0.2);
+  border-radius: 3px;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.posts-list img {
+  opacity: 1;
+}
+
+.posts-list img[data-src] {
+  opacity: 0;
+}
+
+.posts-more {
+  clear: both;
+}
+
+
+.posts-sidebar {
+  font-size: 16px;
+}
+
+.posts-sidebar h3 {
+  font-size: 16px;
+  margin-top: 0;
+  margin-bottom: 0.5em;
+  font-weight: 400;
+  text-transform: uppercase;
+}
+
+.sidebar-section {
+  margin-bottom: 30px;
+}
+
+.categories ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.categories li {
+  color: rgba(0, 0, 0, 0.8);
+  margin-bottom: 0;
+}
+
+.categories li>a {
+  border-bottom: none;
+}
+
+.categories li>a:hover {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+}
+
+.categories .active {
+  font-weight: 600;
+}
+
+.categories .category-count {
+  color: rgba(0, 0, 0, 0.4);
+}
+
+
+@media(min-width: 768px) {
+  .posts-list .post-preview h2 {
+    font-size: 26px;
+  }
+  .posts-list .post-preview .thumbnail {
+    float: right;
+    width: 30%;
+    margin-bottom: 0;
+  }
+  .posts-list .post-preview .description {
+    float: left;
+    width: 45%;
+  }
+  .posts-list .post-preview .metadata {
+    float: left;
+    width: 20%;
+    margin-top: 8px;
+  }
+  .posts-list .post-preview p {
+    margin: 0 0 12px 0;
+    line-height: 1.5em;
+    font-size: 16px;
+  }
+  .posts-with-sidebar .posts-list {
+    float: left;
+    width: 75%;
+  }
+  .posts-with-sidebar .posts-sidebar {
+    float: right;
+    width: 20%;
+    margin-top: 60px;
+    padding-top: 24px;
+    padding-bottom: 24px;
+  }
+}
+
+
+/* Improve display for browsers without grid (IE/Edge <= 15) */
+
+.downlevel {
+  line-height: 1.6em;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+  margin: 0;
+}
+
+.downlevel .d-title {
+  padding-top: 6rem;
+  padding-bottom: 1.5rem;
+}
+
+.downlevel .d-title h1 {
+  font-size: 50px;
+  font-weight: 700;
+  line-height: 1.1em;
+  margin: 0 0 0.5rem;
+}
+
+.downlevel .d-title p {
+  font-weight: 300;
+  font-size: 1.2rem;
+  line-height: 1.55em;
+  margin-top: 0;
+}
+
+.downlevel .d-byline {
+  padding-top: 0.8em;
+  padding-bottom: 0.8em;
+  font-size: 0.8rem;
+  line-height: 1.8em;
+}
+
+.downlevel .section-separator {
+  border: none;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.downlevel .d-article {
+  font-size: 1.06rem;
+  line-height: 1.7em;
+  padding-top: 1rem;
+  padding-bottom: 2rem;
+}
+
+
+.downlevel .d-appendix {
+  padding-left: 0;
+  padding-right: 0;
+  max-width: none;
+  font-size: 0.8em;
+  line-height: 1.7em;
+  margin-bottom: 0;
+  color: rgba(0,0,0,0.5);
+  padding-top: 40px;
+  padding-bottom: 48px;
+}
+
+.downlevel .footnotes ol {
+  padding-left: 13px;
+}
+
+.downlevel .base-grid,
+.downlevel .distill-header,
+.downlevel .d-title,
+.downlevel .d-abstract,
+.downlevel .d-article,
+.downlevel .d-appendix,
+.downlevel .distill-appendix,
+.downlevel .d-byline,
+.downlevel .d-footnote-list,
+.downlevel .d-citation-list,
+.downlevel .distill-footer,
+.downlevel .appendix-bottom,
+.downlevel .posts-container {
+  padding-left: 40px;
+  padding-right: 40px;
+}
+
+@media(min-width: 768px) {
+  .downlevel .base-grid,
+  .downlevel .distill-header,
+  .downlevel .d-title,
+  .downlevel .d-abstract,
+  .downlevel .d-article,
+  .downlevel .d-appendix,
+  .downlevel .distill-appendix,
+  .downlevel .d-byline,
+  .downlevel .d-footnote-list,
+  .downlevel .d-citation-list,
+  .downlevel .distill-footer,
+  .downlevel .appendix-bottom,
+  .downlevel .posts-container {
+  padding-left: 150px;
+  padding-right: 150px;
+  max-width: 900px;
+}
+}
+
+.downlevel pre code {
+  display: block;
+  border-left: 2px solid rgba(0, 0, 0, .1);
+  padding: 0 0 0 20px;
+  font-size: 14px;
+}
+
+.downlevel code, .downlevel pre {
+  color: black;
+  background: none;
+  font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  line-height: 1.5;
+
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
+  tab-size: 4;
+
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
+}
+
+.downlevel .posts-list .post-preview {
+  color: inherit;
+}
+
+
+
+</style>
+
+<script type="application/javascript">
+
+function is_downlevel_browser() {
+  if (bowser.isUnsupportedBrowser({ msie: "12", msedge: "16"},
+                                 window.navigator.userAgent)) {
+    return true;
+  } else {
+    return window.load_distill_framework === undefined;
+  }
+}
+
+// show body when load is complete
+function on_load_complete() {
+
+  // add anchors
+  if (window.anchors) {
+    window.anchors.options.placement = 'left';
+    window.anchors.add('d-article > h2, d-article > h3, d-article > h4, d-article > h5');
+  }
+
+
+  // set body to visible
+  document.body.style.visibility = 'visible';
+
+  // force redraw for leaflet widgets
+  if (window.HTMLWidgets) {
+    var maps = window.HTMLWidgets.findAll(".leaflet");
+    $.each(maps, function(i, el) {
+      var map = this.getMap();
+      map.invalidateSize();
+      map.eachLayer(function(layer) {
+        if (layer instanceof L.TileLayer)
+          layer.redraw();
+      });
+    });
+  }
+
+  // trigger 'shown' so htmlwidgets resize
+  $('d-article').trigger('shown');
+}
+
+function init_distill() {
+
+  init_common();
+
+  // create front matter
+  var front_matter = $('<d-front-matter></d-front-matter>');
+  $('#distill-front-matter').wrap(front_matter);
+
+  // create d-title
+  $('.d-title').changeElementType('d-title');
+
+  // create d-byline
+  var byline = $('<d-byline></d-byline>');
+  $('.d-byline').replaceWith(byline);
+
+  // create d-article
+  var article = $('<d-article></d-article>');
+  $('.d-article').wrap(article).children().unwrap();
+
+  // move posts container into article
+  $('.posts-container').appendTo($('d-article'));
+
+  // create d-appendix
+  $('.d-appendix').changeElementType('d-appendix');
+
+  // flag indicating that we have appendix items
+  var appendix = $('.appendix-bottom').children('h3').length > 0;
+
+  // replace footnotes with <d-footnote>
+  $('.footnote-ref').each(function(i, val) {
+    appendix = true;
+    var href = $(this).attr('href');
+    var id = href.replace('#', '');
+    var fn = $('#' + id);
+    var fn_p = $('#' + id + '>p');
+    fn_p.find('.footnote-back').remove();
+    var text = fn_p.html();
+    var dtfn = $('<d-footnote></d-footnote>');
+    dtfn.html(text);
+    $(this).replaceWith(dtfn);
+  });
+  // remove footnotes
+  $('.footnotes').remove();
+
+  // move refs into #references-listing
+  $('#references-listing').replaceWith($('#refs'));
+
+  $('h1.appendix, h2.appendix').each(function(i, val) {
+    $(this).changeElementType('h3');
+  });
+  $('h3.appendix').each(function(i, val) {
+    var id = $(this).attr('id');
+    $('.d-contents a[href="#' + id + '"]').parent().remove();
+    appendix = true;
+    $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('d-appendix'));
+  });
+
+  // show d-appendix if we have appendix content
+  $("d-appendix").css('display', appendix ? 'grid' : 'none');
+
+  // localize layout chunks to just output
+  $('.layout-chunk').each(function(i, val) {
+
+    // capture layout
+    var layout = $(this).attr('data-layout');
+
+    // apply layout to markdown level block elements
+    var elements = $(this).children().not('div.sourceCode, pre, script');
+    elements.each(function(i, el) {
+      var layout_div = $('<div class="' + layout + '"></div>');
+      if (layout_div.hasClass('shaded')) {
+        var shaded_content = $('<div class="shaded-content"></div>');
+        $(this).wrap(shaded_content);
+        $(this).parent().wrap(layout_div);
+      } else {
+        $(this).wrap(layout_div);
+      }
+    });
+
+
+    // unwrap the layout-chunk div
+    $(this).children().unwrap();
+  });
+
+  // remove code block used to force  highlighting css
+  $('.distill-force-highlighting-css').parent().remove();
+
+  // remove empty line numbers inserted by pandoc when using a
+  // custom syntax highlighting theme
+  $('code.sourceCode a:empty').remove();
+
+  // load distill framework
+  load_distill_framework();
+
+  // wait for window.distillRunlevel == 4 to do post processing
+  function distill_post_process() {
+
+    if (!window.distillRunlevel || window.distillRunlevel < 4)
+      return;
+
+    // hide author/affiliations entirely if we have no authors
+    var front_matter = JSON.parse($("#distill-front-matter").html());
+    var have_authors = front_matter.authors && front_matter.authors.length > 0;
+    if (!have_authors)
+      $('d-byline').addClass('hidden');
+
+    // article with toc class
+    $('.d-contents').parent().addClass('d-article-with-toc');
+
+    // strip links that point to #
+    $('.authors-affiliations').find('a[href="#"]').removeAttr('href');
+
+    // add orcid ids
+    $('.authors-affiliations').find('.author').each(function(i, el) {
+      var orcid_id = front_matter.authors[i].orcidID;
+      if (orcid_id) {
+        var a = $('<a></a>');
+        a.attr('href', 'https://orcid.org/' + orcid_id);
+        var img = $('<img></img>');
+        img.addClass('orcid-id');
+        img.attr('alt', 'ORCID ID');
+        img.attr('src','data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg==');
+        a.append(img);
+        $(this).append(a);
+      }
+    });
+
+    // hide elements of author/affiliations grid that have no value
+    function hide_byline_column(caption) {
+      $('d-byline').find('h3:contains("' + caption + '")').parent().css('visibility', 'hidden');
+    }
+
+    // affiliations
+    var have_affiliations = false;
+    for (var i = 0; i<front_matter.authors.length; ++i) {
+      var author = front_matter.authors[i];
+      if (author.affiliation !== "&nbsp;") {
+        have_affiliations = true;
+        break;
+      }
+    }
+    if (!have_affiliations)
+      $('d-byline').find('h3:contains("Affiliations")').css('visibility', 'hidden');
+
+    // published date
+    if (!front_matter.publishedDate)
+      hide_byline_column("Published");
+
+    // document object identifier
+    var doi = $('d-byline').find('h3:contains("DOI")');
+    var doi_p = doi.next().empty();
+    if (!front_matter.doi) {
+      // if we have a citation and valid citationText then link to that
+      if ($('#citation').length > 0 && front_matter.citationText) {
+        doi.html('Citation');
+        $('<a href="#citation"></a>')
+          .text(front_matter.citationText)
+          .appendTo(doi_p);
+      } else {
+        hide_byline_column("DOI");
+      }
+    } else {
+      $('<a></a>')
+         .attr('href', "https://doi.org/" + front_matter.doi)
+         .html(front_matter.doi)
+         .appendTo(doi_p);
+    }
+
+     // change plural form of authors/affiliations
+    if (front_matter.authors.length === 1) {
+      var grid = $('.authors-affiliations');
+      grid.children('h3:contains("Authors")').text('Author');
+      grid.children('h3:contains("Affiliations")').text('Affiliation');
+    }
+
+    // remove d-appendix and d-footnote-list local styles
+    $('d-appendix > style:first-child').remove();
+    $('d-footnote-list > style:first-child').remove();
+
+    // move appendix-bottom entries to the bottom
+    $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
+    $('.appendix-bottom').remove();
+
+    // clear polling timer
+    clearInterval(tid);
+
+    // show body now that everything is ready
+    on_load_complete();
+  }
+
+  var tid = setInterval(distill_post_process, 50);
+  distill_post_process();
+
+}
+
+function init_downlevel() {
+
+  init_common();
+
+   // insert hr after d-title
+  $('.d-title').after($('<hr class="section-separator"/>'));
+
+  // check if we have authors
+  var front_matter = JSON.parse($("#distill-front-matter").html());
+  var have_authors = front_matter.authors && front_matter.authors.length > 0;
+
+  // manage byline/border
+  if (!have_authors)
+    $('.d-byline').remove();
+  $('.d-byline').after($('<hr class="section-separator"/>'));
+  $('.d-byline a').remove();
+
+  // remove toc
+  $('.d-contents').remove();
+
+  // move appendix elements
+  $('h1.appendix, h2.appendix').each(function(i, val) {
+    $(this).changeElementType('h3');
+  });
+  $('h3.appendix').each(function(i, val) {
+    $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('.d-appendix'));
+  });
+
+
+  // inject headers into references and footnotes
+  var refs_header = $('<h3></h3>');
+  refs_header.text('References');
+  $('#refs').prepend(refs_header);
+
+  var footnotes_header = $('<h3></h3');
+  footnotes_header.text('Footnotes');
+  $('.footnotes').children('hr').first().replaceWith(footnotes_header);
+
+  // move appendix-bottom entries to the bottom
+  $('.appendix-bottom').appendTo('.d-appendix').children().unwrap();
+  $('.appendix-bottom').remove();
+
+  // remove appendix if it's empty
+  if ($('.d-appendix').children().length === 0)
+    $('.d-appendix').remove();
+
+  // prepend separator above appendix
+  $('.d-appendix').before($('<hr class="section-separator" style="clear: both"/>'));
+
+  // trim code
+  $('pre>code').each(function(i, val) {
+    $(this).html($.trim($(this).html()));
+  });
+
+  // move posts-container right before article
+  $('.posts-container').insertBefore($('.d-article'));
+
+  $('body').addClass('downlevel');
+
+  on_load_complete();
+}
+
+
+function init_common() {
+
+  // jquery plugin to change element types
+  (function($) {
+    $.fn.changeElementType = function(newType) {
+      var attrs = {};
+
+      $.each(this[0].attributes, function(idx, attr) {
+        attrs[attr.nodeName] = attr.nodeValue;
+      });
+
+      this.replaceWith(function() {
+        return $("<" + newType + "/>", attrs).append($(this).contents());
+      });
+    };
+  })(jQuery);
+
+  // prevent underline for linked images
+  $('a > img').parent().css({'border-bottom' : 'none'});
+
+  // mark non-body figures created by knitr chunks as 100% width
+  $('.layout-chunk').each(function(i, val) {
+    var figures = $(this).find('img, .html-widget');
+    if ($(this).attr('data-layout') !== "l-body") {
+      figures.css('width', '100%');
+    } else {
+      figures.css('max-width', '100%');
+      figures.filter("[width]").each(function(i, val) {
+        var fig = $(this);
+        fig.css('width', fig.attr('width') + 'px');
+      });
+
+    }
+  });
+
+  // auto-append index.html to post-preview links in file: protocol
+  // and in rstudio ide preview
+  $('.post-preview').each(function(i, val) {
+    if (window.location.protocol === "file:")
+      $(this).attr('href', $(this).attr('href') + "index.html");
+  });
+
+  // get rid of index.html references in header
+  if (window.location.protocol !== "file:") {
+    $('.distill-site-header a[href]').each(function(i,val) {
+      $(this).attr('href', $(this).attr('href').replace("index.html", "./"));
+    });
+  }
+
+  // add class to pandoc style tables
+  $('tr.header').parent('thead').parent('table').addClass('pandoc-table');
+  $('.kable-table').children('table').addClass('pandoc-table');
+
+  // add figcaption style to table captions
+  $('caption').parent('table').addClass("figcaption");
+
+  // initialize posts list
+  if (window.init_posts_list)
+    window.init_posts_list();
+
+  // implmement disqus comment link
+  $('.disqus-comment-count').click(function() {
+    window.headroom_prevent_pin = true;
+    $('#disqus_thread').toggleClass('hidden');
+    if (!$('#disqus_thread').hasClass('hidden')) {
+      var offset = $(this).offset();
+      $(window).resize();
+      $('html, body').animate({
+        scrollTop: offset.top - 35
+      });
+    }
+  });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  if (is_downlevel_browser())
+    init_downlevel();
+  else
+    window.addEventListener('WebComponentsReady', init_distill);
+});
+
+</script>
+
+<!--/radix_placeholder_distill-->
+  <script src="../../site_libs/header-attrs-2.6/header-attrs.js"></script>
+  <script src="../../site_libs/htmlwidgets-1.5.2/htmlwidgets.js"></script>
+  <script src="../../site_libs/plotly-binding-4.9.2.1/plotly.js"></script>
+  <script src="../../site_libs/typedarray-0.1/typedarray.min.js"></script>
+  <script src="../../site_libs/jquery-1.11.3/jquery.min.js"></script>
+  <link href="../../site_libs/crosstalk-1.1.0.1/css/crosstalk.css" rel="stylesheet" />
+  <script src="../../site_libs/crosstalk-1.1.0.1/js/crosstalk.min.js"></script>
+  <link href="../../site_libs/plotly-htmlwidgets-css-1.52.2/plotly-htmlwidgets.css" rel="stylesheet" />
+  <script src="../../site_libs/plotly-main-1.52.2/plotly-latest.min.js"></script>
+  <script src="../../site_libs/anchor-4.2.2/anchor.min.js"></script>
+  <script src="../../site_libs/bowser-1.9.3/bowser.min.js"></script>
+  <script src="../../site_libs/webcomponents-2.0.0/webcomponents.js"></script>
+  <script src="../../site_libs/distill-2.2.21/template.v2.js"></script>
+  <!--radix_placeholder_site_in_header-->
+<!--/radix_placeholder_site_in_header-->
+
+
+</head>
+
+<body>
+
+<!--radix_placeholder_front_matter-->
+
+<script id="distill-front-matter" type="text/json">
+{"title":"Cost of Milk Transport","description":"A short description of the post.","authors":[{"author":"Gavin Gordon","authorURL":"https://example.com/norajones","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}],"publishedDate":"2021-01-05T00:00:00.000-04:00","citationText":"Gordon, 2021"}
+</script>
+
+<!--/radix_placeholder_front_matter-->
+<!--radix_placeholder_navigation_before_body-->
+<header class="header header--fixed" role="banner">
+<nav class="distill-site-nav distill-site-header">
+<div class="nav-left">
+<a href="../../index.html" class="title">Toolkit</a>
+<input id="distill-search" class="nav-search hidden" type="text" placeholder="Search..."/>
+</div>
+<div class="nav-right">
+<a href="../../index.html">Home</a>
+<a href="../../about.html">About</a>
+<a href="javascript:void(0);" class="nav-toggle">&#9776;</a>
+</div>
+</nav>
+</header>
+<!--/radix_placeholder_navigation_before_body-->
+<!--radix_placeholder_site_before_body-->
+<!--/radix_placeholder_site_before_body-->
+
+<div class="d-title">
+<h1>Cost of Milk Transport</h1>
+<!--radix_placeholder_categories-->
+<!--/radix_placeholder_categories-->
+<p><p>A short description of the post.</p></p>
+</div>
+
+<div class="d-byline">
+  Gavin Gordon <a href="https://example.com/norajones" class="uri">https://example.com/norajones</a> 
+  
+<br/>01-05-2021
+</div>
+
+<div class="d-article">
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<h1 id="problem-question-6.18">Problem (Question 6.18)</h1>
+<p>This problem is taken from <strong>Johnson 1992</strong>. This is survey data taken from a firm involved in milk production. Cost data on the fuel, capital and repair on a per mile basis were measured; we are to investigate to find any difference between diesel and gasoline trucks.</p>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#gpzzdskhtl .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#gpzzdskhtl .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#gpzzdskhtl .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#gpzzdskhtl .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 4px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#gpzzdskhtl .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#gpzzdskhtl .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#gpzzdskhtl .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#gpzzdskhtl .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#gpzzdskhtl .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#gpzzdskhtl .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#gpzzdskhtl .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#gpzzdskhtl .gt_group_heading {
+  padding: 8px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#gpzzdskhtl .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#gpzzdskhtl .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#gpzzdskhtl .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#gpzzdskhtl .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#gpzzdskhtl .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 12px;
+}
+
+#gpzzdskhtl .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#gpzzdskhtl .gt_first_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+}
+
+#gpzzdskhtl .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#gpzzdskhtl .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#gpzzdskhtl .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#gpzzdskhtl .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#gpzzdskhtl .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#gpzzdskhtl .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding: 4px;
+}
+
+#gpzzdskhtl .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#gpzzdskhtl .gt_sourcenote {
+  font-size: 90%;
+  padding: 4px;
+}
+
+#gpzzdskhtl .gt_left {
+  text-align: left;
+}
+
+#gpzzdskhtl .gt_center {
+  text-align: center;
+}
+
+#gpzzdskhtl .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#gpzzdskhtl .gt_font_normal {
+  font-weight: normal;
+}
+
+#gpzzdskhtl .gt_font_bold {
+  font-weight: bold;
+}
+
+#gpzzdskhtl .gt_font_italic {
+  font-style: italic;
+}
+
+#gpzzdskhtl .gt_super {
+  font-size: 65%;
+}
+
+#gpzzdskhtl .gt_footnote_marks {
+  font-style: italic;
+  font-size: 65%;
+}
+</style>
+<div id="gpzzdskhtl" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="gt_table">
+  <thead class="gt_header">
+    <tr>
+      <th colspan="3" class="gt_heading gt_title gt_font_normal" style>Summary Statistics</th>
+    </tr>
+    <tr>
+      <th colspan="3" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style>across Truck Types</th>
+    </tr>
+  </thead>
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1"><strong>Characteristic</strong></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1"><strong>Diesel</strong>, N = 23</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1"><strong>Gasoline</strong>, N = 36</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td class="gt_row gt_left">Repair</td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Mean (SD)</td>
+<td class="gt_row gt_center">10.8 (5.1)</td>
+<td class="gt_row gt_center">8.1 (4.2)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Median (25%,75%)</td>
+<td class="gt_row gt_center">11.8 (6.0,13.2)</td>
+<td class="gt_row gt_center">7.7 (5.1,11.3)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Range</td>
+<td class="gt_row gt_center">2.9, 21.5</td>
+<td class="gt_row gt_center">1.4, 17.4</td></tr>
+    <tr><td class="gt_row gt_left">Fuel</td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Mean (SD)</td>
+<td class="gt_row gt_center">10.11 (2.09)</td>
+<td class="gt_row gt_center">12.22 (4.80)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Median (25%,75%)</td>
+<td class="gt_row gt_center">9.77 (8.81,11.48)</td>
+<td class="gt_row gt_center">11.15 (9.41,13.55)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Range</td>
+<td class="gt_row gt_center">6.47, 15.90</td>
+<td class="gt_row gt_center">4.24, 29.11</td></tr>
+    <tr><td class="gt_row gt_left">Capital</td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Mean (SD)</td>
+<td class="gt_row gt_center">18.2 (6.8)</td>
+<td class="gt_row gt_center">9.6 (3.7)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Median (25%,75%)</td>
+<td class="gt_row gt_center">17.4 (14.1,21.0)</td>
+<td class="gt_row gt_center">9.6 (6.8,12.0)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Range</td>
+<td class="gt_row gt_center">6.0, 35.2</td>
+<td class="gt_row gt_center">3.3, 17.6</td></tr>
+  </tbody>
+  
+  
+</table></div>
+</div>
+<h2 id="a-visualization-of-the-problem">A Visualization of the Problem</h2>
+<h3 id="univariate-plots">Univariate Plots</h3>
+<p>The first three graphs will look at the problem from a univariate perspective. The particular graph that was chosen (beanplot) to represent the information allows for comment on the distribution features so this will be done at the same time.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-4"></span>
+<img src="cost-of-milk-transport_files/figure-html5/unnamed-chunk-4-1.png" alt="Distributions of Repair over Truck Type" width="624" />
+<p class="caption">
+Figure 1: Distributions of Repair over Truck Type
+</p>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-5"></span>
+<img src="cost-of-milk-transport_files/figure-html5/unnamed-chunk-5-1.png" alt="Distributions of Capital over Truck" width="624" />
+<p class="caption">
+Figure 2: Distributions of Capital over Truck
+</p>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-6"></span>
+<img src="cost-of-milk-transport_files/figure-html5/unnamed-chunk-6-1.png" alt="Distributions of Fuel over Truck Types" width="624" />
+<p class="caption">
+Figure 3: Distributions of Fuel over Truck Types
+</p>
+</div>
+</div>
+<h3 id="bivariate-plots">Bivariate Plots</h3>
+<p>Now we will try to see what value adding another variable can bring to the analysis.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div id="htmlwidget-e0da4e478d0ab2e24fc6" style="width:624px;height:384px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-e0da4e478d0ab2e24fc6">{"x":{"data":[{"x":[8.5,7.42,10.28,10.16,12.79,9.6,6.47,11.35,9.15,9.7,9.77,11.61,9.09,8.53,8.29,15.9,11.94,9.54,10.43,10.87,7.13,11.88,12.03],"y":[9.11,17.15,11.23,5.99,29.28,11,19,14.53,13.68,20.84,35.18,17,20.66,17.45,16.38,19.09,14.77,22.66,10.66,28.47,19.44,21.2,23.09],"text":["fuel:  8.50<br />capital:  9.11<br />truck: Diesel","fuel:  7.42<br />capital: 17.15<br />truck: Diesel","fuel: 10.28<br />capital: 11.23<br />truck: Diesel","fuel: 10.16<br />capital:  5.99<br />truck: Diesel","fuel: 12.79<br />capital: 29.28<br />truck: Diesel","fuel:  9.60<br />capital: 11.00<br />truck: Diesel","fuel:  6.47<br />capital: 19.00<br />truck: Diesel","fuel: 11.35<br />capital: 14.53<br />truck: Diesel","fuel:  9.15<br />capital: 13.68<br />truck: Diesel","fuel:  9.70<br />capital: 20.84<br />truck: Diesel","fuel:  9.77<br />capital: 35.18<br />truck: Diesel","fuel: 11.61<br />capital: 17.00<br />truck: Diesel","fuel:  9.09<br />capital: 20.66<br />truck: Diesel","fuel:  8.53<br />capital: 17.45<br />truck: Diesel","fuel:  8.29<br />capital: 16.38<br />truck: Diesel","fuel: 15.90<br />capital: 19.09<br />truck: Diesel","fuel: 11.94<br />capital: 14.77<br />truck: Diesel","fuel:  9.54<br />capital: 22.66<br />truck: Diesel","fuel: 10.43<br />capital: 10.66<br />truck: Diesel","fuel: 10.87<br />capital: 28.47<br />truck: Diesel","fuel:  7.13<br />capital: 19.44<br />truck: Diesel","fuel: 11.88<br />capital: 21.20<br />truck: Diesel","fuel: 12.03<br />capital: 23.09<br />truck: Diesel"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(248,118,109,1)","opacity":1,"size":5.66929133858268,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(248,118,109,1)"}},"hoveron":"points","name":"Diesel","legendgroup":"Diesel","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[16.44,7.19,9.92,4.24,11.2,14.25,13.5,13.32,29.11,12.68,7.51,9.9,10.25,11.11,12.17,10.24,10.18,8.88,12.34,8.51,26.16,12.95,16.93,14.7,10.32,8.98,9.7,12.72,9.49,8.22,13.7,8.21,15.86,9.18,12.49,17.32],"y":[11.23,3.92,9.75,7.78,10.67,9.88,10.6,9.45,3.28,10.23,8.13,9.13,10.17,7.61,14.39,6.09,12.14,12.23,11.68,12.01,16.89,7.18,17.59,14.58,17,4.26,6.83,5.59,6.23,6.72,4.91,8.17,13.06,9.49,11.94,4.44],"text":["fuel: 16.44<br />capital: 11.23<br />truck: Gasoline","fuel:  7.19<br />capital:  3.92<br />truck: Gasoline","fuel:  9.92<br />capital:  9.75<br />truck: Gasoline","fuel:  4.24<br />capital:  7.78<br />truck: Gasoline","fuel: 11.20<br />capital: 10.67<br />truck: Gasoline","fuel: 14.25<br />capital:  9.88<br />truck: Gasoline","fuel: 13.50<br />capital: 10.60<br />truck: Gasoline","fuel: 13.32<br />capital:  9.45<br />truck: Gasoline","fuel: 29.11<br />capital:  3.28<br />truck: Gasoline","fuel: 12.68<br />capital: 10.23<br />truck: Gasoline","fuel:  7.51<br />capital:  8.13<br />truck: Gasoline","fuel:  9.90<br />capital:  9.13<br />truck: Gasoline","fuel: 10.25<br />capital: 10.17<br />truck: Gasoline","fuel: 11.11<br />capital:  7.61<br />truck: Gasoline","fuel: 12.17<br />capital: 14.39<br />truck: Gasoline","fuel: 10.24<br />capital:  6.09<br />truck: Gasoline","fuel: 10.18<br />capital: 12.14<br />truck: Gasoline","fuel:  8.88<br />capital: 12.23<br />truck: Gasoline","fuel: 12.34<br />capital: 11.68<br />truck: Gasoline","fuel:  8.51<br />capital: 12.01<br />truck: Gasoline","fuel: 26.16<br />capital: 16.89<br />truck: Gasoline","fuel: 12.95<br />capital:  7.18<br />truck: Gasoline","fuel: 16.93<br />capital: 17.59<br />truck: Gasoline","fuel: 14.70<br />capital: 14.58<br />truck: Gasoline","fuel: 10.32<br />capital: 17.00<br />truck: Gasoline","fuel:  8.98<br />capital:  4.26<br />truck: Gasoline","fuel:  9.70<br />capital:  6.83<br />truck: Gasoline","fuel: 12.72<br />capital:  5.59<br />truck: Gasoline","fuel:  9.49<br />capital:  6.23<br />truck: Gasoline","fuel:  8.22<br />capital:  6.72<br />truck: Gasoline","fuel: 13.70<br />capital:  4.91<br />truck: Gasoline","fuel:  8.21<br />capital:  8.17<br />truck: Gasoline","fuel: 15.86<br />capital: 13.06<br />truck: Gasoline","fuel:  9.18<br />capital:  9.49<br />truck: Gasoline","fuel: 12.49<br />capital: 11.94<br />truck: Gasoline","fuel: 17.32<br />capital:  4.44<br />truck: Gasoline"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(0,191,196,1)","opacity":1,"size":5.66929133858268,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(0,191,196,1)"}},"hoveron":"points","name":"Gasoline","legendgroup":"Gasoline","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[14.6018497351797,14.5665725007177,14.4612755642464,14.2875551199891,14.0480445927997,13.7463747181269,13.3871185037654,12.9757219077192,12.5184212830299,12.0221488410211,11.4944275660415,10.9432571746902,10.3769928482679,9.80421857674529,9.23361703422455,8.67383795845116,8.13336702960647,7.62039723604603,7.14270467694761,6.70753068457416,6.3214720530581,5.99038103772674,5.71927664087689,5.51226852881619,5.37249473351103,5.30207408322068,5.30207408322068,5.37249473351103,5.51226852881619,5.71927664087689,5.99038103772674,6.3214720530581,6.70753068457415,7.14270467694761,7.62039723604604,8.13336702960647,8.67383795845116,9.23361703422455,9.80421857674529,10.3769928482679,10.9432571746902,11.4944275660415,12.0221488410211,12.5184212830299,12.9757219077192,13.3871185037654,13.7463747181269,14.0480445927997,14.2875551199891,14.4612755642464,14.5665725007177,14.6018497351797],"y":[20.0476528277458,21.9134949218518,23.7133859992016,25.4200415457706,27.0075904031416,28.4519669488952,29.7312759069141,30.8261242574505,31.7199152155371,32.3990998213298,32.8533823285274,33.0758762773908,33.0632088864532,32.8155721804487,32.3367200794133,31.6339114930839,30.7178002832256,29.6022737619474,28.3042421742068,26.8433823557334,25.2418394522569,23.5238912216708,21.715580007971,19.8443179658661,17.938471520455,16.0269313611372,14.1386744882112,12.3023249510876,10.5457199368773,8.89548778701145,7.37664433872783,6.01221371047868,4.82287927976427,3.82667014421347,3.03868781884155,2.47087731247619,2.13184605359974,2.02673341050732,2.15713278372229,2.52106745166851,3.11302053575449,3.92401863062923,4.94176783186038,6.15084009899367,7.53290712891976,9.06701819426656,10.7299177350701,12.4963978893583,14.3396806186427,16.2318236356866,18.1441439810957,20.0476528277458],"text":["fuel: 14.601850<br />capital: 20.047653<br />truck: Diesel","fuel: 14.566573<br />capital: 21.913495<br />truck: Diesel","fuel: 14.461276<br />capital: 23.713386<br />truck: Diesel","fuel: 14.287555<br />capital: 25.420042<br />truck: Diesel","fuel: 14.048045<br />capital: 27.007590<br />truck: Diesel","fuel: 13.746375<br />capital: 28.451967<br />truck: Diesel","fuel: 13.387119<br />capital: 29.731276<br />truck: Diesel","fuel: 12.975722<br />capital: 30.826124<br />truck: Diesel","fuel: 12.518421<br />capital: 31.719915<br />truck: Diesel","fuel: 12.022149<br />capital: 32.399100<br />truck: Diesel","fuel: 11.494428<br />capital: 32.853382<br />truck: Diesel","fuel: 10.943257<br />capital: 33.075876<br />truck: Diesel","fuel: 10.376993<br />capital: 33.063209<br />truck: Diesel","fuel:  9.804219<br />capital: 32.815572<br />truck: Diesel","fuel:  9.233617<br />capital: 32.336720<br />truck: Diesel","fuel:  8.673838<br />capital: 31.633911<br />truck: Diesel","fuel:  8.133367<br />capital: 30.717800<br />truck: Diesel","fuel:  7.620397<br />capital: 29.602274<br />truck: Diesel","fuel:  7.142705<br />capital: 28.304242<br />truck: Diesel","fuel:  6.707531<br />capital: 26.843382<br />truck: Diesel","fuel:  6.321472<br />capital: 25.241839<br />truck: Diesel","fuel:  5.990381<br />capital: 23.523891<br />truck: Diesel","fuel:  5.719277<br />capital: 21.715580<br />truck: Diesel","fuel:  5.512269<br />capital: 19.844318<br />truck: Diesel","fuel:  5.372495<br />capital: 17.938472<br />truck: Diesel","fuel:  5.302074<br />capital: 16.026931<br />truck: Diesel","fuel:  5.302074<br />capital: 14.138674<br />truck: Diesel","fuel:  5.372495<br />capital: 12.302325<br />truck: Diesel","fuel:  5.512269<br />capital: 10.545720<br />truck: Diesel","fuel:  5.719277<br />capital:  8.895488<br />truck: Diesel","fuel:  5.990381<br />capital:  7.376644<br />truck: Diesel","fuel:  6.321472<br />capital:  6.012214<br />truck: Diesel","fuel:  6.707531<br />capital:  4.822879<br />truck: Diesel","fuel:  7.142705<br />capital:  3.826670<br />truck: Diesel","fuel:  7.620397<br />capital:  3.038688<br />truck: Diesel","fuel:  8.133367<br />capital:  2.470877<br />truck: Diesel","fuel:  8.673838<br />capital:  2.131846<br />truck: Diesel","fuel:  9.233617<br />capital:  2.026733<br />truck: Diesel","fuel:  9.804219<br />capital:  2.157133<br />truck: Diesel","fuel: 10.376993<br />capital:  2.521067<br />truck: Diesel","fuel: 10.943257<br />capital:  3.113021<br />truck: Diesel","fuel: 11.494428<br />capital:  3.924019<br />truck: Diesel","fuel: 12.022149<br />capital:  4.941768<br />truck: Diesel","fuel: 12.518421<br />capital:  6.150840<br />truck: Diesel","fuel: 12.975722<br />capital:  7.532907<br />truck: Diesel","fuel: 13.387119<br />capital:  9.067018<br />truck: Diesel","fuel: 13.746375<br />capital: 10.729918<br />truck: Diesel","fuel: 14.048045<br />capital: 12.496398<br />truck: Diesel","fuel: 14.287555<br />capital: 14.339681<br />truck: Diesel","fuel: 14.461276<br />capital: 16.231824<br />truck: Diesel","fuel: 14.566573<br />capital: 18.144144<br />truck: Diesel","fuel: 14.601850<br />capital: 20.047653<br />truck: Diesel"],"type":"scatter","mode":"lines","line":{"width":1.88976377952756,"color":"rgba(248,118,109,1)","dash":"solid"},"hoveron":"points","name":"Diesel","legendgroup":"Diesel","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[19.2385569843578,19.178761837645,19.0002828309791,18.7058255241697,18.2998535898347,17.7885211486736,17.1795794792708,16.4822595166136,15.7071319205269,14.8659468352459,13.9714557692067,13.0372182951762,12.0773965009517,11.1065403065451,10.1393669022273,9.19053765092546,8.27443583690602,7.40494862984676,6.59525656950025,5.8576337621467,5.20326181765429,4.64206034767151,4.18253659442601,3.83165646960428,3.5947389582311,3.47537548827848,3.47537548827848,3.5947389582311,3.83165646960427,4.18253659442601,4.64206034767151,5.20326181765429,5.85763376214669,6.59525656950025,7.40494862984677,8.27443583690602,9.19053765092546,10.1393669022273,11.1065403065451,12.0773965009517,13.0372182951762,13.9714557692067,14.8659468352459,15.7071319205269,16.4822595166135,17.1795794792708,17.7885211486736,18.2998535898347,18.7058255241697,19.0002828309791,19.178761837645,19.2385569843578],"y":[12.0305455215153,12.9157009635925,13.7494003178172,14.519005551806,15.2128502347037,15.8204163883842,16.3324939292763,16.7413202838432,17.0406980612845,17.2260889996629,17.2946827613297,17.2454395347788,17.0791057971289,16.7982029982914,16.4069893383601,15.9113952176385,15.3189333378157,14.6385848170676,13.8806630454596,13.0566573444663,12.1790588005696,11.2611709131204,10.3169079268489,9.36058390609834,8.40669574820027,7.46970342528837,6.5638107858606,5.70275023891459,4.89957458462524,4.16645914719939,3.5145172093717,2.95363154636661,2.49230461309991,2.13752965562915,1.89468470067191,1.76745103020282,1.75775737697133,1.86575068687927,2.08979389143074,2.42649072402181,2.87073720388026,3.41579900721137,4.05341355268203,4.77391525373139,5.56638203901054,6.41880091985081,7.31825009492662,8.25109483159183,9.20319415452815,10.1601152085165,11.10735204581,12.0305455215153],"text":["fuel: 19.238557<br />capital: 12.030546<br />truck: Gasoline","fuel: 19.178762<br />capital: 12.915701<br />truck: Gasoline","fuel: 19.000283<br />capital: 13.749400<br />truck: Gasoline","fuel: 18.705826<br />capital: 14.519006<br />truck: Gasoline","fuel: 18.299854<br />capital: 15.212850<br />truck: Gasoline","fuel: 17.788521<br />capital: 15.820416<br />truck: Gasoline","fuel: 17.179579<br />capital: 16.332494<br />truck: Gasoline","fuel: 16.482260<br />capital: 16.741320<br />truck: Gasoline","fuel: 15.707132<br />capital: 17.040698<br />truck: Gasoline","fuel: 14.865947<br />capital: 17.226089<br />truck: Gasoline","fuel: 13.971456<br />capital: 17.294683<br />truck: Gasoline","fuel: 13.037218<br />capital: 17.245440<br />truck: Gasoline","fuel: 12.077397<br />capital: 17.079106<br />truck: Gasoline","fuel: 11.106540<br />capital: 16.798203<br />truck: Gasoline","fuel: 10.139367<br />capital: 16.406989<br />truck: Gasoline","fuel:  9.190538<br />capital: 15.911395<br />truck: Gasoline","fuel:  8.274436<br />capital: 15.318933<br />truck: Gasoline","fuel:  7.404949<br />capital: 14.638585<br />truck: Gasoline","fuel:  6.595257<br />capital: 13.880663<br />truck: Gasoline","fuel:  5.857634<br />capital: 13.056657<br />truck: Gasoline","fuel:  5.203262<br />capital: 12.179059<br />truck: Gasoline","fuel:  4.642060<br />capital: 11.261171<br />truck: Gasoline","fuel:  4.182537<br />capital: 10.316908<br />truck: Gasoline","fuel:  3.831656<br />capital:  9.360584<br />truck: Gasoline","fuel:  3.594739<br />capital:  8.406696<br />truck: Gasoline","fuel:  3.475375<br />capital:  7.469703<br />truck: Gasoline","fuel:  3.475375<br />capital:  6.563811<br />truck: Gasoline","fuel:  3.594739<br />capital:  5.702750<br />truck: Gasoline","fuel:  3.831656<br />capital:  4.899575<br />truck: Gasoline","fuel:  4.182537<br />capital:  4.166459<br />truck: Gasoline","fuel:  4.642060<br />capital:  3.514517<br />truck: Gasoline","fuel:  5.203262<br />capital:  2.953632<br />truck: Gasoline","fuel:  5.857634<br />capital:  2.492305<br />truck: Gasoline","fuel:  6.595257<br />capital:  2.137530<br />truck: Gasoline","fuel:  7.404949<br />capital:  1.894685<br />truck: Gasoline","fuel:  8.274436<br />capital:  1.767451<br />truck: Gasoline","fuel:  9.190538<br />capital:  1.757757<br />truck: Gasoline","fuel: 10.139367<br />capital:  1.865751<br />truck: Gasoline","fuel: 11.106540<br />capital:  2.089794<br />truck: Gasoline","fuel: 12.077397<br />capital:  2.426491<br />truck: Gasoline","fuel: 13.037218<br />capital:  2.870737<br />truck: Gasoline","fuel: 13.971456<br />capital:  3.415799<br />truck: Gasoline","fuel: 14.865947<br />capital:  4.053414<br />truck: Gasoline","fuel: 15.707132<br />capital:  4.773915<br />truck: Gasoline","fuel: 16.482260<br />capital:  5.566382<br />truck: Gasoline","fuel: 17.179579<br />capital:  6.418801<br />truck: Gasoline","fuel: 17.788521<br />capital:  7.318250<br />truck: Gasoline","fuel: 18.299854<br />capital:  8.251095<br />truck: Gasoline","fuel: 18.705826<br />capital:  9.203194<br />truck: Gasoline","fuel: 19.000283<br />capital: 10.160115<br />truck: Gasoline","fuel: 19.178762<br />capital: 11.107352<br />truck: Gasoline","fuel: 19.238557<br />capital: 12.030546<br />truck: Gasoline"],"type":"scatter","mode":"lines","line":{"width":1.88976377952756,"color":"rgba(0,191,196,1)","dash":"solid"},"hoveron":"points","name":"Gasoline","legendgroup":"Gasoline","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":45.4063926940639,"r":7.30593607305936,"b":41.8264840182648,"l":37.2602739726027},"plot_bgcolor":"rgba(255,255,255,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"title":{"text":"Fuel vs Capital Costs","font":{"color":"rgba(0,0,0,1)","family":"","size":17.5342465753425},"x":0.5,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[2.1936442626924,30.3917312255861],"tickmode":"array","ticktext":["10","20","30"],"tickvals":[10,20,30],"categoryorder":"array","categoryarray":["10","20","30"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"y","title":{"text":"Fuel","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.0866452458198996,36.8511121311514],"tickmode":"array","ticktext":["10","20","30"],"tickvals":[10,20,30],"categoryorder":"array","categoryarray":["10","20","30"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"x","title":{"text":"Capital","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":"transparent","line":{"color":"rgba(51,51,51,1)","width":0.66417600664176,"linetype":"solid"},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.88976377952756,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895},"y":0.959399606299213},"annotations":[{"text":"Truck Type","x":1.02,"y":1,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"xref":"paper","yref":"paper","textangle":-0,"xanchor":"left","yanchor":"bottom","legendTitle":true}],"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","showSendToCloud":false},"source":"A","attrs":{"29f0720836f8":{"x":{},"y":{},"colour":{},"type":"scatter"},"29f0d485602":{"x":{},"y":{},"colour":{}}},"cur_data":"29f0720836f8","visdat":{"29f0720836f8":["function (y) ","x"],"29f0d485602":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div id="htmlwidget-817f428b56ed4ce0bccc" style="width:624px;height:384px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-817f428b56ed4ce0bccc">{"x":{"data":[{"x":[8.5,7.42,10.28,10.16,12.79,9.6,6.47,11.35,9.15,9.7,9.77,11.61,9.09,8.53,8.29,15.9,11.94,9.54,10.43,10.87,7.13,11.88,12.03],"y":[12.26,5.13,3.32,14.72,4.17,12.72,8.89,9.95,2.94,5.06,17.86,11.75,13.25,10.14,6.22,12.9,5.69,16.77,17.65,21.52,13.22,12.18,9.22],"text":["fuel:  8.50<br />repair: 12.26<br />truck: Diesel","fuel:  7.42<br />repair:  5.13<br />truck: Diesel","fuel: 10.28<br />repair:  3.32<br />truck: Diesel","fuel: 10.16<br />repair: 14.72<br />truck: Diesel","fuel: 12.79<br />repair:  4.17<br />truck: Diesel","fuel:  9.60<br />repair: 12.72<br />truck: Diesel","fuel:  6.47<br />repair:  8.89<br />truck: Diesel","fuel: 11.35<br />repair:  9.95<br />truck: Diesel","fuel:  9.15<br />repair:  2.94<br />truck: Diesel","fuel:  9.70<br />repair:  5.06<br />truck: Diesel","fuel:  9.77<br />repair: 17.86<br />truck: Diesel","fuel: 11.61<br />repair: 11.75<br />truck: Diesel","fuel:  9.09<br />repair: 13.25<br />truck: Diesel","fuel:  8.53<br />repair: 10.14<br />truck: Diesel","fuel:  8.29<br />repair:  6.22<br />truck: Diesel","fuel: 15.90<br />repair: 12.90<br />truck: Diesel","fuel: 11.94<br />repair:  5.69<br />truck: Diesel","fuel:  9.54<br />repair: 16.77<br />truck: Diesel","fuel: 10.43<br />repair: 17.65<br />truck: Diesel","fuel: 10.87<br />repair: 21.52<br />truck: Diesel","fuel:  7.13<br />repair: 13.22<br />truck: Diesel","fuel: 11.88<br />repair: 12.18<br />truck: Diesel","fuel: 12.03<br />repair:  9.22<br />truck: Diesel"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(248,118,109,1)","opacity":1,"size":5.66929133858268,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(248,118,109,1)"}},"hoveron":"points","name":"Diesel","legendgroup":"Diesel","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[16.44,7.19,9.92,4.24,11.2,14.25,13.5,13.32,29.11,12.68,7.51,9.9,10.25,11.11,12.17,10.24,10.18,8.88,12.34,8.51,26.16,12.95,16.93,14.7,10.32,8.98,9.7,12.72,9.49,8.22,13.7,8.21,15.86,9.18,12.49,17.32],"y":[12.43,2.7,1.35,5.78,5.05,5.78,10.98,14.27,15.09,7.61,5.8,3.63,5.07,6.15,14.26,2.59,6.05,2.7,7.73,14.02,17.44,8.24,13.37,10.78,5.16,4.49,11.59,8.63,2.16,7.95,11.22,9.85,11.42,9.18,4.67,6.86],"text":["fuel: 16.44<br />repair: 12.43<br />truck: Gasoline","fuel:  7.19<br />repair:  2.70<br />truck: Gasoline","fuel:  9.92<br />repair:  1.35<br />truck: Gasoline","fuel:  4.24<br />repair:  5.78<br />truck: Gasoline","fuel: 11.20<br />repair:  5.05<br />truck: Gasoline","fuel: 14.25<br />repair:  5.78<br />truck: Gasoline","fuel: 13.50<br />repair: 10.98<br />truck: Gasoline","fuel: 13.32<br />repair: 14.27<br />truck: Gasoline","fuel: 29.11<br />repair: 15.09<br />truck: Gasoline","fuel: 12.68<br />repair:  7.61<br />truck: Gasoline","fuel:  7.51<br />repair:  5.80<br />truck: Gasoline","fuel:  9.90<br />repair:  3.63<br />truck: Gasoline","fuel: 10.25<br />repair:  5.07<br />truck: Gasoline","fuel: 11.11<br />repair:  6.15<br />truck: Gasoline","fuel: 12.17<br />repair: 14.26<br />truck: Gasoline","fuel: 10.24<br />repair:  2.59<br />truck: Gasoline","fuel: 10.18<br />repair:  6.05<br />truck: Gasoline","fuel:  8.88<br />repair:  2.70<br />truck: Gasoline","fuel: 12.34<br />repair:  7.73<br />truck: Gasoline","fuel:  8.51<br />repair: 14.02<br />truck: Gasoline","fuel: 26.16<br />repair: 17.44<br />truck: Gasoline","fuel: 12.95<br />repair:  8.24<br />truck: Gasoline","fuel: 16.93<br />repair: 13.37<br />truck: Gasoline","fuel: 14.70<br />repair: 10.78<br />truck: Gasoline","fuel: 10.32<br />repair:  5.16<br />truck: Gasoline","fuel:  8.98<br />repair:  4.49<br />truck: Gasoline","fuel:  9.70<br />repair: 11.59<br />truck: Gasoline","fuel: 12.72<br />repair:  8.63<br />truck: Gasoline","fuel:  9.49<br />repair:  2.16<br />truck: Gasoline","fuel:  8.22<br />repair:  7.95<br />truck: Gasoline","fuel: 13.70<br />repair: 11.22<br />truck: Gasoline","fuel:  8.21<br />repair:  9.85<br />truck: Gasoline","fuel: 15.86<br />repair: 11.42<br />truck: Gasoline","fuel:  9.18<br />repair:  9.18<br />truck: Gasoline","fuel: 12.49<br />repair:  4.67<br />truck: Gasoline","fuel: 17.32<br />repair:  6.86<br />truck: Gasoline"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(0,191,196,1)","opacity":1,"size":5.66929133858268,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(0,191,196,1)"}},"hoveron":"points","name":"Gasoline","legendgroup":"Gasoline","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[14.6054489412976,14.5703617271232,14.4656319710008,14.2928472692776,14.0546268619047,13.7545819274295,13.3972608412094,12.9880802266787,12.5332428448579,12.0396435668195,11.5147648544714,10.9665633340607,10.4033491818312,9.83366015022155,9.2661321442421,8.70936830995725,8.17180861956097,7.66160193000147,7.18648245461642,6.75365252034254,6.36967338778087,6.04036578917428,5.77072169203995,5.56482862603039,5.42580772015046,5.3557663896232,5.3557663896232,5.42580772015046,5.56482862603039,5.77072169203995,6.04036578917428,6.36967338778087,6.75365252034254,7.18648245461642,7.66160193000147,8.17180861956097,8.70936830995725,9.2661321442421,9.83366015022155,10.4033491818312,10.9665633340607,11.5147648544714,12.0396435668195,12.5332428448579,12.9880802266787,13.3972608412094,13.7545819274295,14.0546268619047,14.2928472692776,14.4656319710008,14.5703617271232,14.6054489412976],"y":[11.3677017218467,12.8723906656996,14.3464232270023,15.7674545746714,17.113943321996,18.3654780721016,19.5030868339209,20.5095246182392,21.3695348541524,22.0700806631304,22.600542484806,22.9528790586856,23.1217493214614,23.1045933720866,22.9016712772658,22.5160591291091,21.9536024147113,21.2228274045258,20.3348119027959,19.3030173193348,18.1430846082742,16.8725971671435,15.5108142904867,14.0783792185888,12.597006206996,11.0891513605353,9.5776722216567,8.08548127338848,6.63519860945071,5.24880903669193,3.94732880782747,2.750487036471,1.67642662388297,0.741429231081311,-0.0403315345429593,-0.657004976666029,-1.0992429545076,-1.36034159111617,-1.43634289731005,-1.32609477075881,-1.0312684606802,-0.55633323340564,0.0915113771417211,0.902444707042404,1.86417383363504,2.96211992369318,4.17963923367615,5.49827541191547,6.89803927809273,8.35771183883739,9.85516594603687,11.3677017218467],"text":["fuel: 14.605449<br />repair: 11.36770172<br />truck: Diesel","fuel: 14.570362<br />repair: 12.87239067<br />truck: Diesel","fuel: 14.465632<br />repair: 14.34642323<br />truck: Diesel","fuel: 14.292847<br />repair: 15.76745457<br />truck: Diesel","fuel: 14.054627<br />repair: 17.11394332<br />truck: Diesel","fuel: 13.754582<br />repair: 18.36547807<br />truck: Diesel","fuel: 13.397261<br />repair: 19.50308683<br />truck: Diesel","fuel: 12.988080<br />repair: 20.50952462<br />truck: Diesel","fuel: 12.533243<br />repair: 21.36953485<br />truck: Diesel","fuel: 12.039644<br />repair: 22.07008066<br />truck: Diesel","fuel: 11.514765<br />repair: 22.60054248<br />truck: Diesel","fuel: 10.966563<br />repair: 22.95287906<br />truck: Diesel","fuel: 10.403349<br />repair: 23.12174932<br />truck: Diesel","fuel:  9.833660<br />repair: 23.10459337<br />truck: Diesel","fuel:  9.266132<br />repair: 22.90167128<br />truck: Diesel","fuel:  8.709368<br />repair: 22.51605913<br />truck: Diesel","fuel:  8.171809<br />repair: 21.95360241<br />truck: Diesel","fuel:  7.661602<br />repair: 21.22282740<br />truck: Diesel","fuel:  7.186482<br />repair: 20.33481190<br />truck: Diesel","fuel:  6.753653<br />repair: 19.30301732<br />truck: Diesel","fuel:  6.369673<br />repair: 18.14308461<br />truck: Diesel","fuel:  6.040366<br />repair: 16.87259717<br />truck: Diesel","fuel:  5.770722<br />repair: 15.51081429<br />truck: Diesel","fuel:  5.564829<br />repair: 14.07837922<br />truck: Diesel","fuel:  5.425808<br />repair: 12.59700621<br />truck: Diesel","fuel:  5.355766<br />repair: 11.08915136<br />truck: Diesel","fuel:  5.355766<br />repair:  9.57767222<br />truck: Diesel","fuel:  5.425808<br />repair:  8.08548127<br />truck: Diesel","fuel:  5.564829<br />repair:  6.63519861<br />truck: Diesel","fuel:  5.770722<br />repair:  5.24880904<br />truck: Diesel","fuel:  6.040366<br />repair:  3.94732881<br />truck: Diesel","fuel:  6.369673<br />repair:  2.75048704<br />truck: Diesel","fuel:  6.753653<br />repair:  1.67642662<br />truck: Diesel","fuel:  7.186482<br />repair:  0.74142923<br />truck: Diesel","fuel:  7.661602<br />repair: -0.04033153<br />truck: Diesel","fuel:  8.171809<br />repair: -0.65700498<br />truck: Diesel","fuel:  8.709368<br />repair: -1.09924295<br />truck: Diesel","fuel:  9.266132<br />repair: -1.36034159<br />truck: Diesel","fuel:  9.833660<br />repair: -1.43634290<br />truck: Diesel","fuel: 10.403349<br />repair: -1.32609477<br />truck: Diesel","fuel: 10.966563<br />repair: -1.03126846<br />truck: Diesel","fuel: 11.514765<br />repair: -0.55633323<br />truck: Diesel","fuel: 12.039644<br />repair:  0.09151138<br />truck: Diesel","fuel: 12.533243<br />repair:  0.90244471<br />truck: Diesel","fuel: 12.988080<br />repair:  1.86417383<br />truck: Diesel","fuel: 13.397261<br />repair:  2.96211992<br />truck: Diesel","fuel: 13.754582<br />repair:  4.17963923<br />truck: Diesel","fuel: 14.054627<br />repair:  5.49827541<br />truck: Diesel","fuel: 14.292847<br />repair:  6.89803928<br />truck: Diesel","fuel: 14.465632<br />repair:  8.35771184<br />truck: Diesel","fuel: 14.570362<br />repair:  9.85516595<br />truck: Diesel","fuel: 14.605449<br />repair: 11.36770172<br />truck: Diesel"],"type":"scatter","mode":"lines","line":{"width":1.88976377952756,"color":"rgba(248,118,109,1)","dash":"solid"},"hoveron":"points","name":"Diesel","legendgroup":"Diesel","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[19.9918346333618,19.9282676173166,19.7385301803477,19.4254985485918,18.9939179624994,18.4503307438268,17.8029771207066,17.0616703141894,16.2376477798155,15.3434008592436,14.3924854242446,13.3993163835031,12.378949167296,11.3468515025161,10.3186689376988,9.30998767245527,8.33609828657351,7.41176395041529,6.55099663030226,5.76684468138941,5.07119504790179,4.47459306917688,3.98608262306958,3.61306902998275,3.36120679575846,3.23431389513333,3.23431389513333,3.36120679575846,3.61306902998275,3.98608262306958,4.47459306917688,5.07119504790179,5.76684468138941,6.55099663030226,7.4117639504153,8.33609828657351,9.30998767245527,10.3186689376988,11.3468515025161,12.378949167296,13.3993163835031,14.3924854242446,15.3434008592436,16.2376477798155,17.0616703141894,17.8029771207066,18.4503307438268,18.9939179624994,19.4254985485918,19.7385301803477,19.9282676173166,19.9918346333618],"y":[12.7750530251807,13.6577676644567,14.4471322723208,15.1311808859517,15.6995440256477,16.1436058855682,16.4566349405688,16.6338859892598,16.6726720864228,16.5724052743613,16.3346054957397,15.9628775528022,15.4628564622451,14.8421220341078,14.1100839695791,13.2778392195186,12.3580037659938,11.3645213768514,10.3124522324106,9.21774462848098,8.09699321645455,6.96718744530656,5.84545401886704,4.74879727244871,3.69384140445694,2.69657847048769,1.77212596006607,0.934497630915078,0.196391074673326,-0.431004765650948,-0.938179208650531,-1.31744400675472,-1.56304989222548,-1.67127373019596,-1.64047495759981,-1.47112045243505,-1.16577745636951,-0.729074657974031,-0.167632026521962,0.510039539996987,1.29366723141475,2.17137205071552,3.12984888752172,4.15456821000485,5.22999631777744,6.33983081695672,7.46724774783809,8.59515661897497,9.70645948160789,10.7843101171391,11.8123694086344,12.7750530251807],"text":["fuel: 19.991835<br />repair: 12.77505303<br />truck: Gasoline","fuel: 19.928268<br />repair: 13.65776766<br />truck: Gasoline","fuel: 19.738530<br />repair: 14.44713227<br />truck: Gasoline","fuel: 19.425499<br />repair: 15.13118089<br />truck: Gasoline","fuel: 18.993918<br />repair: 15.69954403<br />truck: Gasoline","fuel: 18.450331<br />repair: 16.14360589<br />truck: Gasoline","fuel: 17.802977<br />repair: 16.45663494<br />truck: Gasoline","fuel: 17.061670<br />repair: 16.63388599<br />truck: Gasoline","fuel: 16.237648<br />repair: 16.67267209<br />truck: Gasoline","fuel: 15.343401<br />repair: 16.57240527<br />truck: Gasoline","fuel: 14.392485<br />repair: 16.33460550<br />truck: Gasoline","fuel: 13.399316<br />repair: 15.96287755<br />truck: Gasoline","fuel: 12.378949<br />repair: 15.46285646<br />truck: Gasoline","fuel: 11.346852<br />repair: 14.84212203<br />truck: Gasoline","fuel: 10.318669<br />repair: 14.11008397<br />truck: Gasoline","fuel:  9.309988<br />repair: 13.27783922<br />truck: Gasoline","fuel:  8.336098<br />repair: 12.35800377<br />truck: Gasoline","fuel:  7.411764<br />repair: 11.36452138<br />truck: Gasoline","fuel:  6.550997<br />repair: 10.31245223<br />truck: Gasoline","fuel:  5.766845<br />repair:  9.21774463<br />truck: Gasoline","fuel:  5.071195<br />repair:  8.09699322<br />truck: Gasoline","fuel:  4.474593<br />repair:  6.96718745<br />truck: Gasoline","fuel:  3.986083<br />repair:  5.84545402<br />truck: Gasoline","fuel:  3.613069<br />repair:  4.74879727<br />truck: Gasoline","fuel:  3.361207<br />repair:  3.69384140<br />truck: Gasoline","fuel:  3.234314<br />repair:  2.69657847<br />truck: Gasoline","fuel:  3.234314<br />repair:  1.77212596<br />truck: Gasoline","fuel:  3.361207<br />repair:  0.93449763<br />truck: Gasoline","fuel:  3.613069<br />repair:  0.19639107<br />truck: Gasoline","fuel:  3.986083<br />repair: -0.43100477<br />truck: Gasoline","fuel:  4.474593<br />repair: -0.93817921<br />truck: Gasoline","fuel:  5.071195<br />repair: -1.31744401<br />truck: Gasoline","fuel:  5.766845<br />repair: -1.56304989<br />truck: Gasoline","fuel:  6.550997<br />repair: -1.67127373<br />truck: Gasoline","fuel:  7.411764<br />repair: -1.64047496<br />truck: Gasoline","fuel:  8.336098<br />repair: -1.47112045<br />truck: Gasoline","fuel:  9.309988<br />repair: -1.16577746<br />truck: Gasoline","fuel: 10.318669<br />repair: -0.72907466<br />truck: Gasoline","fuel: 11.346852<br />repair: -0.16763203<br />truck: Gasoline","fuel: 12.378949<br />repair:  0.51003954<br />truck: Gasoline","fuel: 13.399316<br />repair:  1.29366723<br />truck: Gasoline","fuel: 14.392485<br />repair:  2.17137205<br />truck: Gasoline","fuel: 15.343401<br />repair:  3.12984889<br />truck: Gasoline","fuel: 16.237648<br />repair:  4.15456821<br />truck: Gasoline","fuel: 17.061670<br />repair:  5.22999632<br />truck: Gasoline","fuel: 17.802977<br />repair:  6.33983082<br />truck: Gasoline","fuel: 18.450331<br />repair:  7.46724775<br />truck: Gasoline","fuel: 18.993918<br />repair:  8.59515662<br />truck: Gasoline","fuel: 19.425499<br />repair:  9.70645948<br />truck: Gasoline","fuel: 19.738530<br />repair: 10.78431012<br />truck: Gasoline","fuel: 19.928268<br />repair: 11.81236941<br />truck: Gasoline","fuel: 19.991835<br />repair: 12.77505303<br />truck: Gasoline"],"type":"scatter","mode":"lines","line":{"width":1.88976377952756,"color":"rgba(0,191,196,1)","dash":"solid"},"hoveron":"points","name":"Gasoline","legendgroup":"Gasoline","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":45.4063926940639,"r":7.30593607305936,"b":41.8264840182648,"l":37.2602739726027},"plot_bgcolor":"rgba(255,255,255,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"title":{"text":"Fuel vs Repair Costs","font":{"color":"rgba(0,0,0,1)","family":"","size":17.5342465753425},"x":0.5,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[1.94052958988999,30.4037843052433],"tickmode":"array","ticktext":["10","20","30"],"tickvals":[10,20,30],"categoryorder":"array","categoryarray":["10","20","30"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"y","title":{"text":"Fuel","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-2.91092488277883,24.3614004740443],"tickmode":"array","ticktext":["0","5","10","15","20"],"tickvals":[0,5,10,15,20],"categoryorder":"array","categoryarray":["0","5","10","15","20"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"x","title":{"text":"Repair","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":"transparent","line":{"color":"rgba(51,51,51,1)","width":0.66417600664176,"linetype":"solid"},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.88976377952756,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895},"y":0.959399606299213},"annotations":[{"text":"truck","x":1.02,"y":1,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"xref":"paper","yref":"paper","textangle":-0,"xanchor":"left","yanchor":"bottom","legendTitle":true}],"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","showSendToCloud":false},"source":"A","attrs":{"29f0408473a9":{"x":{},"y":{},"colour":{},"type":"scatter"},"29f01104179d":{"x":{},"y":{},"colour":{}}},"cur_data":"29f0408473a9","visdat":{"29f0408473a9":["function (y) ","x"],"29f01104179d":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div id="htmlwidget-5a76e8123107e76222d8" style="width:624px;height:384px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-5a76e8123107e76222d8">{"x":{"data":[{"x":[12.26,5.13,3.32,14.72,4.17,12.72,8.89,9.95,2.94,5.06,17.86,11.75,13.25,10.14,6.22,12.9,5.69,16.77,17.65,21.52,13.22,12.18,9.22],"y":[9.11,17.15,11.23,5.99,29.28,11,19,14.53,13.68,20.84,35.18,17,20.66,17.45,16.38,19.09,14.77,22.66,10.66,28.47,19.44,21.2,23.09],"text":["repair: 12.26<br />capital:  9.11<br />truck: Diesel","repair:  5.13<br />capital: 17.15<br />truck: Diesel","repair:  3.32<br />capital: 11.23<br />truck: Diesel","repair: 14.72<br />capital:  5.99<br />truck: Diesel","repair:  4.17<br />capital: 29.28<br />truck: Diesel","repair: 12.72<br />capital: 11.00<br />truck: Diesel","repair:  8.89<br />capital: 19.00<br />truck: Diesel","repair:  9.95<br />capital: 14.53<br />truck: Diesel","repair:  2.94<br />capital: 13.68<br />truck: Diesel","repair:  5.06<br />capital: 20.84<br />truck: Diesel","repair: 17.86<br />capital: 35.18<br />truck: Diesel","repair: 11.75<br />capital: 17.00<br />truck: Diesel","repair: 13.25<br />capital: 20.66<br />truck: Diesel","repair: 10.14<br />capital: 17.45<br />truck: Diesel","repair:  6.22<br />capital: 16.38<br />truck: Diesel","repair: 12.90<br />capital: 19.09<br />truck: Diesel","repair:  5.69<br />capital: 14.77<br />truck: Diesel","repair: 16.77<br />capital: 22.66<br />truck: Diesel","repair: 17.65<br />capital: 10.66<br />truck: Diesel","repair: 21.52<br />capital: 28.47<br />truck: Diesel","repair: 13.22<br />capital: 19.44<br />truck: Diesel","repair: 12.18<br />capital: 21.20<br />truck: Diesel","repair:  9.22<br />capital: 23.09<br />truck: Diesel"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(248,118,109,1)","opacity":1,"size":5.66929133858268,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(248,118,109,1)"}},"hoveron":"points","name":"Diesel","legendgroup":"Diesel","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[12.43,2.7,1.35,5.78,5.05,5.78,10.98,14.27,15.09,7.61,5.8,3.63,5.07,6.15,14.26,2.59,6.05,2.7,7.73,14.02,17.44,8.24,13.37,10.78,5.16,4.49,11.59,8.63,2.16,7.95,11.22,9.85,11.42,9.18,4.67,6.86],"y":[11.23,3.92,9.75,7.78,10.67,9.88,10.6,9.45,3.28,10.23,8.13,9.13,10.17,7.61,14.39,6.09,12.14,12.23,11.68,12.01,16.89,7.18,17.59,14.58,17,4.26,6.83,5.59,6.23,6.72,4.91,8.17,13.06,9.49,11.94,4.44],"text":["repair: 12.43<br />capital: 11.23<br />truck: Gasoline","repair:  2.70<br />capital:  3.92<br />truck: Gasoline","repair:  1.35<br />capital:  9.75<br />truck: Gasoline","repair:  5.78<br />capital:  7.78<br />truck: Gasoline","repair:  5.05<br />capital: 10.67<br />truck: Gasoline","repair:  5.78<br />capital:  9.88<br />truck: Gasoline","repair: 10.98<br />capital: 10.60<br />truck: Gasoline","repair: 14.27<br />capital:  9.45<br />truck: Gasoline","repair: 15.09<br />capital:  3.28<br />truck: Gasoline","repair:  7.61<br />capital: 10.23<br />truck: Gasoline","repair:  5.80<br />capital:  8.13<br />truck: Gasoline","repair:  3.63<br />capital:  9.13<br />truck: Gasoline","repair:  5.07<br />capital: 10.17<br />truck: Gasoline","repair:  6.15<br />capital:  7.61<br />truck: Gasoline","repair: 14.26<br />capital: 14.39<br />truck: Gasoline","repair:  2.59<br />capital:  6.09<br />truck: Gasoline","repair:  6.05<br />capital: 12.14<br />truck: Gasoline","repair:  2.70<br />capital: 12.23<br />truck: Gasoline","repair:  7.73<br />capital: 11.68<br />truck: Gasoline","repair: 14.02<br />capital: 12.01<br />truck: Gasoline","repair: 17.44<br />capital: 16.89<br />truck: Gasoline","repair:  8.24<br />capital:  7.18<br />truck: Gasoline","repair: 13.37<br />capital: 17.59<br />truck: Gasoline","repair: 10.78<br />capital: 14.58<br />truck: Gasoline","repair:  5.16<br />capital: 17.00<br />truck: Gasoline","repair:  4.49<br />capital:  4.26<br />truck: Gasoline","repair: 11.59<br />capital:  6.83<br />truck: Gasoline","repair:  8.63<br />capital:  5.59<br />truck: Gasoline","repair:  2.16<br />capital:  6.23<br />truck: Gasoline","repair:  7.95<br />capital:  6.72<br />truck: Gasoline","repair: 11.22<br />capital:  4.91<br />truck: Gasoline","repair:  9.85<br />capital:  8.17<br />truck: Gasoline","repair: 11.42<br />capital: 13.06<br />truck: Gasoline","repair:  9.18<br />capital:  9.49<br />truck: Gasoline","repair:  4.67<br />capital: 11.94<br />truck: Gasoline","repair:  6.86<br />capital:  4.44<br />truck: Gasoline"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(0,191,196,1)","opacity":1,"size":5.66929133858268,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(0,191,196,1)"}},"hoveron":"points","name":"Gasoline","legendgroup":"Gasoline","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[21.6753097540267,21.5896056826068,21.3337926547081,20.9117485350721,20.3298710823442,19.5969809655747,18.7241880518668,17.7247229921161,16.6137366578299,15.4080704693589,14.1260010971318,12.786963405962,11.4112558423078,10.0197327305152,8.63348814251834,7.27353613321133,5.96049218879652,4.71426071702794,3.55373331667921,2.4965024001631,1.55859451049216,0.754227375223124,0.0955943801999712,-0.407320269746259,-0.746892901165349,-0.917975939106261,-0.917975939106261,-0.746892901165349,-0.407320269746259,0.0955943801999695,0.754227375223124,1.55859451049216,2.4965024001631,3.55373331667921,4.71426071702795,5.96049218879652,7.27353613321132,8.63348814251835,10.0197327305152,11.4112558423078,12.786963405962,14.1260010971318,15.4080704693589,16.6137366578299,17.7247229921161,18.7241880518668,19.5969809655747,20.3298710823442,20.9117485350721,21.3337926547081,21.5896056826068,21.6753097540267],"y":[20.6039286936059,22.2541505725193,23.8364442026568,25.3268236254871,26.702696208169,27.9432051248365,29.029545524818,29.9452495950042,30.6764361951084,31.2120212816036,31.543885930524,31.666999412076,31.5794954513744,31.2827005192668,30.7811137243877,30.0823386112582,29.1969678983012,28.1384229030278,26.9227500885451,25.568377815532,24.0958369870763,22.5274498211119,20.886991468349,19.1993296052243,17.490047465275,15.7850560233965,14.110201211875,12.4908721224003,10.9516161333155,9.51576679638412,8.20509012392974,7.03945463827655,6.03653018520366,5.21152007709476,4.57693062621979,4.14238156178914,3.91446020466466,3.89662161029011,4.08913619357256,4.48908562966798,5.09040709281121,5.88398516257431,6.85779000434864,7.99705972937489,9.28452416992926,10.700666677462,12.224019975095,13.831491579657,15.4987138601892,17.2004134263916,18.9107942474576,20.6039286936059],"text":["repair: 21.67530975<br />capital: 20.603929<br />truck: Diesel","repair: 21.58960568<br />capital: 22.254151<br />truck: Diesel","repair: 21.33379265<br />capital: 23.836444<br />truck: Diesel","repair: 20.91174854<br />capital: 25.326824<br />truck: Diesel","repair: 20.32987108<br />capital: 26.702696<br />truck: Diesel","repair: 19.59698097<br />capital: 27.943205<br />truck: Diesel","repair: 18.72418805<br />capital: 29.029546<br />truck: Diesel","repair: 17.72472299<br />capital: 29.945250<br />truck: Diesel","repair: 16.61373666<br />capital: 30.676436<br />truck: Diesel","repair: 15.40807047<br />capital: 31.212021<br />truck: Diesel","repair: 14.12600110<br />capital: 31.543886<br />truck: Diesel","repair: 12.78696341<br />capital: 31.666999<br />truck: Diesel","repair: 11.41125584<br />capital: 31.579495<br />truck: Diesel","repair: 10.01973273<br />capital: 31.282701<br />truck: Diesel","repair:  8.63348814<br />capital: 30.781114<br />truck: Diesel","repair:  7.27353613<br />capital: 30.082339<br />truck: Diesel","repair:  5.96049219<br />capital: 29.196968<br />truck: Diesel","repair:  4.71426072<br />capital: 28.138423<br />truck: Diesel","repair:  3.55373332<br />capital: 26.922750<br />truck: Diesel","repair:  2.49650240<br />capital: 25.568378<br />truck: Diesel","repair:  1.55859451<br />capital: 24.095837<br />truck: Diesel","repair:  0.75422738<br />capital: 22.527450<br />truck: Diesel","repair:  0.09559438<br />capital: 20.886991<br />truck: Diesel","repair: -0.40732027<br />capital: 19.199330<br />truck: Diesel","repair: -0.74689290<br />capital: 17.490047<br />truck: Diesel","repair: -0.91797594<br />capital: 15.785056<br />truck: Diesel","repair: -0.91797594<br />capital: 14.110201<br />truck: Diesel","repair: -0.74689290<br />capital: 12.490872<br />truck: Diesel","repair: -0.40732027<br />capital: 10.951616<br />truck: Diesel","repair:  0.09559438<br />capital:  9.515767<br />truck: Diesel","repair:  0.75422738<br />capital:  8.205090<br />truck: Diesel","repair:  1.55859451<br />capital:  7.039455<br />truck: Diesel","repair:  2.49650240<br />capital:  6.036530<br />truck: Diesel","repair:  3.55373332<br />capital:  5.211520<br />truck: Diesel","repair:  4.71426072<br />capital:  4.576931<br />truck: Diesel","repair:  5.96049219<br />capital:  4.142382<br />truck: Diesel","repair:  7.27353613<br />capital:  3.914460<br />truck: Diesel","repair:  8.63348814<br />capital:  3.896622<br />truck: Diesel","repair: 10.01973273<br />capital:  4.089136<br />truck: Diesel","repair: 11.41125584<br />capital:  4.489086<br />truck: Diesel","repair: 12.78696341<br />capital:  5.090407<br />truck: Diesel","repair: 14.12600110<br />capital:  5.883985<br />truck: Diesel","repair: 15.40807047<br />capital:  6.857790<br />truck: Diesel","repair: 16.61373666<br />capital:  7.997060<br />truck: Diesel","repair: 17.72472299<br />capital:  9.284524<br />truck: Diesel","repair: 18.72418805<br />capital: 10.700667<br />truck: Diesel","repair: 19.59698097<br />capital: 12.224020<br />truck: Diesel","repair: 20.32987108<br />capital: 13.831492<br />truck: Diesel","repair: 20.91174854<br />capital: 15.498714<br />truck: Diesel","repair: 21.33379265<br />capital: 17.200413<br />truck: Diesel","repair: 21.58960568<br />capital: 18.910794<br />truck: Diesel","repair: 21.67530975<br />capital: 20.603929<br />truck: Diesel"],"type":"scatter","mode":"lines","line":{"width":1.88976377952756,"color":"rgba(248,118,109,1)","dash":"solid"},"hoveron":"points","name":"Diesel","legendgroup":"Diesel","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[17.1873996719607,17.1159914158257,16.902849123794,16.5512038157476,16.0663860761089,15.455745247615,14.7285380227727,13.8957881218365,12.970119184446,11.9655634081172,10.8973488344313,9.78166850744753,8.63543500366102,7.47602405458308,6.32101114836329,5.18790510330461,4.09388265202543,3.05552805970205,2.08858172351371,1.20770156426621,0.426240827253937,-0.243954339327206,-0.792724459911187,-1.21175073885541,-1.49468116490296,-1.63722680119834,-1.63722680119834,-1.49468116490296,-1.21175073885542,-0.792724459911187,-0.243954339327208,0.426240827253936,1.20770156426621,2.08858172351371,3.05552805970205,4.09388265202543,5.18790510330461,6.32101114836329,7.47602405458308,8.63543500366102,9.78166850744753,10.8973488344313,11.9655634081172,12.970119184446,13.8957881218365,14.7285380227727,15.455745247615,16.0663860761089,16.5512038157476,16.902849123794,17.1159914158257,17.1873996719607],"y":[12.0114663650004,12.9410459788967,13.8167912729617,14.6254268412229,15.3546945927431,15.993539571784,16.5322775396661,16.9627417779553,17.2784068875905,17.4744877072807,17.5480118516733,17.4978647696857,17.3248066399637,17.0314608473481,16.6222742150347,16.1034495952676,15.4828518404217,14.7698885798579,13.9753676098516,13.1113330584182,12.1908828086089,11.2279699479556,10.2371912538865,9.23356592145936,8.23230788767456,7.24859520369801,6.2973399510773,5.39296218978595,4.5491713648132,3.77875848495263,3.09340222414728,2.50349188469727,2.01796990602715,1.64419630641971,1.38783711264118,1.25277846875107,1.24106772611955,1.35288240766764,1.58652751680067,1.93846123182891,2.40334859637401,2.97414239186953,3.64218996621094,4.3973643991414,5.22821801604013,6.1221559230005,7.06562693258309,8.04432898600404,9.04342595776742,10.0477725562047,11.042143910658,12.0114663650004],"text":["repair: 17.18739967<br />capital: 12.011466<br />truck: Gasoline","repair: 17.11599142<br />capital: 12.941046<br />truck: Gasoline","repair: 16.90284912<br />capital: 13.816791<br />truck: Gasoline","repair: 16.55120382<br />capital: 14.625427<br />truck: Gasoline","repair: 16.06638608<br />capital: 15.354695<br />truck: Gasoline","repair: 15.45574525<br />capital: 15.993540<br />truck: Gasoline","repair: 14.72853802<br />capital: 16.532278<br />truck: Gasoline","repair: 13.89578812<br />capital: 16.962742<br />truck: Gasoline","repair: 12.97011918<br />capital: 17.278407<br />truck: Gasoline","repair: 11.96556341<br />capital: 17.474488<br />truck: Gasoline","repair: 10.89734883<br />capital: 17.548012<br />truck: Gasoline","repair:  9.78166851<br />capital: 17.497865<br />truck: Gasoline","repair:  8.63543500<br />capital: 17.324807<br />truck: Gasoline","repair:  7.47602405<br />capital: 17.031461<br />truck: Gasoline","repair:  6.32101115<br />capital: 16.622274<br />truck: Gasoline","repair:  5.18790510<br />capital: 16.103450<br />truck: Gasoline","repair:  4.09388265<br />capital: 15.482852<br />truck: Gasoline","repair:  3.05552806<br />capital: 14.769889<br />truck: Gasoline","repair:  2.08858172<br />capital: 13.975368<br />truck: Gasoline","repair:  1.20770156<br />capital: 13.111333<br />truck: Gasoline","repair:  0.42624083<br />capital: 12.190883<br />truck: Gasoline","repair: -0.24395434<br />capital: 11.227970<br />truck: Gasoline","repair: -0.79272446<br />capital: 10.237191<br />truck: Gasoline","repair: -1.21175074<br />capital:  9.233566<br />truck: Gasoline","repair: -1.49468116<br />capital:  8.232308<br />truck: Gasoline","repair: -1.63722680<br />capital:  7.248595<br />truck: Gasoline","repair: -1.63722680<br />capital:  6.297340<br />truck: Gasoline","repair: -1.49468116<br />capital:  5.392962<br />truck: Gasoline","repair: -1.21175074<br />capital:  4.549171<br />truck: Gasoline","repair: -0.79272446<br />capital:  3.778758<br />truck: Gasoline","repair: -0.24395434<br />capital:  3.093402<br />truck: Gasoline","repair:  0.42624083<br />capital:  2.503492<br />truck: Gasoline","repair:  1.20770156<br />capital:  2.017970<br />truck: Gasoline","repair:  2.08858172<br />capital:  1.644196<br />truck: Gasoline","repair:  3.05552806<br />capital:  1.387837<br />truck: Gasoline","repair:  4.09388265<br />capital:  1.252778<br />truck: Gasoline","repair:  5.18790510<br />capital:  1.241068<br />truck: Gasoline","repair:  6.32101115<br />capital:  1.352882<br />truck: Gasoline","repair:  7.47602405<br />capital:  1.586528<br />truck: Gasoline","repair:  8.63543500<br />capital:  1.938461<br />truck: Gasoline","repair:  9.78166851<br />capital:  2.403349<br />truck: Gasoline","repair: 10.89734883<br />capital:  2.974142<br />truck: Gasoline","repair: 11.96556341<br />capital:  3.642190<br />truck: Gasoline","repair: 12.97011918<br />capital:  4.397364<br />truck: Gasoline","repair: 13.89578812<br />capital:  5.228218<br />truck: Gasoline","repair: 14.72853802<br />capital:  6.122156<br />truck: Gasoline","repair: 15.45574525<br />capital:  7.065627<br />truck: Gasoline","repair: 16.06638608<br />capital:  8.044329<br />truck: Gasoline","repair: 16.55120382<br />capital:  9.043426<br />truck: Gasoline","repair: 16.90284912<br />capital: 10.047773<br />truck: Gasoline","repair: 17.11599142<br />capital: 11.042144<br />truck: Gasoline","repair: 17.18739967<br />capital: 12.011466<br />truck: Gasoline"],"type":"scatter","mode":"lines","line":{"width":1.88976377952756,"color":"rgba(0,191,196,1)","dash":"solid"},"hoveron":"points","name":"Gasoline","legendgroup":"Gasoline","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":45.4063926940639,"r":7.30593607305936,"b":41.8264840182648,"l":37.2602739726027},"plot_bgcolor":"rgba(255,255,255,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"title":{"text":"Repair vs Capital Costs","font":{"color":"rgba(0,0,0,1)","family":"","size":17.5342465753425},"x":0.5,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-2.8028536289596,22.8409365817879],"tickmode":"array","ticktext":["0","5","10","15","20"],"tickvals":[0,5,10,15,20],"categoryorder":"array","categoryarray":["0","5","10","15","20"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"y","title":{"text":"Repair","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-0.455878887574471,36.876946613694],"tickmode":"array","ticktext":["0","10","20","30"],"tickvals":[0,10,20,30],"categoryorder":"array","categoryarray":["0","10","20","30"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"x","title":{"text":"Capital","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":"transparent","line":{"color":"rgba(51,51,51,1)","width":0.66417600664176,"linetype":"solid"},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.88976377952756,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895},"y":0.959399606299213},"annotations":[{"text":"truck","x":1.02,"y":1,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"xref":"paper","yref":"paper","textangle":-0,"xanchor":"left","yanchor":"bottom","legendTitle":true}],"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","showSendToCloud":false},"source":"A","attrs":{"29f028c038dc":{"x":{},"y":{},"colour":{},"type":"scatter"},"29f02351462c":{"x":{},"y":{},"colour":{}}},"cur_data":"29f028c038dc","visdat":{"29f028c038dc":["function (y) ","x"],"29f02351462c":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+<p>A similar case to the previous plot is observed where there is some separation when Height is combined with Width. It would seem that the Height variable adds valuable discriminatory power to the analysis.</p>
+<p> </p>
+<div class="layout-chunk" data-layout="l-body">
+<div id="htmlwidget-29a395061b5f15a508cd" style="width:624px;height:384px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-29a395061b5f15a508cd">{"x":{"visdat":{"29f05a644333":["function () ","plotlyVisDat"]},"cur_data":"29f05a644333","attrs":{"29f05a644333":{"x":[16.44,7.19,9.92,4.24,11.2,14.25,13.5,13.32,29.11,12.68,7.51,9.9,10.25,11.11,12.17,10.24,10.18,8.88,12.34,8.51,26.16,12.95,16.93,8.5,7.42,10.28,10.16,12.79,9.6,6.47,11.35,9.15,9.7,9.77,11.61,9.09,8.53,8.29,15.9,11.94,9.54,10.43,10.87,7.13,11.88,12.03,14.7,10.32,8.98,9.7,12.72,9.49,8.22,13.7,8.21,15.86,9.18,12.49,17.32],"y":[11.23,3.92,9.75,7.78,10.67,9.88,10.6,9.45,3.28,10.23,8.13,9.13,10.17,7.61,14.39,6.09,12.14,12.23,11.68,12.01,16.89,7.18,17.59,9.11,17.15,11.23,5.99,29.28,11,19,14.53,13.68,20.84,35.18,17,20.66,17.45,16.38,19.09,14.77,22.66,10.66,28.47,19.44,21.2,23.09,14.58,17,4.26,6.83,5.59,6.23,6.72,4.91,8.17,13.06,9.49,11.94,4.44],"z":[12.43,2.7,1.35,5.78,5.05,5.78,10.98,14.27,15.09,7.61,5.8,3.63,5.07,6.15,14.26,2.59,6.05,2.7,7.73,14.02,17.44,8.24,13.37,12.26,5.13,3.32,14.72,4.17,12.72,8.89,9.95,2.94,5.06,17.86,11.75,13.25,10.14,6.22,12.9,5.69,16.77,17.65,21.52,13.22,12.18,9.22,10.78,5.16,4.49,11.59,8.63,2.16,7.95,11.22,9.85,11.42,9.18,4.67,6.86],"color":["Gasoline","Gasoline","Gasoline","Gasoline","Gasoline","Gasoline","Gasoline","Gasoline","Gasoline","Gasoline","Gasoline","Gasoline","Gasoline","Gasoline","Gasoline","Gasoline","Gasoline","Gasoline","Gasoline","Gasoline","Gasoline","Gasoline","Gasoline","Diesel","Diesel","Diesel","Diesel","Diesel","Diesel","Diesel","Diesel","Diesel","Diesel","Diesel","Diesel","Diesel","Diesel","Diesel","Diesel","Diesel","Diesel","Diesel","Diesel","Diesel","Diesel","Diesel","Gasoline","Gasoline","Gasoline","Gasoline","Gasoline","Gasoline","Gasoline","Gasoline","Gasoline","Gasoline","Gasoline","Gasoline","Gasoline"],"alpha_stroke":1,"sizes":[10,100],"spans":[1,20]}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Plot of All Dependent Variables","scene":{"xaxis":{"title":"Fuel"},"yaxis":{"title":"Capital"},"zaxis":{"title":"Repairs"}},"hovermode":"closest","showlegend":true},"source":"A","config":{"showSendToCloud":false},"data":[{"x":[8.5,7.42,10.28,10.16,12.79,9.6,6.47,11.35,9.15,9.7,9.77,11.61,9.09,8.53,8.29,15.9,11.94,9.54,10.43,10.87,7.13,11.88,12.03],"y":[9.11,17.15,11.23,5.99,29.28,11,19,14.53,13.68,20.84,35.18,17,20.66,17.45,16.38,19.09,14.77,22.66,10.66,28.47,19.44,21.2,23.09],"z":[12.26,5.13,3.32,14.72,4.17,12.72,8.89,9.95,2.94,5.06,17.86,11.75,13.25,10.14,6.22,12.9,5.69,16.77,17.65,21.52,13.22,12.18,9.22],"type":"scatter3d","mode":"markers","name":"Diesel","marker":{"color":"rgba(102,194,165,1)","line":{"color":"rgba(102,194,165,1)"}},"textfont":{"color":"rgba(102,194,165,1)"},"error_y":{"color":"rgba(102,194,165,1)"},"error_x":{"color":"rgba(102,194,165,1)"},"line":{"color":"rgba(102,194,165,1)"},"frame":null},{"x":[16.44,7.19,9.92,4.24,11.2,14.25,13.5,13.32,29.11,12.68,7.51,9.9,10.25,11.11,12.17,10.24,10.18,8.88,12.34,8.51,26.16,12.95,16.93,14.7,10.32,8.98,9.7,12.72,9.49,8.22,13.7,8.21,15.86,9.18,12.49,17.32],"y":[11.23,3.92,9.75,7.78,10.67,9.88,10.6,9.45,3.28,10.23,8.13,9.13,10.17,7.61,14.39,6.09,12.14,12.23,11.68,12.01,16.89,7.18,17.59,14.58,17,4.26,6.83,5.59,6.23,6.72,4.91,8.17,13.06,9.49,11.94,4.44],"z":[12.43,2.7,1.35,5.78,5.05,5.78,10.98,14.27,15.09,7.61,5.8,3.63,5.07,6.15,14.26,2.59,6.05,2.7,7.73,14.02,17.44,8.24,13.37,10.78,5.16,4.49,11.59,8.63,2.16,7.95,11.22,9.85,11.42,9.18,4.67,6.86],"type":"scatter3d","mode":"markers","name":"Gasoline","marker":{"color":"rgba(141,160,203,1)","line":{"color":"rgba(141,160,203,1)"}},"textfont":{"color":"rgba(141,160,203,1)"},"error_y":{"color":"rgba(141,160,203,1)"},"error_x":{"color":"rgba(141,160,203,1)"},"line":{"color":"rgba(141,160,203,1)"},"frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+<h2 id="assumptions">Assumptions</h2>
+<ol type="1">
+<li><p><strong>Independence of Observations</strong></p></li>
+<li><p><strong>Normality and Outliers</strong></p></li>
+<li><p><strong>Equality of Variance</strong></p></li>
+</ol>
+<center>
+<div class="layout-chunk" data-layout="l-body">
+<table style="width:56%;">
+<caption>Box’s M-test for Homogeneity of Covariance Matrices</caption>
+<colgroup>
+<col style="width: 23%" />
+<col style="width: 6%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Test statistic</th>
+<th style="text-align: center;">df</th>
+<th style="text-align: center;">P value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">30.54</td>
+<td style="text-align: center;">6</td>
+<td style="text-align: center;">3.097e-05 * * *</td>
+</tr>
+</tbody>
+</table>
+</div>
+</center>
+<p>The test shows that the variables do not have the same variance across the groups. Although this assumption was aided by the use of the logarithm transformation, the overall problem was not reduced to satisfactory level.<br />
+Since we do not have equality of variances, we now consider a similar technique that does not require this assumption. It falls into the same problem category as the <em>Welch’s t test</em> known as the <em>Behrens–Fisher</em> type problems.</p>
+<p> </p>
+<h2 id="analysis">Analysis</h2>
+<center>
+<div class="layout-chunk" data-layout="l-body">
+<table style="width:86%;">
+<caption>Two-sample Test for Multivariate Means</caption>
+<colgroup>
+<col style="width: 23%" />
+<col style="width: 23%" />
+<col style="width: 38%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Test statistic</th>
+<th style="text-align: center;">P value</th>
+<th style="text-align: center;">Alternative hypothesis</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">43.1764</td>
+<td style="text-align: center;">2.34e-06 * * *</td>
+<td style="text-align: center;">true means are different.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</center>
+<p> <br />
+This analysis uses the technique established in <strong>Krishnamoorthy 2004</strong>.</p>
+<p> </p>
+<h3 id="confidence-intervals-for-each-variable">Confidence Intervals for each Variable</h3>
+<p>The original question asked for the calculation of both simultaneous and bonferroni intervals. Since we are not assuming equality of variances, I am unsure as to whether simultaneous confidence intervals can be constructed. Thus only the bonferroni intervals are constructed.</p>
+<center>
+<div class="layout-chunk" data-layout="l-body">
+<table style="width:53%;">
+<caption>Bonferonni Confidence Intervals for Features</caption>
+<colgroup>
+<col style="width: 15%" />
+<col style="width: 15%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Variable</th>
+<th style="text-align: center;">Estimate</th>
+<th style="text-align: center;">Lower</th>
+<th style="text-align: center;">Upper</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">repair</td>
+<td style="text-align: center;">-2.65</td>
+<td style="text-align: center;">-2.9</td>
+<td style="text-align: center;">-2.39</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">fuel</td>
+<td style="text-align: center;">2.11</td>
+<td style="text-align: center;">1.93</td>
+<td style="text-align: center;">2.3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">capital</td>
+<td style="text-align: center;">-8.58</td>
+<td style="text-align: center;">-8.89</td>
+<td style="text-align: center;">-8.26</td>
+</tr>
+</tbody>
+</table>
+</div>
+</center>
+<p> <br />
+ </p>
+<h2 id="references">References</h2>
+<p>Johnson, R. A., &amp; Wichern, D. W. (1992). Applied multivariate statistical analysis. Englewood Cliffs, N.J: Prentice Hall</p>
+<p>Krishnamoorthy, K., &amp; Yu, J. (2004). Modified Nel and Van der Merwe test for the multivariate Behrens–Fisher problem. Statistics &amp; probability letters, 66(2), 161-169.</p>
+<p>NCSS Hotelling’S Twosample T2. [pdf] Available at: <a href="https://ncss-wpengine.netdna-ssl.com/wp-content/themes/ncss/pdf/Procedures/NCSS/Hotellings_Two-Sample_T2.pdf" class="uri">https://ncss-wpengine.netdna-ssl.com/wp-content/themes/ncss/pdf/Procedures/NCSS/Hotellings_Two-Sample_T2.pdf</a></p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<!--radix_placeholder_article_footer-->
+<!--/radix_placeholder_article_footer-->
+</div>
+
+<div class="d-appendix">
+</div>
+
+
+<!--radix_placeholder_site_after_body-->
+<!--/radix_placeholder_site_after_body-->
+<!--radix_placeholder_appendices-->
+<div class="appendix-bottom"></div>
+<!--/radix_placeholder_appendices-->
+<!--radix_placeholder_navigation_after_body-->
+<!--/radix_placeholder_navigation_after_body-->
+
+</body>
+
+</html>
