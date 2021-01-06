@@ -62,83 +62,121 @@ data$epoch <- factor(data$epoch)
 data$madist <- Mahalanobis(data[,2:5])
 #summary( Mahalanobis(data[,2:5]))
 #plot(density(Mahalanobis(data[,2:5])))
-data$pout <- factor(data$madist > 9)
-
-```
-
-We will start off by taking a look at outliers. Honestly I don't know what to make of this dataset when it comes to applying the Manova. 
-
-```{r}
-my_colors <- brewer.pal(5, "Spectral")
-my_colors <- colorRampPalette(my_colors)(100)
-
-seecor <- data  %>% select(!c(madist,pout)) %>%
-  filter(epoch == "c4000BC") %>% select(!epoch) %>% cor()
-
-ord <- order(seecor[1, ])
-data_ord <- seecor[ord, ord]
-plotcorr(data_ord , col=my_colors[data_ord*50+50] , mar=c(1,1,1,1)  )
+data$pout <- factor(ifelse(data$madist > 9 ,1,0))
 
 
 ```
 
-```{r fig.align='center' , fig.cap= "Bivariate Plots for c4000BC Epoch"}
-pl_colorscale = list(c(0.0, '#119dff'),
-                  c(0.5, '#119dff'),
-                  c(0.5, '#ef553b'),
-                  c(1, '#ef553b'))
+We will start off by taking a look at outliers. Honestly I don't know what to make of this dataset when it comes to applying the Manova. There is supposed to be linearity effects between the dependent variable pairs.
 
-axis = list(showline=FALSE,
-            zeroline=FALSE,
-            gridcolor='#ffff',
-            ticklen=4)
+<center>
 
-fig <- data %>% filter(epoch == "c4000BC") %>%
-  plot_ly() 
-fig <- fig %>%
-  add_trace(
-    type = 'splom',
-    dimensions = list(
-      list(label='MaxBreath', values=~mb),
-      list(label='BasHeight', values=~bh),
-      list(label='BasLength', values=~bl),
-      list(label='NasHeight', values=~nh)
-    ),
-    text=~factor(pout, labels=c("non-diabetic","diabetic")),
-    diagonal=list(visible=F),
-    marker = list(
-      color = ~pout,
-      colorscale = pl_colorscale,
-      size = 5,
-      line = list(
-        width = 1,
-        color = 'rgb(230,230,230)'
-      )
-    )
-  ) 
+```{r fig.align='center'}
+c4000BC <- data %>% filter(epoch == "c4000BC")
+c4000BC$madist <- Mahalanobis(c4000BC[,2:5])
+#summary( Mahalanobis(data[,2:5]))
+#plot(density(Mahalanobis(c4000BC[,2:5])))
+c4000BC$pout <- factor(ifelse(c4000BC$madist > 7 ,1,0))
+scatterc4000 <- c4000BC %>% select(!c(epoch,madist)) %>% ggpairs(aes(color = pout),columnLabels = c("Maxbreath",
+                                                                                                    "BasHeight",
+                                                                                                    "BasLength",
+                                                                                                    "NasHeight",
+                                                                                                    "Outliers")) + theme_bw()
 
-fig <- fig %>%
-  layout(
-    title= 'ScatterPlots in Epoch c4000BC',
-    hovermode='closest',
-    dragmode= 'select',
-    plot_bgcolor='rgba(240,240,240, 0.95)',
-    xaxis=list(domain=NULL, showline=F, zeroline=F, gridcolor='#ffff', ticklen=4),
-    yaxis=list(domain=NULL, showline=F, zeroline=F, gridcolor='#ffff', ticklen=4),
-    xaxis2=axis,
-    xaxis3=axis,
-    xaxis4=axis,
-    yaxis2=axis,
-    yaxis3=axis,
-    yaxis4=axis
-  )
-
-fig %>% style(showupperhalf = F)
+ggplotly(scatterc4000, height = 600, width=1000)
 
 ```
 
+</center>
 
 
+
+
+
+<center>
+
+```{r fig.align='center'}
+c3300BC <- data %>% filter(epoch == "c3300BC")
+c3300BC$madist <- Mahalanobis(c3300BC[,2:5])
+#summary( Mahalanobis(data[,2:5]))
+#plot(density(Mahalanobis(c3300BC[,2:5])))
+c3300BC$pout <- factor(ifelse(c3300BC$madist > 7 ,1,0))
+scatterc3300 <- c3300BC %>% select(!c(epoch,madist)) %>% ggpairs(aes(color = pout),columnLabels = c("Maxbreath",
+                                                                                                    "BasHeight",
+                                                                                                    "BasLength",
+                                                                                                    "NasHeight",
+                                                                                                    "Outliers")) + theme_bw()
+
+ggplotly(scatterc3300, height = 600, width=1000)
+
+```
+
+</center>
+
+
+
+<center>
+
+```{r fig.align='center'}
+c1850BC <- data %>% filter(epoch == "c1850BC")
+c1850BC$madist <- Mahalanobis(c1850BC[,2:5])
+#summary( Mahalanobis(data[,2:5]))
+#plot(density(Mahalanobis(c1850BC[,2:5])))
+c1850BC$pout <- factor(ifelse(c1850BC$madist > 7 ,1,0))
+scatterc1850 <- c1850BC %>% select(!c(epoch,madist)) %>% ggpairs(aes(color = pout),columnLabels = c("Maxbreath",
+                                                                                                    "BasHeight",
+                                                                                                    "BasLength",
+                                                                                                    "NasHeight",
+                                                                                                    "Outliers")) + theme_bw()
+
+ggplotly(scatterc1850, height = 600, width=1000)
+
+```
+
+</center>
+
+
+
+<center>
+
+```{r fig.align='center'}
+c200BC <- data %>% filter(epoch == "c200BC")
+c200BC$madist <- Mahalanobis(c200BC[,2:5])
+#summary( Mahalanobis(data[,2:5]))
+#plot(density(Mahalanobis(c200BC[,2:5])))
+c200BC$pout <- factor(ifelse(c200BC$madist > 7 ,1,0))
+scatterc200 <- c200BC %>% select(!c(epoch,madist)) %>% ggpairs(aes(color = pout),columnLabels = c("Maxbreath",
+                                                                                                    "BasHeight",
+                                                                                                    "BasLength",
+                                                                                                    "NasHeight",
+                                                                                                    "Outliers")) + theme_bw()
+
+ggplotly(scatterc200, height = 600, width=1000)
+
+```
+
+</center>
+
+
+<center>
+
+```{r fig.align='center'}
+cAD150 <- data %>% filter(epoch == "cAD150")
+cAD150$madist <- Mahalanobis(cAD150[,2:5])
+#summary( Mahalanobis(data[,2:5]))
+#plot(density(Mahalanobis(cAD150[,2:5])))
+cAD150$pout <- factor(ifelse(cAD150$madist > 7 ,1,0))
+scatterc150 <- cAD150 %>% select(!c(epoch,madist)) %>% ggpairs(aes(color = pout),columnLabels = c("Maxbreath",
+                                                                                                    "BasHeight",
+                                                                                                    "BasLength",
+                                                                                                    "NasHeight",
+                                                                                                    "Outliers")) + theme_bw()
+
+ggplotly(scatterc150, height = 600, width=1000)
+
+```
+
+</center>
 
 ## References
 

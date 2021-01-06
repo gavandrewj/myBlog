@@ -31,12 +31,10 @@
       "Manova",
       "Independent Samples"
     ],
-    "contents": "\r\n\r\n\r\n\r\nProblem (Question 6.18)\r\nThis problem is taken from Johnson 1992. Researchers have suggested that the change in skull size over time is evidence of the interbreeding of a resident population with immigrant populations. Four measurements were made of male Egyptian skulls over five time periods. The aim of this test is to determine if there is a difference in the skull sizes over time.\r\n\r\n\r\n\r\n\r\n\r\n\r\nWe will start off by taking a look at outliers. Honestly I don’t know what to make of this dataset when it comes to applying the Manova.\r\n\r\n\r\n\r\n\r\n\r\npreserve44ee54fcad5ea3b1\r\n\r\nFigure 1: Bivariate Plots for c4000BC Epoch\r\n\r\n\r\n\r\nReferences\r\nJohnson, R. A., & Wichern, D. W. (1992). Applied multivariate statistical analysis. Englewood Cliffs, N.J: Prentice Hall\r\nNCSS Hotelling’S Twosample T2. [pdf] Available at: https://ncss-wpengine.netdna-ssl.com/wp-content/themes/ncss/pdf/Procedures/NCSS/Hotellings_Two-Sample_T2.pdf\r\n\r\n\r\n\r\n",
-    "preview": "posts/2021-01-05-egyptian-skull-sizes-over-time/egyptian-skull-sizes-over-time_files/figure-html5/unnamed-chunk-4-1.png",
-    "last_modified": "2021-01-06T13:04:11-04:00",
-    "input_file": "egyptian-skull-sizes-over-time.utf8.md",
-    "preview_width": 1248,
-    "preview_height": 768
+    "contents": "\r\n\r\n\r\n\r\nProblem (Question 6.18)\r\nThis problem is taken from Johnson 1992. Researchers have suggested that the change in skull size over time is evidence of the interbreeding of a resident population with immigrant populations. Four measurements were made of male Egyptian skulls over five time periods. The aim of this test is to determine if there is a difference in the skull sizes over time.\r\n\r\n\r\n\r\n\r\n\r\n\r\nWe will start off by taking a look at outliers. Honestly I don’t know what to make of this dataset when it comes to applying the Manova. There is supposed to be linearity effects between the dependent variable pairs.\r\n\r\n\r\npreserve5ac266b6584c0e47\r\n\r\n\r\n\r\n\r\npreserve331ab2761366b140\r\n\r\n\r\n\r\n\r\npreserveb9882928217b0e42\r\n\r\n\r\n\r\n\r\npreserve9dbee79d6b51efb4\r\n\r\n\r\n\r\n\r\npreserveaf778fc10e3fbd14\r\n\r\n\r\nReferences\r\nJohnson, R. A., & Wichern, D. W. (1992). Applied multivariate statistical analysis. Englewood Cliffs, N.J: Prentice Hall\r\nNCSS Hotelling’S Twosample T2. [pdf] Available at: https://ncss-wpengine.netdna-ssl.com/wp-content/themes/ncss/pdf/Procedures/NCSS/Hotellings_Two-Sample_T2.pdf\r\n\r\n\r\n\r\n",
+    "preview": {},
+    "last_modified": "2021-01-06T18:27:08-04:00",
+    "input_file": "egyptian-skull-sizes-over-time.utf8.md"
   },
   {
     "path": "posts/2020-12-31-painted-turtles/",
