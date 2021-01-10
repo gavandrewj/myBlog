@@ -1,0 +1,61 @@
+---
+title: "Calcium Loss over Time"
+description: |
+  An application of the Repeated Measures Analysis that consists of one between measure variable (exercise and diet) and one within measure variable (time). The study was done to monitor the bone loss of the Ulna over time periods for older women.. 
+author:
+  - name: Gavin Gordon
+    url: https://example.com/norajones
+date: 01-08-2021
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+#Problem
+
+I will first perform the one way repeated measures Manova using each of the two groups, then the two way form will be analyzed. 
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE,cache = T,message = F,warning = F)
+```
+
+```{r}
+library(tidyverse)
+library(fitdistrplus)
+library(SHT)
+library(vroom)
+library(plotly)
+library(gt)
+library(gtsummary)
+library(Hotelling)
+library(pander)
+library(expss)
+library(beanplot)
+library(pairwiseCI)
+library(heplots)
+library(GGally)
+library(Hmisc)
+library(ellipse)
+library(RColorBrewer)
+```
+
+```{r}
+#Importing data
+data <-  vroom("C:/Users/gavin/Documents/GitHub/blogdata/calciumulna.csv")
+
+```
+
+```{r}
+data <- pivot_longer(data= data,cols = c("first","second","third","initial"),names_to = "timestamp",
+                         values_to = "measurements")
+
+
+data$timestamp <- factor(data$timestamp,levels = c("initial","first","second","third"))
+names(data) <- c("id","treat","time","measures")
+
+control <- filter(data, treat == "Control")
+treat <- filter(data, treat == "Treatment")
+
+```
+

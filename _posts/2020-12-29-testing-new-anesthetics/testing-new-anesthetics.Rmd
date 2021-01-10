@@ -11,13 +11,33 @@ output:
     self_contained: false
 ---
 
-
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(echo = FALSE,cache = T,message = F,warning = F)
 ```
 
-Distill is a publication format for scientific and technical writing, native to the web.
+```{r}
+library(tidyverse)
+library(fitdistrplus)
+library(SHT)
+library(vroom)
+library(plotly)
+library(gt)
+library(gtsummary)
+library(Hotelling)
+library(pander)
+library(expss)
+library(beanplot)
+library(pairwiseCI)
+library(heplots)
+library(GGally)
+library(Hmisc)
+library(ellipse)
+library(RColorBrewer)
+```
 
-Learn more about using Distill at <https://rstudio.github.io/distill>.
 
+```{r}
+#Importing data
+data <-  vroom("C:/Users/gavin/Documents/GitHub/blogdata/sleepingDog.csv")
 
+```
