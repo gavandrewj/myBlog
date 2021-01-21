@@ -1,0 +1,45 @@
+---
+title: "Perceived Working Environments"
+description: |
+  A short description of the post.
+
+base_url: https://github.com/gavandrewj/myBlog/
+
+categories:
+  - Factor Analysis
+  - Multivariate Analysis
+  
+  
+author:
+  - name: Gavin Gordon
+    url: https://example.com/norajones
+date: 01-19-2021
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+```{r}
+library(haven)
+library(tidyverse)
+library(ggcorrplot)
+```
+
+
+```{r}
+dataset <- read_sav("C:/Users/gavin/Documents/GitHub/blogdata/pworking.sav")
+
+efadata  <- dataset %>% select(!c(gender,age,designation,experience,dep.emp,length.time.emp,Hospital,Totalscore1,Totalscore2))
+
+```
+
+```{r}
+# Let us see the correlation matrix
+
+
+```

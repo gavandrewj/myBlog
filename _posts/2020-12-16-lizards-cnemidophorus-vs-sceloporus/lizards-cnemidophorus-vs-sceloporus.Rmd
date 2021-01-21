@@ -5,6 +5,7 @@ description: |
 categories:
   - Hotelling T2
   - Independent Samples  
+  - Multivariate Analysis
 author:
   - name: Gavin Gordon
     url: https://example.com/norajones

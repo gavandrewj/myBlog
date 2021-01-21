@@ -6,6 +6,7 @@ categories:
   - Hotelling T2
   - One sample
   - Paired Units
+  - Multivariate Analysis
 author:
   - name: Gavin Gordon
     url: https://example.com/norajones
