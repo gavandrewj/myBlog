@@ -1,0 +1,20 @@
+---
+title: "Soil Composition"
+description: |
+  An Application of the one way anova to compare the chemical composition of soils that are taken from 
+author:
+  - name: Gavin Gordon
+    url: https://example.com/norajones
+date: 01-21-2021
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+
+
