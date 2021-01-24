@@ -1,0 +1,112 @@
+---
+title: "Wine Analysis"
+description: |
+  This analysis explores wine samples that come from different regions in an attempt to find discerning chemical features. The analysis includes the use of a k sample Brehen Fisher test for high dimensional data; this does not require the equality of covariance matrices assumption to be satisfied. 
+author:
+  - name: Gavin Gordon
+    url: https://example.com/norajones
+date: 01-23-2021
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+It should be noted that there is little theory behind why the features were selected as the dependent measures. I am for the most part interested in an application of the Manova, thus through plots I found features that are separated for each of the tested categorical variable levels and ignored much of the other variables. For the same reason the number of variables was kept to three for illustrative purposes as well as to propose a question about the linearity assumption. 
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE,cache = T,message = F,wwarning = F)
+```
+
+```{r}
+library(tidyverse)
+library(SHT)
+library(vroom)
+library(plotly)
+library(gt)
+library(gtsummary)
+library(Hotelling)
+library(pander)
+library(expss)
+library(beanplot)
+library(pairwiseCI)
+library(heplots)
+library(GGally)
+library(lubridate)
+```
+
+```{r}
+names <- c("cultivar","alcohol","malic_acid","ash","alcalinity_of_ash" ,"magnesium" , "total_phenols" ,"flavanoids",
+"nonflavanoid_phenols","proanthocyanins","color_intensity","hue","OD280/OD315_of_diluted_wines",
+"proline") 
+#data <- vroom("C:/Users/gavin/Documents/GitHub/blogdata/wine_data.csv",col_names = names)
+
+dataset <- vroom("C:/Users/gavin/Documents/GitHub/blogdata/wine_data.csv",col_names = names)
+rm(names)
+dataset$cultivar <- factor(dataset$cultivar)
+#data$cultivar <- factor(data$cultivar)
+
+```
+
+To start things off we will go straight to the 3D plot as this will give us the best view of what is happening with the data.
+
+```{r}
+dataset <- dataset %>% select(cultivar,total_phenols,flavanoids,alcohol)
+
+plot_ly(data = dataset, x = dataset$total_phenols,y = dataset$flavanoids,z = dataset$alcohol,color = dataset$cultivar) %>% layout(title = "Plot of Dependent Variables by Cultivar",
+                scene = list(
+                  xaxis = list(title = "Total Phenols"),
+                  yaxis = list(title = "Flavanoids"),
+                  zaxis = list(title = "Alcohol")
+                  )
+                )
+
+dataset <- filter(dataset,total_phenols != 3.18)
+
+```
+My view of looking at this problem is to imagine (haven't figured out how to easily do this in plotly) an ellipsoid that will aim to encompass each of the categories. To the extent that each ellipsoid contains it's points and separates itself from other ellipsoids will determine whether or not there is a difference among the means of the categorical groupings.  
+
+We can see that there is likely much more variability in group 2 than other groups; there is overlap somewhat with groups 1 and 2. The opposite occurs for groups 1 and 2 as these are none overlapping distributions. It is expected that the Manova will determine that there are group differences.
+
+Also there is one point that stands out as an outlier which belongs to group 2. The level of influence this point has is not checked; it was just removed as it may be more likely to be an error.
+
+```{r fig.align='center'}
+#dataset <- dataset %>% select(cultivar,total_phenols,flavanoids,nonflavanoid_phenols)
+#alcohol,color_intensity,total_phenols,flavanoids
+
+#mg, fla, alkaash - good discrim not good corr
+
+#phenol, non flav, non phen # pretty goof
+
+#proline, alkaash
+
+#color int, hue
+
+bivar <- dataset %>% ggpairs(aes(color = cultivar)) + theme_bw() 
+ggplotly(bivar,height = 700,width = 800)
+
+```
+
+
+```{r}
+
+
+## CRAN-purpose small example
+tinylist = list()
+
+
+mat <- subset(dataset,cultivar == 1)
+mat <- matrix(c(mat$total_phenols,mat$flavanoids,mat$alcohol),ncol = 3)
+tinylist[[1]] <- mat 
+
+mat <- subset(dataset,cultivar == 2)
+mat <- matrix(c(mat$total_phenols,mat$flavanoids,mat$alcohol),ncol = 3)
+tinylist[[2]] <- mat 
+ 
+mat <- subset(dataset,cultivar == 3)
+mat <- matrix(c(mat$total_phenols,mat$flavanoids,mat$alcohol),ncol = 3)
+tinylist[[3]] <- mat 
+
+
+meank.2009ZX(tinylist)
+
+```

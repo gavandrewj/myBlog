@@ -16,5 +16,23 @@ output:
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
+```{r}
+library(tidyverse)
+library(SHT)
+library(vroom)
+library(plotly)
+library(gt)
+library(gtsummary)
+library(Hotelling)
+library(pander)
+library(expss)
+library(beanplot)
+library(pairwiseCI)
+library(heplots)
+library(GGally)
+```
+```{r}
+data("Soils")
 
+```
 
