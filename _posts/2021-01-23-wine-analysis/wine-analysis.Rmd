@@ -153,7 +153,7 @@ The outlier for cultivar three that is labelled with coordinates (2.8,1.31,14.34
 
 3. **Linearity and Multicollinearity of Dependent Variables**  
 
-So we expect that the dependent variables have a linear relationship and a lack thereof would decrease the power of the analysis. From the 3D scatter plot we can notice good separation of the groups; however on the 2D scatterplots presented below four of the nine within group correlations are practically zero. So what kind of linear structure are we really hoping is there when we speak of linearity between the dependent variables?  After what extent can we consider this assumption to be violated. And of course how do we manage this when moving beyond three dependent variables?
+So we expect that the dependent variables have a linear relationship and a lack thereof would decrease the power of the analysis. How this seems to work is that as linearity increases, the length of the minor axes of the ellipsoid begins to decrease while the length of the major axis increases so the points take up a more narrow region of space that stretches for longer. From the 3D scatter plot we can notice good separation of the groups; we see this behavior in cultivar one but less so in two, and even less so in three. Moreover we can see from the 2D scatterplots presented below, four of the nine within group correlations are practically zero. So  After what extent of non-linearity can we consider the power of this test to be so diminished that we default back to using separate Anovas? And of course how do we manage this when moving beyond three dependent variables?
 
 ```{r fig.align='center'}
 #dataset <- dataset %>% select(cultivar,total_phenols,flavanoids,nonflavanoid_phenols)
