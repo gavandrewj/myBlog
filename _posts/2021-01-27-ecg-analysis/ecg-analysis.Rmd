@@ -1,0 +1,130 @@
+---
+title: "Ecg Analysis"
+description: |
+  A short description of the post.
+author:
+  - name: Gavin Gordon
+    url: https://example.com/norajones
+date: 01-27-2021
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE,warning = F,message = F, cache = T)
+```
+
+```{r}
+library(tidyverse)
+library(SHT)
+library(vroom)
+library(plotly)
+library(gt)
+library(gtsummary)
+library(Hotelling)
+library(pander)
+library(expss)
+library(beanplot)
+library(pairwiseCI)
+library(heplots)
+library(GGally)
+library(lubridate)
+```
+
+```{r}
+names <- c("age","sex","cp","trestbps","chol","fbs","restecg","thalach","exang","oldpeak","slope","ca","thal","num")
+dataset <- vroom("C:/Users/gavin/Documents/GitHub/blogdata/processed_hungarian_data.csv",col_names = names,na = "?")
+rm(names)
+
+dataset <- dataset %>% select(sex,restecg,chol,thalach,trestbps) %>% filter(restecg == 0 | restecg == 1)
+dataset <-  dataset[complete.cases(dataset),]
+dataset$sex <- factor(dataset$sex)
+dataset$restecg <- factor(dataset$restecg)
+```
+
+Alright so let us get right into the 3D scatterplot. We can see that it looks like a cloud of nothing in terms of group differences so this is where we would take advantage of the ability to filter the groups by clicking on the respective symbol in the legend. All of the groups seem to fill out the same/similar space as any other group. I would be surprised if there were differences along the means. Even cases where I would have considered to be outliers seem to have a few cases near it, indicating that these may be rare events rather than outliers. It should be noted that these rare events seem to be prone for a specific group as well. Perhaps it should be treated as both? 
+
+```{r}
+plot_ly(data = dataset,
+        x = ~ chol,
+        y = ~ thalach,
+        z = ~ trestbps,
+        mode = 'markers',
+        color = ~ restecg,
+        colors = c('#BF382A', '#0C4B8E'),
+        symbol = ~ sex,
+        symbols = c("cross", "square")) %>% 
+  layout(title = "Plot of Dependent Variables by Sex and Restecg",
+         scene = list(xaxis = list(title = "Cholestorol"),
+                      yaxis = list(title = "Max Heart Rate"),
+                      zaxis = list(title = "Resting Blood Pressure")))
+
+
+```
+
+
+
+```{r}
+sex1ecg1 <- dataset %>% filter(sex == 1,restecg == 1)
+sex1ecg1$dist <-  mahalanobis(sex1ecg1[,3:5],colMeans(sex1ecg1[,3:5]),cov(sex1ecg1[,3:5])) > 4
+
+plot_ly(data = sex1ecg1,
+        x = ~ chol,
+        y = ~ thalach,
+        z = ~ trestbps,
+        mode = 'markers',
+        color = ~ dist,
+        colors = c('#BF382A', '#0C4B8E')) %>% 
+  layout(title = "Outlier Analysis for Males having ST-T wave abnormality",
+         scene = list(xaxis = list(title = "Cholestorol"),
+                      yaxis = list(title = "Max Heart Rate"),
+                      zaxis = list(title = "Resting Blood Pressure")))
+
+outliers <- data.frame(sex = factor(c(1,1,1,1)),restecg = factor(c(1,1,1,1)),chol = c(342,388,365,341),thalach = c(96,122,134,125),trestbps = c(112,170,150,140))
+
+sex1ecg1 <- anti_join(sex1ecg1,outliers)
+
+```
+
+
+```{r}
+sex1ecg0 <- dataset %>% filter(sex == 1,restecg == 0)
+sex1ecg0$dist <-  mahalanobis(sex1ecg0[,3:5],colMeans(sex1ecg0[,3:5]),cov(sex1ecg0[,3:5])) > 6
+
+plot_ly(data = sex1ecg0,
+        x = ~ chol,
+        y = ~ thalach,
+        z = ~ trestbps,
+        mode = 'markers',
+        color = ~ dist,
+        colors = c('#BF382A', '#0C4B8E')) %>% 
+  layout(title = "Outlier Analysis for Males not having ST-T wave abnormality",
+         scene = list(xaxis = list(title = "Cholestorol"),
+                      yaxis = list(title = "Max Heart Rate"),
+                      zaxis = list(title = "Resting Blood Pressure")))
+
+
+sex1ecg0 <- filter(sex1ecg0,chol !=198, thalach != 142,trestbps != 200)
+sex1ecg0 <- filter(sex1ecg0,chol !=603, thalach != 125,trestbps != 130)
+sex1ecg0 <- filter(sex1ecg0,chol !=518, thalach != 130,trestbps != 145)
+sex1ecg0 <- filter(sex1ecg0,chol !=491, thalach != 135,trestbps != 155)
+sex1ecg0 <- filter(sex1ecg0,chol !=529, thalach != 130,trestbps != 118)
+sex1ecg0 <- filter(sex1ecg0,chol !=466, thalach != 152,trestbps != 120)
+sex1ecg0 <- filter(sex1ecg0,chol !=117, thalach != 134,trestbps != 92)
+
+```
+
+
+```{r}
+dataset %>% filter(sex == 0,restecg == 1) %>% ggpairs
+
+```
+```{r}
+dataset %>% filter(sex == 0,restecg == 0) %>% ggpairs
+
+```
+
+
+

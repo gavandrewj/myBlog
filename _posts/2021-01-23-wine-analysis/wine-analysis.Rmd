@@ -70,8 +70,8 @@ plot_ly(data = dataset, x = dataset$total_phenols,y = dataset$flavanoids,z = dat
                   )
                 )
 
-dataset <- filter(dataset,total_phenols != 3.18,flavanoids != 5.08,alcohol != 11.56)
-
+outlier <- data.frame(total_phenols = 3.18,flavanoids = 5.08,alcohol = 11.56)
+dataset <- anti_join(dataset,outlier)
 ```
 
 My view of looking at this problem is to imagine (haven't figured out how to easily do this in plotly) an ellipsoid centered at the respective group means, that will aim to encompass the data points for each group. To the extent that each ellipsoid contains it's points and separates itself from other ellipsoids will determine whether or not there is a difference across the levels of the categorical variable (cultivar).  
@@ -140,7 +140,8 @@ plot_ly(data = group3, x = group3$total_phenols,y = group3$flavanoids,z = group3
                   )
                 )
 
-group3 <- filter(group3,total_phenols != 2.8,flavanoids != 1.31,alcohol != 14.34 )
+outlier <- data.frame(total_phenols = 2.8,flavanoids = 1.31,alcohol = 14.34)
+group3 <- anti_join(group3,outlier)
 group3$cultivar <- 3
 
 dataset <- rbind(group1,group2,group3)
