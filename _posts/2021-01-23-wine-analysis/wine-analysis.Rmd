@@ -2,6 +2,13 @@
 title: "Wine Analysis"
 description: |
   This analysis explores an application of the Manova to measured chemical features of wine samples that come from different regions. The analysis includes the use of a k sample Brehen Fisher test for high dimensional data; this does not require the equality of covariance matrices assumption to be satisfied. 
+  
+base_url: https://github.com/gavandrewj/myBlog/
+
+categories:
+  - Multivariate Analysis
+  - Manova
+
 author:
   - name: Gavin Gordon
     url: https://example.com/norajones
