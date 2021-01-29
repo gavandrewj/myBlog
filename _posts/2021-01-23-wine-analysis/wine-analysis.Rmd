@@ -1,7 +1,7 @@
 ---
 title: "Wine Analysis"
 description: |
-  This analysis explores an application of the Manova to measured chemical features of wine samples that come from different regions. The analysis includes the use of a k sample Brehen Fisher test for high dimensional data; this does not require the equality of covariance matrices assumption to be satisfied. 
+  This analysis explores an application of the Manova to measured chemical features of wine samples that use different cultivars in the brewing process. The analysis includes the use of a k sample Brehen Fisher test for high dimensional data; this does not require the equality of covariance matrices assumption to be satisfied. 
   
 base_url: https://github.com/gavandrewj/myBlog/
 
@@ -85,7 +85,7 @@ Also there is one point that stands out as an outlier which belongs to group 2. 
 
 1. **Independence of Observations**  
 
-The wine samples come from different regions. If some of the samples were brewed in the same batch then this would introduce dependencies between the measurements; this is assumed to not have happened. 
+If some of the samples were brewed in the same batch then this would introduce dependencies between the measurements; this is assumed to not have happened. 
 
 2. **Normality and Outlier Analysis**  
 
@@ -303,7 +303,7 @@ The difference structure still remains the same but it is now between different 
 
 ## Conclusion
 
-Overall we consider there to be real differences between the wine samples that come from different regions on all level pairs. Whether these differences are of practical significance is to be determined by someone who can interpret the magnitudes of the paired differences appropriately.  
+Overall we consider there to be real differences between the wine samples use different cultivars on all level pairs. Whether these differences are of practical significance is to be determined by someone who can interpret the magnitudes of the paired differences appropriately.  
 
 For now we can say that there is a consistent structure to the differences in the cultivars across the total phenols and flavanoid variables where group one has the highest level followed by groups two and three respectively. 
 
