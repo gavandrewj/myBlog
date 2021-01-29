@@ -1,7 +1,7 @@
 ---
 title: "Ecg Analysis"
 description: |
-  A short description of the post.
+  This is an application of the two way Manova where three metrics that were measured from patients are compared across their Sex and whether or not they had a Normal ECG reading. All of the assumptions are tested; a problem is encountered with the rank of the dependent matrix.
 author:
   - name: Gavin Gordon
     url: https://example.com/norajones
@@ -28,10 +28,15 @@ library(pander)
 library(expss)
 library(beanplot)
 library(pairwiseCI)
+library(mvnormalTest)
 library(heplots)
 library(GGally)
 library(lubridate)
+library(mvoutlier)
+library(robustbase)
+library(heplots)
 ```
+
 
 ```{r}
 names <- c("age","sex","cp","trestbps","chol","fbs","restecg","thalach","exang","oldpeak","slope","ca","thal","num")
@@ -44,31 +49,44 @@ dataset$sex <- factor(dataset$sex)
 dataset$restecg <- factor(dataset$restecg)
 ```
 
-Alright so let us get right into the 3D scatterplot. We can see that it looks like a cloud of nothing in terms of group differences so this is where we would take advantage of the ability to filter the groups by clicking on the respective symbol in the legend. All of the groups seem to fill out the same/similar space as any other group. I would be surprised if there were differences along the means. Even cases where I would have considered to be outliers seem to have a few cases near it, indicating that these may be rare events rather than outliers. It should be noted that these rare events seem to be prone for a specific group as well. Perhaps it should be treated as both? 
+Alright so let us get right into the 3D scatterplot. We can see that it looks like a cloud of nothing in terms of group differences so this is where we would take advantage of the ability to filter the groups by clicking on the respective symbol in the legend. All of the groups seem to fill out the same/similar space as any other group. I would be surprised if there were differences along the means. Even cases where I would have considered to be outliers seem to have a few cases near it, indicating that these may be rare events rather than outliers. It should be noted that these rare events seem to be prone for a specific group as well.
 
+&nbsp;
 ```{r}
 plot_ly(data = dataset,
         x = ~ chol,
         y = ~ thalach,
         z = ~ trestbps,
         mode = 'markers',
-        color = ~ restecg,
+        color = ~ factor(dataset$restecg,labels = c("Normal","Not Normal")),
         colors = c('#BF382A', '#0C4B8E'),
-        symbol = ~ sex,
+        symbol = ~ factor(dataset$sex,labels = c("Male","Female")),
         symbols = c("cross", "square")) %>% 
   layout(title = "Plot of Dependent Variables by Sex and Restecg",
          scene = list(xaxis = list(title = "Cholestorol"),
                       yaxis = list(title = "Max Heart Rate"),
                       zaxis = list(title = "Resting Blood Pressure")))
 
-
 ```
 
+## Checking the Assumptions for the Manova
+
+1. **Independence of Observations** 
+
+Each record in the data belongs to a single individual/patient and is expected to be independent of any other record.
 
 
+2. **Normality and Outlier Analysis**  
+
+We shall check each of the group distribution for outliers. This is my first use of the robustbase package (covMcd function) in R to flag outliers. It is somewhat strange to see what points are being flagged as I now see the difference in viewing plots from the perspective as without any account for the difference in  variability across the variables vs the outlier flagging which would take account for this. Strange in the sense that there are points that I would have flagged that are seemingly not a problem. For example, in the first plot below my attention would have been drawn to all four of the points that are separated from the cloud while the package claims that only two of these are a problem. 
+
+Since I am not in a position to check the validity of any point it is removed from the analysis should it be considered not be from the respective distribution under consideration.
+
+&nbsp;
 ```{r}
 sex1ecg1 <- dataset %>% filter(sex == 1,restecg == 1)
-sex1ecg1$dist <-  mahalanobis(sex1ecg1[,3:5],colMeans(sex1ecg1[,3:5]),cov(sex1ecg1[,3:5])) > 4
+
+sex1ecg1$dist <- factor(covMcd(sex1ecg1[,3:5],alpha = 0.5)$mcd.wt,labels = c("Outlier","Not Outlier"))
 
 plot_ly(data = sex1ecg1,
         x = ~ chol,
@@ -82,16 +100,14 @@ plot_ly(data = sex1ecg1,
                       yaxis = list(title = "Max Heart Rate"),
                       zaxis = list(title = "Resting Blood Pressure")))
 
-outliers <- data.frame(sex = factor(c(1,1,1,1)),restecg = factor(c(1,1,1,1)),chol = c(342,388,365,341),thalach = c(96,122,134,125),trestbps = c(112,170,150,140))
-
-sex1ecg1 <- anti_join(sex1ecg1,outliers)
-
+sex1ecg1 <- filter(sex1ecg1,dist == "Not Outlier")
+sex1ecg1$group <- "11"
 ```
-
-
+&nbsp;
 ```{r}
 sex1ecg0 <- dataset %>% filter(sex == 1,restecg == 0)
-sex1ecg0$dist <-  mahalanobis(sex1ecg0[,3:5],colMeans(sex1ecg0[,3:5]),cov(sex1ecg0[,3:5])) > 6
+
+sex1ecg0$dist <- factor(covMcd(sex1ecg0[,3:5],alpha = 0.5)$mcd.wt,labels = c("Outlier","Not Outlier"))
 
 plot_ly(data = sex1ecg0,
         x = ~ chol,
@@ -100,31 +116,159 @@ plot_ly(data = sex1ecg0,
         mode = 'markers',
         color = ~ dist,
         colors = c('#BF382A', '#0C4B8E')) %>% 
-  layout(title = "Outlier Analysis for Males not having ST-T wave abnormality",
+  layout(title = "Outlier Analysis for Males having ST-T wave abnormality",
          scene = list(xaxis = list(title = "Cholestorol"),
                       yaxis = list(title = "Max Heart Rate"),
                       zaxis = list(title = "Resting Blood Pressure")))
 
-
-sex1ecg0 <- filter(sex1ecg0,chol !=198, thalach != 142,trestbps != 200)
-sex1ecg0 <- filter(sex1ecg0,chol !=603, thalach != 125,trestbps != 130)
-sex1ecg0 <- filter(sex1ecg0,chol !=518, thalach != 130,trestbps != 145)
-sex1ecg0 <- filter(sex1ecg0,chol !=491, thalach != 135,trestbps != 155)
-sex1ecg0 <- filter(sex1ecg0,chol !=529, thalach != 130,trestbps != 118)
-sex1ecg0 <- filter(sex1ecg0,chol !=466, thalach != 152,trestbps != 120)
-sex1ecg0 <- filter(sex1ecg0,chol !=117, thalach != 134,trestbps != 92)
+sex1ecg0 <- filter(sex1ecg0,dist == "Not Outlier")
+sex1ecg0$group <- "10"
 
 ```
 
+&nbsp;
+```{r}
+sex0ecg1 <- dataset %>% filter(sex == 0,restecg == 1)
+
+sex0ecg1$dist <- factor(covMcd(sex0ecg1[,3:5],alpha = 0.5)$mcd.wt,labels = c("Outlier","Not Outlier"))
+
+plot_ly(data = sex0ecg1,
+        x = ~ chol,
+        y = ~ thalach,
+        z = ~ trestbps,
+        mode = 'markers',
+        color = ~ factor(dist),
+        colors = c('#BF382A', '#0C4B8E')) %>% 
+  layout(title = "Outlier Analysis for Males having ST-T wave abnormality",
+         scene = list(xaxis = list(title = "Cholestorol"),
+                      yaxis = list(title = "Max Heart Rate"),
+                      zaxis = list(title = "Resting Blood Pressure")))
+
+sex0ecg1 <-filter(sex0ecg1,dist == "Not Outlier")
+sex0ecg1$group <- "01"
+
+```
 
 ```{r}
-dataset %>% filter(sex == 0,restecg == 1) %>% ggpairs
+normtest <- mvnTest(sex0ecg1[,3:5],B = 2000)
+pval <- normtest$mv.test
+pval <- round(as.numeric(pval[2]),2)
 
 ```
+
+Since this group has less than 20 observations we must make sure that the observations follow a multivariate normal distribution. This is done with the test detailed in Zhou (2014) and returns a p value of `r pval`. Therefore given that the null hypothesis is true, the likelihood of the observed data following a multivariate normal distribution is is somewhat high. 
+
+&nbsp;
 ```{r}
-dataset %>% filter(sex == 0,restecg == 0) %>% ggpairs
+sex0ecg0 <- dataset %>% filter(sex == 0,restecg == 0)
+
+
+sex0ecg0$dist <- factor(covMcd(sex0ecg0[,3:5])$mcd.wt,labels = c("Outlier","Not Outlier"))
+
+plot_ly(data = sex0ecg0,
+        x = ~ chol,
+        y = ~ thalach,
+        z = ~ trestbps,
+        mode = 'markers',
+        color = ~ dist,
+        colors = c('#BF382A', '#0C4B8E')) %>% 
+  layout(title = "Outlier Analysis for Males having ST-T wave abnormality",
+         scene = list(xaxis = list(title = "Cholestorol"),
+                      yaxis = list(title = "Max Heart Rate"),
+                      zaxis = list(title = "Resting Blood Pressure")))
+
+sex0ecg0 <- filter(sex0ecg0,dist == "Not Outlier")
+sex0ecg0$group <- "00"
 
 ```
+
+&nbsp;
+
+3. **Equality of Variance Covariance Matrices**
+
+<center>
+```{r}
+dataset <- rbind(sex1ecg1,sex1ecg0,sex0ecg1,sex0ecg0)
+
+pander(leveneTests(dataset[,3:5],group = dataset$group))
+
+
+```
+</center>
+
+We can see that for each of the variables the levene test reports that if we were to assume that there are no differences in variability between the variables, then the data that was observed would be consistent with that assumption. 
+
+
+4. **Linearity and Multicollinearity of Dependent Variables**  
+
+<center>
+```{r}
+names <- c("Chol","Thalach","Trestbps")
+g <- sex1ecg1 %>% select(chol,thalach,trestbps) %>% ggpairs(columnLabels = names,title = "Correlation: Males with Abnormal Ecg") + 
+  theme_bw() 
+ggplotly(g)
+```
+</center>
+
+&nbsp;
+
+<center>
+```{r}
+g <- sex1ecg0 %>% select(chol,thalach,trestbps) %>% ggpairs(columnLabels = names,title = "Correlation: Males with Normal Ecg") + 
+  theme_bw() 
+ggplotly(g)
+```
+</center>
+
+&nbsp;
+
+<center>
+```{r}
+g <- sex0ecg1 %>% select(chol,thalach,trestbps) %>% ggpairs(columnLabels = names,title = "Correlation: Females with Abnormal Ecg") + 
+  theme_bw() 
+ggplotly(g)
+```
+</center>
+
+&nbsp;
+
+<center>
+```{r}
+g <- sex0ecg0 %>% select(chol,thalach,trestbps) %>% ggpairs(columnLabels = names,title = "Correlation: Females with Normal Ecg") + 
+  theme_bw() 
+ggplotly(g)
+```
+</center>
+
+We can see that out of the sixteen plots three have correlations that are flagged as significant. The linearity assumption of the technique is not satisfied thus how much power the Manova will have is questionable. There is no cause for concern over Multicollinearity.  
+
+Overall although the technique may be of questionable power the assumptions are to a satisfactory level.
+
+
+## Analysis
+So the built in manova function in R is failing with the error message Error in summary.manova(man) : residuals have rank 2 < 3. The advice online is that the dependent variables are highly correlated which I don't think applies for this case.  
+
+I removed the group having the 150 sample size, and the error was still thrown. So I suppose I'll do the calculations by hand and try to trace the problem. This prompts the question of whether you should first check to make sure that certain mathematical properties of the dependent variables are satisfied before starting the analysis. 
+
+```{r echo = T}
+man <- manova(cbind(chol,trestbps,restecg) ~ sex*restecg,data = dataset)
+man
+```
+
+## References
+Lichman, M. (2013). UCI Machine Learning Repository [http://archive.ics.uci.edu/ml]. Irvine, CA: University of California, School of Information and Computer Science  
+
+Regarding the dataset (retrieved from data.world)  
+Source Information:  
+     Creators:   
+       -- 1. Hungarian Institute of Cardiology. Budapest: Andras Janosi, M.D.  
+       -- 2. University Hospital, Zurich, Switzerland: William Steinbrunn, M.D.  
+       -- 3. University Hospital, Basel, Switzerland: Matthias Pfisterer, M.D.  
+       -- 4. V.A. Medical Center, Long Beach and Cleveland Clinic Foundation:  
+             Robert Detrano, M.D., Ph.D.  
+
+Zhou, M., & Shao, Y. (2014). A powerful test for multivariate normality. Journal of applied statistics, 41(2), 351-363.
+
 
 
 

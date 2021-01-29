@@ -22,8 +22,12 @@ MCPAN
 survival
 coin
 pairwiseCI
+mvnormalTest
 carData
 car
 heplots
 GGally
 lubridate
+sgeostat
+mvoutlier
+robustbase
