@@ -1,7 +1,15 @@
 ---
-title: "Ecg Analysis"
+title: "ECG Analysis"
 description: |
   This is an application of the two way Manova where three metrics that were measured from patients are compared across their Sex and whether or not they had a Normal ECG reading. All of the assumptions are tested; a problem is encountered with the rank of the dependent matrix.
+
+base_url: https://github.com/gavandrewj/myBlog/
+
+categories:
+  - Multivariate Analysis
+  - Manova
+  
+  
 author:
   - name: Gavin Gordon
     url: https://example.com/norajones

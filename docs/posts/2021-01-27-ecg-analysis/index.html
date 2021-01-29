@@ -85,10 +85,11 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </style>
 
   <!--radix_placeholder_meta_tags-->
-<title>Toolkit: Ecg Analysis</title>
+<title>Toolkit: ECG Analysis</title>
 
 <meta property="description" itemprop="description" content="This is an application of the two way Manova where three metrics that were measured from patients are compared across their Sex and whether or not they had a Normal ECG reading. All of the assumptions are tested; a problem is encountered with the rank of the dependent matrix."/>
 
+<link rel="canonical" href="https://github.com/gavandrewj/myBlog/"/>
 
 <!--  https://schema.org/Article -->
 <meta property="article:published" itemprop="datePublished" content="2021-01-27"/>
@@ -96,22 +97,30 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <meta name="article:author" content="Gavin Gordon"/>
 
 <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-<meta property="og:title" content="Toolkit: Ecg Analysis"/>
+<meta property="og:title" content="Toolkit: ECG Analysis"/>
 <meta property="og:type" content="article"/>
 <meta property="og:description" content="This is an application of the two way Manova where three metrics that were measured from patients are compared across their Sex and whether or not they had a Normal ECG reading. All of the assumptions are tested; a problem is encountered with the rank of the dependent matrix."/>
+<meta property="og:url" content="https://github.com/gavandrewj/myBlog/"/>
 <meta property="og:locale" content="en_US"/>
 <meta property="og:site_name" content="Toolkit"/>
 
 <!--  https://dev.twitter.com/cards/types/summary -->
 <meta property="twitter:card" content="summary"/>
-<meta property="twitter:title" content="Toolkit: Ecg Analysis"/>
+<meta property="twitter:title" content="Toolkit: ECG Analysis"/>
 <meta property="twitter:description" content="This is an application of the two way Manova where three metrics that were measured from patients are compared across their Sex and whether or not they had a Normal ECG reading. All of the assumptions are tested; a problem is encountered with the rank of the dependent matrix."/>
+<meta property="twitter:url" content="https://github.com/gavandrewj/myBlog/"/>
 
+<!--  https://scholar.google.com/intl/en/scholar/inclusion.html#indexing -->
+<meta name="citation_title" content="Toolkit: ECG Analysis"/>
+<meta name="citation_fulltext_html_url" content="https://github.com/gavandrewj/myBlog/"/>
+<meta name="citation_online_date" content="2021/01/27"/>
+<meta name="citation_publication_date" content="2021/01/27"/>
+<meta name="citation_author" content="Gavin Gordon"/>
 <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
 
 <script type="text/json" id="radix-rmarkdown-metadata">
-{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output"]}},"value":[{"type":"character","attributes":{},"value":["Ecg Analysis"]},{"type":"character","attributes":{},"value":["This is an application of the two way Manova where three metrics that were measured from patients are compared across their Sex and whether or not they had a Normal ECG reading. All of the assumptions are tested; a problem is encountered with the rank of the dependent matrix."]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Gavin Gordon"]},{"type":"character","attributes":{},"value":["https://example.com/norajones"]}]}]},{"type":"character","attributes":{},"value":["01-27-2021"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]}]}
+{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","base_url","categories","author","date","output","citation_url","canonical_url"]}},"value":[{"type":"character","attributes":{},"value":["ECG Analysis"]},{"type":"character","attributes":{},"value":["This is an application of the two way Manova where three metrics that were measured from patients are compared across their Sex and whether or not they had a Normal ECG reading. All of the assumptions are tested; a problem is encountered with the rank of the dependent matrix."]},{"type":"character","attributes":{},"value":["https://github.com/gavandrewj/myBlog/"]},{"type":"character","attributes":{},"value":["Multivariate Analysis","Manova"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Gavin Gordon"]},{"type":"character","attributes":{},"value":["https://example.com/norajones"]}]}]},{"type":"character","attributes":{},"value":["01-27-2021"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"character","attributes":{},"value":["https://github.com/gavandrewj/myBlog/"]},{"type":"character","attributes":{},"value":["https://github.com/gavandrewj/myBlog/"]}]}
 </script>
 <!--/radix_placeholder_rmarkdown_metadata-->
   
@@ -2020,7 +2029,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Ecg Analysis","description":"This is an application of the two way Manova where three metrics that were measured from patients are compared across their Sex and whether or not they had a Normal ECG reading. All of the assumptions are tested; a problem is encountered with the rank of the dependent matrix.","authors":[{"author":"Gavin Gordon","authorURL":"https://example.com/norajones","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}],"publishedDate":"2021-01-27T00:00:00.000-04:00","citationText":"Gordon, 2021"}
+{"title":"ECG Analysis","description":"This is an application of the two way Manova where three metrics that were measured from patients are compared across their Sex and whether or not they had a Normal ECG reading. All of the assumptions are tested; a problem is encountered with the rank of the dependent matrix.","authors":[{"author":"Gavin Gordon","authorURL":"https://example.com/norajones","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}],"publishedDate":"2021-01-27T00:00:00.000-04:00","citationText":"Gordon, 2021"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -2043,8 +2052,12 @@ document.addEventListener('DOMContentLoaded', function() {
 <!--/radix_placeholder_site_before_body-->
 
 <div class="d-title">
-<h1>Ecg Analysis</h1>
+<h1>ECG Analysis</h1>
 <!--radix_placeholder_categories-->
+<div class="dt-tags">
+  <a href="../../index.html#category:Multivariate_Analysis" class="dt-tag">Multivariate Analysis</a>
+  <a href="../../index.html#category:Manova" class="dt-tag">Manova</a>
+</div>
 <!--/radix_placeholder_categories-->
 <p><p>This is an application of the two way Manova where three metrics that were measured from patients are compared across their Sex and whether or not they had a Normal ECG reading. All of the assumptions are tested; a problem is encountered with the rank of the dependent matrix.</p></p>
 </div>
@@ -2230,7 +2243,18 @@ Robert Detrano, M.D., Ph.D. </p>
 <!--radix_placeholder_site_after_body-->
 <!--/radix_placeholder_site_after_body-->
 <!--radix_placeholder_appendices-->
-<div class="appendix-bottom"></div>
+<div class="appendix-bottom">
+  <h3 id="citation">Citation</h3>
+  <p>For attribution, please cite this work as</p>
+  <pre class="citation-appendix short">Gordon (2021, Jan. 27). Toolkit: ECG Analysis. Retrieved from https://github.com/gavandrewj/myBlog/</pre>
+  <p>BibTeX citation</p>
+  <pre class="citation-appendix long">@misc{gordon2021ecg,
+  author = {Gordon, Gavin},
+  title = {Toolkit: ECG Analysis},
+  url = {https://github.com/gavandrewj/myBlog/},
+  year = {2021}
+}</pre>
+</div>
 <!--/radix_placeholder_appendices-->
 <!--radix_placeholder_navigation_after_body-->
 <!--/radix_placeholder_navigation_after_body-->
