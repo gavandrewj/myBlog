@@ -68,7 +68,7 @@ ggplotly(g)
 
 ```{r echo=T}
 #number of simulations
-nsim <- 1000
+nsim <- 2000
 #create empty list for accepted values
 accept <- c()
 para <- data.frame(shape1=1,scale2 = 1)
