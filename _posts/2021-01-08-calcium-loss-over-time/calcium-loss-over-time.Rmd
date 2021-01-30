@@ -1,7 +1,15 @@
 ---
 title: "Calcium Loss over Time"
 description: |
-  An application of the Repeated Measures Analysis that consists of one between measure variable (exercise and diet) and one within measure variable (time). The study was done to monitor the bone loss of the Ulna over time periods for older women.. 
+  An application of the Repeated Measures Analysis to a study of bone loss of older women over time. The study consisted of one between measure variable (exercise and diet) and one within measure variable (time). We explore each group first to determine if there was a change over time; and then compare the groups to see if the changes over time differed.
+
+base_url: https://github.com/gavandrewj/myBlog/
+
+categories:
+  - Multivariate Analysis
+  - Manova
+  - Repeated Measures  
+  
 author:
   - name: Gavin Gordon
     url: https://example.com/norajones
@@ -11,10 +19,7 @@ output:
     self_contained: false
 ---
 
-#Problem
-
-I will first perform the one way repeated measures Manova using each of the two groups, then the two way form will be analyzed. 
-
+As mentioned in the introduction we first investigate the changes within each of the groups. We will start with the control group
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE,cache = T,message = F,warning = F)
