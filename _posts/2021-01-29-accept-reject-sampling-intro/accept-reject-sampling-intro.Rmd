@@ -30,7 +30,7 @@ library(plotly)
 library(fitdistrplus)
 ```
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/OXDqjdVVePY" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 
 ### advantages:
 1. You can draw from any distribution.  
@@ -45,10 +45,10 @@ So disadvantages:
 
 
 ## Examples 
-Simulation from a Beta distribution when the parameters are both above one. 
+For the first example we will be simulating from a Beta distribution for when the parameters are both above one. We will generate the sample, generate some distribution fit plots and then try to recover the parameters.  
 
 <center>
-```{r}
+```{r fig.cap= "Functions of Interest"}
 # Let us use a beta distribution with alpha = 1.5, beta 2
 
 x <- seq(0,1,0.01)
@@ -59,12 +59,16 @@ data <- data.frame(x = c(x,x,x),points = c(fx,gx,mgx),line = factor(c(rep("fx",1
 g <- ggplot(data,aes(x,points,color = line)) + 
   geom_line() + 
   theme_bw() + 
-  labs(y = "Density",title = "Functions of Interest",color = "Function") + 
+  labs(y = "Density",color = "Function") + 
   theme(plot.title = element_text(hjust = 0.5)) 
 
 ggplotly(g)
 ```
 </center>
+
+So the above graph gives a visual for the functions we will be working with. The focus is the beta pdf in red. We will be simulating values from a random uniform (green) that is scaled to a point chosen somewhat arbitrarily to where the random uniform is above the beta for every value along the curve. 
+
+### Simulation
 
 ```{r echo=T}
 #number of simulations
@@ -94,6 +98,8 @@ if(rcom <= dbeta(cand,1.5,2)/(1.5 * dunif(cand))){
 nacc <- length(accept)
 ```
 
+### Checking the Fit
+
 <center>
 ```{r out.width = '140%',fig.cap="Beta fit to the Accepted Samples",fig.pos='H'}
 distr <- fitdist(accept,distr = "beta")
@@ -106,10 +112,15 @@ par(mfrow = c(2, 2),mar = c(2,2,1.75,1.75))
 ```
 </center>
 
-The number of samples that were accepted in the simulation are `r nacc`. The estimated values for the parameter are `r round(distr$estimate[1],2)` being the shape and `r round(distr$estimate[2],2)` for the scale. 
+The above are the distribution plots mentioned. The histogram and density curve in the first plot seem similar to the pdf of the beta function in figure one. The other distribution plots show exactly how well the sample fits a beta distribution. As you can imagine the closer to the lines that the points fall the better the fit.   
 
-Let's take a look at the convergence for the parameters
+  
 
+### Checking the convergence for the parameters
+
+The number of samples that were accepted in the simulation are `r nacc` or `r round(nacc/nsim * 100,2)` percent of the simulated values. The estimated values for the parameters are `r round(distr$estimate[1],2)` for the shape and `r round(distr$estimate[2],2)` for the scale. 
+
+<center>
 ```{r out.width = '140%',fig.cap="Convergence of Parameters",fig.pos='H'}
 n <- nrow(para)-1
 shape <- cumsum(para$shape1[-1])/1:n
@@ -118,14 +129,29 @@ para <- data.frame(n =1:n,shape,scale)
 
 par(mfrow = c(2, 1),mar = c(2,2,1.75,1.75))
 
-ggplotly(ggplot(para,aes(x =n,shape)) + 
+g1 <- ggplotly(ggplot(para,aes(x =n,shape)) + 
   geom_line() + 
   theme_bw() + 
-  labs(x = "Sample Size",y = "Magnitude of shape parameter"))
+  labs(x = "Sample Size",y = "Magnitude of shape parameter")) 
 
-ggplotly(ggplot(para,aes(x = n,scale)) + 
+g2 <- ggplotly(ggplot(para,aes(x = n,scale)) + 
   geom_line() + 
   theme_bw() + 
-  labs(x = "Sample Size",y = "Magnitude of scale parameter"))
+  labs(x = "Sample Size",y = "Magnitude of scale parameter")) 
 
+subplot(g1,g2)
 ```
+</center>
+
+Both parameters seem to become stable at the true parameter values. It is somewhat concerning that for the scale parameter the estimate keeps decreasing even though it gives the impression that it has come stable at the magnitude of the true parameter. 
+
+
+### Helpful Content
+<center>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/OXDqjdVVePY" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</center>
+
+
+## References
+
+Robert, C. and Casella, G., n.d. Introducing Monte Carlo Methods with R (2010).
