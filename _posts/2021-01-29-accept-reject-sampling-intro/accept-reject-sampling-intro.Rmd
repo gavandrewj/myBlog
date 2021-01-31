@@ -19,6 +19,9 @@ output:
 
 # Introduction
 
+This is where I am first exposed to acceptance rejection sampling. Say we are interested in simulating from a distribution f. Perhaps it is costly to sample from this distribution although the idea of computational costs is somewhat laughable when I think of the computing power that is available in the modern day; of course this would scale by quite a bit depending on the task. It may be also the case that we can't sample directly from the distribution. What we will try to do is to use another distribution g ,that is ideally similar to the one we are interested in and is easy to sample from. We will perform a calculation that will determine whether we accept the sample or reject it so that the sample eventually assumes the proper distribution form of f.  
+
+
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, message = F, warning = F,cache = T)
@@ -32,23 +35,30 @@ library(fitdistrplus)
 
 
 
-### advantages:
+### Advantages
+
 1. You can draw from any distribution.  
 
 
-So disadvantages:
+### Disadvantages
+
 1. You can end up rejecting so many samples that the technique becomes inefficient. 
 
 
-### What you should be aware of when using this technique
+### Some things to consider 
+
+You have to find an a value M that will scale the proposal distribution g such that it is above every point on f. The set optimization techniques will help you to find the global maximum of f which any value greater than or equal would suffice (ideally this maximum though).  
+
+You can also find a good M by finding the maxiumum of f/g. You do this because you will accept when the randomly generated value is less than M, so you will try to maximize the value of M in this scenario. 
+
 
 
 
 ## Examples 
-For the first example we will be simulating from a Beta distribution for when the parameters are both above one. We will generate the sample, generate some distribution fit plots and then try to recover the parameters.  
+For the first example we will be simulating from a Beta distribution for when the parameters are both above one. We will generate the sample, display and assess some distribution fit plots and then try to recover the parameters.  
 
 <center>
-```{r fig.cap= "Functions of Interest"}
+```{r}
 # Let us use a beta distribution with alpha = 1.5, beta 2
 
 x <- seq(0,1,0.01)
@@ -59,7 +69,7 @@ data <- data.frame(x = c(x,x,x),points = c(fx,gx,mgx),line = factor(c(rep("fx",1
 g <- ggplot(data,aes(x,points,color = line)) + 
   geom_line() + 
   theme_bw() + 
-  labs(y = "Density",color = "Function") + 
+  labs(y = "Density",color = "Function",title = "Functions of Interest") + 
   theme(plot.title = element_text(hjust = 0.5)) 
 
 ggplotly(g)
