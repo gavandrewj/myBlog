@@ -2,6 +2,11 @@
 title: "Monte Carlo Optimization"
 description: |
   This is an introduction to the solution that Monte Carlo simulations provide to optimization problems.
+base_url: https://github.com/gavandrewj/myBlog/
+
+categories:
+  - Simulation
+  
 author:
   - name: Gavin Gordon
     url: https://example.com/norajones
@@ -153,4 +158,7 @@ Moving along the line (interactive) we can see that the value decreases in magni
 
 
 
+## References
+
+Robert, C. and Casella, G., n.d. Introducing Monte Carlo Methods with R (2010).
 
