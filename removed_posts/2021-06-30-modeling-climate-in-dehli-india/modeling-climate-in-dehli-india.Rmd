@@ -1,0 +1,299 @@
+---
+title: "Modeling Climate in Dehli, India"
+description: |
+  A short description of the post.
+author:
+  - name: Gavin Gordon
+    url: https://example.com/norajones
+date: 06-30-2021
+output:
+  distill::distill_article:
+    self_contained: false
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE,
+                      message = F,
+                      warning = F,
+                      knitr.duplicate.label = "allow")
+```
+
+```{r}
+library(plotly)
+library(patchwork)
+```
+
+```{r}
+visualization_artifacts <- readRDS('C:/Users/gavin/Documents/GitHub/temp_dehli/02_exploration/visualization_artifacts.rds')
+```
+
+## Exploratory Analysis
+
+First we will have a look at the variables in their raw form as found in
+the dataset.
+
+```{r}
+visualization_artifacts[[1]] %>%
+  layout(width = 700)
+```
+
+The measurements for temperature show a strong annual effect where the
+temperatures reach the lowest in January, and becomes warmer throughout
+the year until a turning point is reached roughly around June after
+which it descends. The changes in temperature are generally smooth with
+the only concerning feature thus far being the double peak event that
+seems to occur in the first, third and fourth years.
+
+```{r}
+visualization_artifacts[[2]] %>%
+  layout(width = 700)
+
+```
+
+Humidity also has a strong annual seasonal pattern. The highest level
+occurs during the start of the year after which there is a steady
+decline reaching it's lowest level around early May. The humidity then
+rises until it reaches a peak roughly around July-August after which it
+declines until the months of October-November then rises finally to the
+high-point in January. A concern may be the shifting of the period in
+between the double peak. Another may be that the humidity magnitudes for
+the double peaks seem to be approaching the same value through the
+years. The values seem to vary about the trend to a large degree.
+
+```{r}
+visualization_artifacts[[3]] %>%
+  layout(width = 700)
+```
+
+The wind speed data has an annual seasonal trend that is similar to that
+of the temperature data in terms of it's behavior across the months but
+instead has the lowest speeds occurring during the months of
+November-December. There are a few instances where the wind speed does
+exceed that of the trend and these don't seem to be affiliated with any
+specific calendar based time period.
+
+```{r}
+visualization_artifacts[[4]] %>%
+  layout(width = 700)
+```
+
+The initial view for the pressure data is not very helpful as there are
+several data points that require inspection.
+
+<br>
+
+### Application of Logarithm Transformation with offset
+
+```{r}
+plotly::subplot(
+visualization_artifacts[[5]] %>%
+  layout(width = 700),
+visualization_artifacts[[6]] %>%
+  layout(width = 700,
+         title = list(text = "")),
+titleX = F,
+titleY = F
+)  %>% layout(annotations = list(
+ list(x = 0.2 , y = 1.10, text = "Log Temperature", showarrow = F, xref='paper', yref='paper'),
+  list(x = 0.8 , y = 1.10, text = "Log Humidity", showarrow = F, xref='paper', yref='paper'))
+)
+```
+
+```{r}
+plotly::subplot(
+visualization_artifacts[[7]] %>%
+  layout(width = 700),
+visualization_artifacts[[8]] %>%
+  layout(width = 700,
+         title = list(text = "")),
+titleX = F,
+titleY = F,
+margin = 0.03
+)  %>% layout(annotations = list(
+ list(x = 0.2 , y = 1.10, text = "Log Wind Speed", showarrow = F, xref='paper', yref='paper'),
+  list(x = 0.8 , y = 1.10, text = "Log Pressure", showarrow = F, xref='paper', yref='paper'))
+)
+```
+
+In order to show the pattern within the Pressure data the most troubling
+outliers were inspected and removed. This will be detailed in the next
+section for the other variables. The data was checked via " " which
+hosts historical and current climate and weather data for Dehli.
+
+The pattern for the wind speed is not more concretely seen after the log
+transformation.
+
+<br>
+
+### Correlation Plots
+
+```{r}
+visualization_artifacts[[9]] %>%
+  layout(width = 700)
+```
+
+The temperature variable seems have a strong decaying correlation
+between the lags. It also seems that after the zero and first lag are
+controlled for, subsequent lags do not hold much more information about
+the series as even the seasonal component is removed. Lags 2, 3 and 4
+may be included in the model but it is doubtful that this will improve
+the fit.
+
+```{r}
+visualization_artifacts[[10]] %>%
+  layout(width = 700)
+```
+
+A similar process seems to hold true for the Humidity variable.
+
+```{r}
+visualization_artifacts[[11]] %>%
+  layout(width = 700)
+```
+
+There exists correlation present between the lagged values of Wind Speed
+that is of a rapidly decaying nature and is much weaker than the
+correlation found in both the Temperature and Humidity data.
+
+```{r}
+visualization_artifacts[[12]] %>%
+  layout(width = 700)
+```
+
+There exists correlation between the lags of the Pressure variable that
+is of a gentle decreasing nature comparable to that of the Temperature
+and Humidity Data. In this case the third lag may be of interest.
+
+```{r}
+visualization_artifacts[[13]] %>%
+  layout(width = 700,height = 500 )
+```
+
+<br>
+
+<br>
+
+The above plot will allow us to understand how Humidity, Wind Speed and
+Pressure vary with Temperature. Humidity has a moderate, negative and
+gently decaying correlation effect with Temperature (starting at -0.57).
+Wind Speed has a weak, positive and gently decaying correlation effect
+with Temperature (the effect sizes start at 0.27). Pressure has a strong
+negative gently decaying correlation effect with Temperature (starting
+at -0.86).
+
+### Seasonal Diagnositcs
+
+```{r}
+
+plotly::subplot(
+visualization_artifacts[[14]] %>%
+  layout(width = 700),
+visualization_artifacts[[15]] %>%
+  layout(width = 700,
+         title = list(text = "")),
+titleX = F,
+titleY = F,
+margin = 0.03
+)  %>% layout(annotations = list(
+ list(x = 0.2 , y = 1.10, text = "Temperature", showarrow = F, xref='paper', yref='paper'),
+  list(x = 0.8 , y = 1.10, text = "Humidity", showarrow = F, xref='paper', yref='paper'))
+) 
+# %>%
+#   layout(width = 900)
+
+```
+
+```{r}
+plotly::subplot(
+visualization_artifacts[[16]] %>%
+  layout(width = 1200,
+         autosize = T),
+visualization_artifacts[[17]] %>%
+  layout(width = 700,
+         title = list(text = "")),
+titleX = F,
+titleY = F,
+margin = 0.03
+)  %>% layout(annotations = list(
+ list(x = 0.2 , y = 1.10, text = "Wind Speed", showarrow = F, xref='paper', yref='paper'),
+  list(x = 0.8 , y = 1.10, text = "Pressure", showarrow = F, xref='paper', yref='paper'))
+) 
+# %>%
+#   layout(width = 900,height = 500 )
+```
+
+Each of the time series data indicate a seasonal pattern for the month,
+but not for any other calendar based time feature such as the week day
+or year. This is consistent with the description in the first section
+that showed a consistent pattern within each year.
+
+I suggest you use the interactive selection of the plots in order to
+focus directly on the boxplots so the any outlier effects will diminish.
+
+<br>
+
+### Anomalies/Outliers
+
+```{r}
+plotly::subplot(
+visualization_artifacts[[18]] %>%
+  layout(width = 1200,
+         title = list(text = "")),
+visualization_artifacts[[19]] %>%
+  layout(width = 700,
+         title = list(text = "")),
+titleX = F,
+titleY = F,
+margin = 0.03
+)  %>% layout(annotations = list(
+ list(x = 0.2 , y = 1.10, text = "Temperature", showarrow = F, xref='paper', yref='paper'),
+  list(x = 0.8 , y = 1.10, text = "Humidity", showarrow = F, xref='paper', yref='paper'))
+) 
+# %>%
+#   layout(width = 900,height = 500 )
+```
+
+```{r}
+plotly::subplot(
+visualization_artifacts[[20]] %>%
+  layout(width = 1200,
+         title = list(text = "")),
+visualization_artifacts[[21]] %>%
+  layout(width = 700,
+         title = list(text = "")),
+titleX = F,
+titleY = F,
+margin = 0.03
+)  %>% layout(annotations = list(
+ list(x = 0.2 , y = 1.10, text = "Wind Speed", showarrow = F, xref='paper', yref='paper'),
+  list(x = 0.8 , y = 1.10, text = "Pressure", showarrow = F, xref='paper', yref='paper'))
+)
+# %>%
+#   layout(width = 900,height = 500 )
+```
+
+The time stamps identified in the above plots were all checked for
+validity. It is the case that all of the Pressure data anomalies were
+resolved. See the outlier table in the appendix for the details on all
+points.
+
+### Season Trend by Loess Decomposition
+
+```{r out.height= '110%',out.width= '110%' }
+
+visualization_artifacts[[25]] + visualization_artifacts[[26]] 
+```
+
+```{r out.height= '110%',out.width= '110%'}
+visualization_artifacts[[27]] + visualization_artifacts[[28]] 
+```
+
+### Standardized Plot for all Time Series
+
+```{r}
+visualization_artifacts[[29]] %>%
+  layout(width = 700)
+```

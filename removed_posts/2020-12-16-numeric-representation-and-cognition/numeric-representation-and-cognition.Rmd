@@ -1,0 +1,57 @@
+---
+title: "Numeric Representation and Cognition"
+description: |
+  A short description of the post.
+author:
+  - name: Gavin Gordon
+    url: https://example.com/norajones
+date: 12-16-2020
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+```{r setup, include=FALSE}
+#Set some global options for the output
+knitr::opts_chunk$set(echo = F,cache = T,message = F,warning = F)
+```
+
+## Problem 
+The data was collected to test two psychological models of numerical cognition. Does the processing of numbers depend on the way the numbers are presented (words, Arabic digits)? Thirty-two subjects were required to make a series of quick numerical judgements about two numbers presented as either two number words ("two","four") or two single Arabic digits ("2","4"). The subjects were asked to respond "same" if the two numbers had the same numerical parity (both were even or odd) and "different" if the two numbers had a different parity (one even, one odd). Half of the subjects were assigned a block of Arabic digit trials, followed by a block of number word trials, and half of the subjects received the blocks of trials in the reverse order. Within each block, the order of "same" and "different" parity trials was randomized for each subject. For each of the four combinations of parity format, the mean reaction times for correct responses were recorded for each subject.  
+
+A test for the main effects of number type and parity as well as the interaction is performed using the one sample Hotelling T2.
+
+ 
+
+## Preamble
+This situation seemed kind of weird at first because you are testing the effects of one factor with a blocking variable on one dependent variable across time, so it should count as a repeated measures Anova. Which it is. Yet I found it in the Hotelling T2 section for multivariate techniques. In the calculation the problem is reduced to a hotelling T2 test so that I guess this is just one of the ways to handle the repeated measures; perhaps this is what is referred to as the Hotelling Trace test.  
+
+So I have an issue with the design. They decided to block on the number representation and to randomize on the parity. Which seems contrary to the question they would like to answer as the blocking factor is considered a nuisance to be removed and I recall some issue with it being used as an estimate for the factor effect. Then comes the question as to whether they can test for interaction. In a blocking design you would need replicates in order to do this. This design is not technically replicated as they changed the run order of the blocks for the second partition of the sample. I can understand applying the same design on different experimental units but are we allowed to make such a modification. I can understand why they did this, with reference to the NCSS manual for one way repeated measures; persons as they are exposed to the treatments can become better at the task across time or worse so it's good to change the run order for some units to attempt to control for this issue. 
+
+
+This particular test does not use the information about the correlation between the measurements since these have a dependency within the units and thus has less power than a test that does account for the correlation. Perhaps we can explore the application of the other tests as well.  
+
+
+## Assumptions
+1. The measurements within the experimental units are correlated while the measurements between the units are not. 
+```{r}
+#Read in the packages 
+library(data.table)
+library(readr)
+library(tidyverse)
+library(plotly)
+library(gt)
+library(kableExtra)
+library(knitr)
+library(fitdistrplus)
+library(heplots)
+library(pander)
+library(gtsummary)
+library(rrcov)
+library(mvnormalTest)
+library(Hotelling)
+```
+
+```{r}
+datafile <- read_csv("C:/Users/gavin/Documents/GitHub/data/numberscognition.csv")
+```

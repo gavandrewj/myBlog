@@ -1,0 +1,186 @@
+---
+title: "Egyptian Skull Sizes over Time"
+description: |
+  An attempt at an application of the Manova. The main contention with this problem is the overwhelming lack of linearity between pairs of dependent variables. 
+
+base_url: https://github.com/gavandrewj/myBlog/
+
+categories:
+  - Manova
+  - Independent Samples   
+  
+author:
+  - name: Gavin Gordon
+    url: https://example.com/norajones
+date: 01-05-2021
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE,cache = T,message = F,warning = F)
+```
+
+```{r}
+library(tidyverse)
+library(fitdistrplus)
+library(SHT)
+library(vroom)
+library(plotly)
+library(gt)
+library(gtsummary)
+library(Hotelling)
+library(pander)
+library(expss)
+library(beanplot)
+library(pairwiseCI)
+library(heplots)
+library(GGally)
+library(Hmisc)
+library(ellipse)
+library(RColorBrewer)
+```
+# Problem (Question 6.18)
+This problem is taken from **Johnson 1992**. Researchers have suggested that the change in skull size over time is evidence of the interbreeding of a resident population with immigrant populations. Four measurements were made of male Egyptian skulls over five time periods. The aim of this test is to determine if there is a difference in the skull sizes over time. 
+
+```{r}
+#Importing data
+data("Skulls")
+data <- Skulls
+rm(Skulls)
+
+data$epoch <- factor(data$epoch)
+#var.labels <- c("Epoch","MaxBreath","BasHeight","Baslength","NasHeight","Outliers")
+#data$loglength <- log(data$length)
+#data$logwidth <- log(data$width)
+#data$logheight <- log(data$height)
+```
+
+```{r }
+data$madist <- Mahalanobis(data[,2:5])
+#summary( Mahalanobis(data[,2:5]))
+#plot(density(Mahalanobis(data[,2:5])))
+data$pout <- factor(ifelse(data$madist > 9 ,1,0))
+
+
+```
+
+We will start off by taking a look at outliers. Honestly I don't know what to make of this dataset when it comes to applying the Manova. There is supposed to be linearity effects between the dependent variable pairs.
+
+<center>
+
+```{r fig.align='center'}
+c4000BC <- data %>% filter(epoch == "c4000BC")
+c4000BC$madist <- Mahalanobis(c4000BC[,2:5])
+#summary( Mahalanobis(data[,2:5]))
+#plot(density(Mahalanobis(c4000BC[,2:5])))
+c4000BC$pout <- factor(ifelse(c4000BC$madist > 7 ,1,0))
+scatterc4000 <- c4000BC %>% select(!c(epoch,madist)) %>% ggpairs(aes(color = pout),columnLabels = c("Maxbreath",
+                                                                                                    "BasHeight",
+                                                                                                    "BasLength",
+                                                                                                    "NasHeight",
+                                                                                                    "Outliers")) + theme_bw()
+
+ggplotly(scatterc4000, height = 600, width=1000)
+
+```
+
+</center>
+
+
+
+
+
+<center>
+
+```{r fig.align='center'}
+c3300BC <- data %>% filter(epoch == "c3300BC")
+c3300BC$madist <- Mahalanobis(c3300BC[,2:5])
+#summary( Mahalanobis(data[,2:5]))
+#plot(density(Mahalanobis(c3300BC[,2:5])))
+c3300BC$pout <- factor(ifelse(c3300BC$madist > 7 ,1,0))
+scatterc3300 <- c3300BC %>% select(!c(epoch,madist)) %>% ggpairs(aes(color = pout),columnLabels = c("Maxbreath",
+                                                                                                    "BasHeight",
+                                                                                                    "BasLength",
+                                                                                                    "NasHeight",
+                                                                                                    "Outliers")) + theme_bw()
+
+ggplotly(scatterc3300, height = 600, width=1000)
+
+```
+
+</center>
+
+
+
+<center>
+
+```{r fig.align='center'}
+c1850BC <- data %>% filter(epoch == "c1850BC")
+c1850BC$madist <- Mahalanobis(c1850BC[,2:5])
+#summary( Mahalanobis(data[,2:5]))
+#plot(density(Mahalanobis(c1850BC[,2:5])))
+c1850BC$pout <- factor(ifelse(c1850BC$madist > 7 ,1,0))
+scatterc1850 <- c1850BC %>% select(!c(epoch,madist)) %>% ggpairs(aes(color = pout),columnLabels = c("Maxbreath",
+                                                                                                    "BasHeight",
+                                                                                                    "BasLength",
+                                                                                                    "NasHeight",
+                                                                                                    "Outliers")) + theme_bw()
+
+ggplotly(scatterc1850, height = 600, width=1000)
+
+```
+
+</center>
+
+
+
+<center>
+
+```{r fig.align='center'}
+c200BC <- data %>% filter(epoch == "c200BC")
+c200BC$madist <- Mahalanobis(c200BC[,2:5])
+#summary( Mahalanobis(data[,2:5]))
+#plot(density(Mahalanobis(c200BC[,2:5])))
+c200BC$pout <- factor(ifelse(c200BC$madist > 7 ,1,0))
+scatterc200 <- c200BC %>% select(!c(epoch,madist)) %>% ggpairs(aes(color = pout),columnLabels = c("Maxbreath",
+                                                                                                    "BasHeight",
+                                                                                                    "BasLength",
+                                                                                                    "NasHeight",
+                                                                                                    "Outliers")) + theme_bw()
+
+ggplotly(scatterc200, height = 600, width=1000)
+
+```
+
+</center>
+
+
+<center>
+
+```{r fig.align='center'}
+cAD150 <- data %>% filter(epoch == "cAD150")
+cAD150$madist <- Mahalanobis(cAD150[,2:5])
+#summary( Mahalanobis(data[,2:5]))
+#plot(density(Mahalanobis(cAD150[,2:5])))
+cAD150$pout <- factor(ifelse(cAD150$madist > 7 ,1,0))
+scatterc150 <- cAD150 %>% select(!c(epoch,madist)) %>% ggpairs(aes(color = pout),columnLabels = c("Maxbreath",
+                                                                                                    "BasHeight",
+                                                                                                    "BasLength",
+                                                                                                    "NasHeight",
+                                                                                                    "Outliers")) + theme_bw()
+
+ggplotly(scatterc150, height = 600, width=1000)
+
+```
+
+</center>
+
+## References
+
+Johnson, R. A., & Wichern, D. W. (1992). Applied multivariate statistical analysis. Englewood Cliffs, N.J: Prentice Hall  
+
+
+NCSS Hotelling’S Twosample T2. [pdf] Available at: <https://ncss-wpengine.netdna-ssl.com/wp-content/themes/ncss/pdf/Procedures/NCSS/Hotellings_Two-Sample_T2.pdf> 

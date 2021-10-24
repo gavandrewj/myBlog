@@ -1,0 +1,164 @@
+---
+title: "Monte Carlo Optimization"
+description: |
+  This is an introduction to the solution that Monte Carlo simulations provide to optimization problems.
+base_url: https://github.com/gavandrewj/myBlog/
+
+categories:
+  - Simulation
+  
+author:
+  - name: Gavin Gordon
+    url: https://example.com/norajones
+date: 02-03-2021
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = F,warning = F,cache = T)
+```
+# Introduction
+
+I consider this to be a simple procedure at the moment and I intend to illustrate it as such. I did not see the need to have multiple sequences to estimate the maximum for this function although I imagine doing so would grant another level of validity to the estimation.  
+
+The procedure is such that you first generate samples from a distribution that ideally should mimic that of the target function. This is done so that more samples are generated in regions where the function has peaks or where the highest arching plateaus occur. Then you evaluate the function at these sample values and sort them to obtain the maximum. 
+
+## Example One
+
+```{r}
+library(tidyverse)
+library(plotly)
+
+```
+
+```{r ,echo=T}
+
+# We define the function of interest
+h <- function(x){
+  (cos(50*x) + sin(20*x))^2
+}
+
+
+
+# Set the number of iterations/samples
+iter <- 600
+x <- runif(iter)
+
+
+# evaluate the sample at these values
+evals <- h(x)
+
+
+# calculate the max of of the samples
+cumulativemax <- cummax(evals)
+
+```
+
+
+<center>
+```{r}
+toplot <- data.frame(iteration = 1:iter,max = cumulativemax)
+ggplotly(ggplot(toplot,aes(iteration,max)) +
+           geom_line() + 
+           theme_bw() + 
+           labs(x = "Iterations",y = "Maximum", title = "Simple Case of Monte Carlo Optimatization"))
+
+```
+</center>
+
+We can see that the maximum value that the simulation reports is `r round(toplot$max[iter],2)`. We will now check to see how this holds up on a plot of the function itself.  
+
+
+<center>
+```{r}
+
+functionplot <- data.frame(x = x,y = evals)
+ggplotly(
+  ggplot(functionplot,aes(x,y)) + 
+    geom_line() +
+    geom_hline(yintercept = toplot$max[iter],color = 'red') + 
+    theme_bw() + 
+    labs(x = "x",y = "(cos(50x) + sin(20x))^2",title = "Compare the results")  +
+           theme(plot.title = element_text(hjust = 0.5)))
+
+```
+</center>
+
+You can imagine that if we were to increase the number of iterations then the accuracy of the procedure may increase. Since we are using the uniform distribution to generate the samples then it drawn from all over the range of the distribution with equal probability without regard where the current maximum value is said to be. In one aspect this is fine since it is exploring the distribution and there could have easily been other peaks. We may further explore the regions where the peaks occur using importance sampling. 
+
+
+## Example Two
+
+This time we will attempt to solve for the maximum of a function that has two variables using the same procedure. 
+
+
+```{r echo=T}
+# We define the function as
+
+f <- function(x,y){
+  -x^2 * ( (1 + sin(3*y) * cos(8*x)) + y^2 * (2 + cos(5*x) * cos(8*y)))
+}
+```
+
+<center>
+```{r}
+x <- seq(-10,10,0.05)
+y <- seq(-10,10,0.05)
+
+z <-  outer(x,y,f)
+
+
+plot_ly(x = x, y = y, z = z)  %>% add_surface()  
+
+#%>% add_trace(data = estimate,x = estimate$Var1,y = estimate$Var2,z = estimate$eval)
+
+```
+</center>
+The true maximum (0) for this function occurs at the point (0,0). We can see immediately the problem that will may surface in that there is a somewhat of a plateau in the surface although this may just be compression due to the scale. 
+
+Even more problematic if you were to zoom into the surface of the plot, you would notice that it is not smooth. The surface itself has many local peaks over which algorithms may be trapped when searching for the maximum.
+
+
+```{r echo=T}
+iter <- 1000
+x <- runif(iter,-10,10)
+y <- runif(iter,-10,10)
+pairs <- expand.grid(x,y)
+pairs$eval <- f(pairs$Var1,pairs$Var2)
+cumulativemax <- cummax(pairs$eval)
+
+```
+
+<center>
+```{r}
+toplot <- data.frame(iter = 1:iter^2,maximum = cumulativemax)
+
+ggplotly(ggplot(toplot,aes(iter,maximum)) +
+           geom_line() + 
+           theme_bw() + 
+           labs(x = "Iterations",y = "Maximum", title = "Simple Bivariate Case of Monte Carlo Optimatization") +
+           theme(plot.title = element_text(hjust = 0.5)),
+         height = 500,width = 700
+         )
+
+```
+</center>
+
+ 
+```{r}
+estimate <- pairs[which(pairs$eval == toplot$maximum[iter^2]),]
+
+```
+
+Moving along the line (interactive) we can see that the value decreases in magnitude such that it approaches zero. The maximum value in this simulation (`r round(estimate$eval,2)`) occurs for x equals `r round(estimate$Var1,2)` and y equals `r round(estimate$Var2,2)`.
+
+
+
+
+## References
+
+Robert, C. and Casella, G., n.d. Introducing Monte Carlo Methods with R (2010).
+

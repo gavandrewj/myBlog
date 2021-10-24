@@ -1,0 +1,277 @@
+---
+title: "Calcium Loss over Time"
+description: |
+  An application of the Repeated Measures Analysis to a study of bone loss of older women over time. The study consisted of one between measure variable (exercise and diet) and one within measure variable (time). We explore each group first to determine if there was a change over time; and then compare the groups to see if the changes over time differed.
+
+base_url: https://github.com/gavandrewj/myBlog/
+
+categories:
+  - Multivariate Analysis
+  - Manova
+  - Repeated Measures  
+  
+author:
+  - name: Gavin Gordon
+    url: https://example.com/norajones
+date: 01-08-2021
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+As mentioned in the introduction we first investigate the changes within each of the groups. We will start with the control group
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE,cache = T,message = F,warning = F)
+```
+
+```{r}
+library(tidyverse)
+library(SHT)
+library(vroom)
+library(plotly)
+library(gt)
+library(gtsummary)
+library(pander)
+library(expss)
+library(beanplot)
+library(pairwiseCI)
+library(heplots)
+library(Hmisc)
+library(MANOVA.RM)
+library(matlib)
+library(GGally)
+
+```
+
+```{r}
+#Importing data
+data <-  vroom("C:/Users/gavin/Documents/GitHub/blogdata/calciumulna.csv")
+control <- filter(data,Treat == "Control")
+trt <- filter(data,Treat == "Treatment")
+
+```
+
+```{r}
+contscatter <- control %>% select(!c(subject,Treat)) %>% ggpairs(columnLabels = c("Initial",
+                                                                                                    "First",
+                                                                                                    "Second",
+                                                                                                    "Third")) + theme_bw()
+
+f1 <- ggplotly(contscatter, height = 600, width=1000)
+
+```
+
+```{r}
+trtscatter <- trt %>% select(!c(subject,Treat)) %>% ggpairs(columnLabels = c("Initial",
+                                                                                                    "First",
+                                                                                                    "Second",
+                                                                                                    "Third")) + theme_bw()
+
+f2 <- ggplotly(trtscatter, height = 600, width=1000)
+
+
+plotly::subplot(f1,f2)
+```
+
+
+
+```{r}
+datalong <- pivot_longer(data= data,cols = c("first","second","third","initial"),names_to = "timestamp",
+                         values_to = "measurements")
+
+
+datalong$timestamp <- factor(datalong$timestamp,levels = c("initial","first","second","third"))
+
+names(datalong) <- c("id","treat","time","measures")
+
+control <- filter(datalong, treat == "Control")
+treat <- filter(datalong, treat == "Treatment")
+
+```
+
+
+
+
+
+<center>
+
+```{r}
+#plot
+plot <- datalong[,-1] %>% group_by(time,treat) %>% dplyr::summarize(Mean = mean(measures, na.rm=TRUE))
+
+plot$Mean <- round(plot$Mean,2)
+
+ggplot(plot,aes(x = time,y = Mean,color = treat,group = treat)) + 
+           geom_line() + 
+           geom_point() + 
+           labs(x = "Time Periods",y = "Mean Calicum",title = "Average change in Calcium over Time",color = "Group") + 
+           geom_text(aes(label = Mean),size = 3,nudge_y = 0.4,nudge_x = 0.1,color = "black") + 
+           theme_bw() + 
+           theme(plot.title = element_text(hjust = 0.5))
+
+```
+</center>
+
+
+## Approaches to Problem
+
+We can talk about the multivariate vs the mixed models approach. The multivariate method does not assume a structure for the covariance matrix; doing this reduces the power of the analysis when compared to the mixed model approach. This is a result of ignoring the relationship between the measurements for a particular subject; since measurements are taken from the same person over many time points, we can expect these to be related to each other in some way (think of growth for example). 
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Analysis
+
+### Manova
+
+We use a bootstrap technique that does not require the normality and equality of covariance matrices criteria for the two groups. This technique is detailed in **Konietschke 2015**. 
+
+```{r}
+
+
+mod1 <- MANOVA.wide(cbind(initial,first,second,third) ~ Treat,data = data)
+summary(mod1)
+mod1
+```
+
+
+Let us look at the polynomial analysis of repeated measures.
+
+```{r}
+control <- filter(data,Treat == "Control")
+trt <- filter(data,Treat == "Treatment")
+conmeans <- apply(control[,2:5],c(2),mean)
+trtmeans <- apply(trt[,2:5],c(2),mean)
+
+controls <- cov(control[,2:5])
+trts <- cov(trt[,2:5])
+nc <- length(control) - 1
+nt <- length(trt) - 1
+n <- length(data)
+g <- 2
+
+spool <- 1/(n - g) * (nc*controls + nt*trts)
+W <- (nc*controls + nt*trts)
+
+units <- c(1,1,1,1)
+x <- c(1,2,3,4)
+x <- c(units,x,x^2)
+B <- matrix(x,nrow = 4,ncol = 3)
+
+conbetas <- inv(t(B) %*% inv(spool) %*% B) %*% t(B) %*% inv(spool) %*% conmeans
+
+trtbetas <- inv(t(B) %*% inv(spool) %*% B) %*% t(B) %*% inv(spool) %*% trtmeans
+
+
+Wq <- (conmeans - B %*% conbetas) %*% t(conmeans - B %*% conbetas) + (trtmeans - B %*% trtbetas) %*% t(trtmeans - B %*% trtbetas)
+
+Det(Wq) / Det(W)
+
+```
+
+```{r}
+polycon <- function(x){
+  conbetas[1] + conbetas[2]*x + conbetas[3] * x^2
+}
+
+polytrt <- function(x) {
+  trtbetas[1] + trtbetas[2]*x + trtbetas[3]*x^2
+}
+
+x <- seq(0.5,4.5,0.01)
+
+polyplot <- data.frame(x=c(x,x), poly = c(polycon(x),polytrt(x)),group = c(rep(1,length(x)),rep(2,length(x))))
+
+
+ggplot(polyplot,aes(x = x,y = poly,color = factor(group))) + geom_line() + 
+  annotate("point", x = c(1,2,3,4), y = conmeans, colour = "red") + 
+  annotate("point", x = c(1,2,3,4), y = trtmeans, colour = "blue")
+
+
+```
+
+```{r}
+polycon <- function(x){
+  73.07 + 3.64*x - 2.03 * x^2
+}
+
+polytrt <- function(x) {
+  70.14 + 4.09*x - 1.85*x^2
+}
+
+x <- seq(0.5,4.5,0.01)
+
+polyplot <- data.frame(x=c(x,x), poly = c(polycon(x),polytrt(x)),group = c(rep(1,length(x)),rep(2,length(x))))
+
+
+ggplot(polyplot,aes(x = x,y = poly,color = factor(group))) + geom_line() + 
+  annotate("point", x = c(1,2,3,4), y = conmeans, colour = "red") + 
+  annotate("point", x = c(1,2,3,4), y = trtmeans, colour = "blue")
+
+
+```
+ Soo we did it, but maybe we did. I'm not sure. My plot it better than the one the book has. But my calculations near the end isnt making the world of sense. So I need to see what the hell. Not sure if any of those determinants get to be zero. But we'll check it back another time. Lets move on after I talk to my lecturer. 
+ 
+
+Now we are going to try the mixed effects models. This is where we start to give consideration to the what form the correlation matrix takes on. 
+
+```{r}
+library(nlme)
+
+
+#Compound symm
+longg <- groupedData(measures ~ as.numeric(treat) * as.numeric(time) | id, data = datalong)
+fit.cs <- gls(measures ~ treat * time, data = longg,
+  corr = corCompSymm(, form= ~ 1 | id) )
+summary(fit.cs)
+
+```
+
+```{r}
+#unstructured
+fit.un <- gls(measures ~ treat * time, data = longg,
+  corr=corSymm(form = ~ 1 | id),
+  weights = varIdent(form = ~ 1 | time))
+summary(fit.un)
+
+```
+
+```{r}
+#auto regressive
+fit.ar1 <- gls(measures ~ treat * time, data = longg,
+  corr = corAR1(, form= ~ 1 | id))
+summary(fit.ar1)
+
+```
+```{r}
+fit.arh1 <- gls(measures ~ treat * time, data = longg,
+  corr = corAR1(, form = ~ 1 | id), weight = varIdent(form = ~ 1 | time))
+summary(fit.arh1)
+
+```
+
+```{r}
+anova(fit.cs, fit.un,fit.ar1,fit.arh1)
+
+
+plot(fit.cs)
+plot(fit.un)
+plot(fit.ar1)
+plot(fit.arh1)
+```
+
+
+## References
+
+Konietschke, F., Bathke, A. C., Harrar, S. W., & Pauly, M. (2015). Parametric and nonparametric bootstrap methods for general MANOVA. Journal of Multivariate Analysis, 140, 291-301.
+/

@@ -1,0 +1,43 @@
+---
+title: "Testing New Anesthetics"
+description: |
+  Will work on this later
+author:
+  - name: Gavin Gordon
+    url: https://example.com/norajones
+date: 12-29-2020
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE,cache = T,message = F,warning = F)
+```
+
+```{r}
+library(tidyverse)
+library(fitdistrplus)
+library(SHT)
+library(vroom)
+library(plotly)
+library(gt)
+library(gtsummary)
+library(Hotelling)
+library(pander)
+library(expss)
+library(beanplot)
+library(pairwiseCI)
+library(heplots)
+library(GGally)
+library(Hmisc)
+library(ellipse)
+library(RColorBrewer)
+```
+
+
+```{r}
+#Importing data
+data <-  vroom("C:/Users/gavin/Documents/GitHub/blogdata/sleepingDog.csv")
+
+```
