@@ -112,12 +112,12 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--radix_placeholder_rmarkdown_metadata-->
 
 <script type="text/json" id="radix-rmarkdown-metadata">
-{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output"]}},"value":[{"type":"character","attributes":{},"value":["Wilcoxin Mann-Whitney Test"]},{"type":"character","attributes":{},"value":["A short description of the post."]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Gavin Gordon"]},{"type":"character","attributes":{},"value":["https://example.com/norajones"]}]}]},{"type":"character","attributes":{},"value":["10-24-2021"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]}]}
+{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output"]}},"value":[{"type":"character","attributes":{},"value":["Wilcoxin Mann-Whitney Test"]},{"type":"character","attributes":{},"value":["A short description of the post."]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Gavin Gordon"]},{"type":"character","attributes":{},"value":["https://example.com/norajones"]}]}]},{"type":"character","attributes":{},"value":["10-24-2021"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article","pdf_document"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["extra_dependencies"]}},"value":[{"type":"character","attributes":{},"value":["amsmath"]}]}]}]}
 </script>
 <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"NULL"}
+  {"type":"character","attributes":{},"value":["wilcoxin-mann-whitney-test.pdf","wilcoxin-mann-whitney-test_files/anchor-4.2.2/anchor.min.js","wilcoxin-mann-whitney-test_files/bowser-1.9.3/bowser.min.js","wilcoxin-mann-whitney-test_files/distill-2.2.21/template.v2.js","wilcoxin-mann-whitney-test_files/header-attrs-2.10/header-attrs.js","wilcoxin-mann-whitney-test_files/jquery-1.11.3/jquery.min.js","wilcoxin-mann-whitney-test_files/popper-2.6.0/popper.min.js","wilcoxin-mann-whitney-test_files/tippy-6.2.7/tippy-bundle.umd.min.js","wilcoxin-mann-whitney-test_files/tippy-6.2.7/tippy-light-border.css","wilcoxin-mann-whitney-test_files/tippy-6.2.7/tippy.css","wilcoxin-mann-whitney-test_files/tippy-6.2.7/tippy.umd.min.js","wilcoxin-mann-whitney-test_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
 <meta name="distill:offset" content="../.."/>
@@ -2098,8 +2098,56 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <div class="d-article">
-<p>Distill is a publication format for scientific and technical writing, native to the web.</p>
-<p>Learn more about using Distill at <a href="https://rstudio.github.io/distill" class="uri">https://rstudio.github.io/distill</a>.</p>
+<p>This is an exploration into this non-parametric test insofar as I can manage.</p>
+<p>The document details the following: Some information about non parametric tests and What is the wilcoxin-mann whitney test The forumla and an intuition for how the test works Some considerations when using the test A stress test for when the test is no longer reliable</p>
+<p>Some information about Non-Parametric Test At some point you realize that the initial statistical golems (or tests) that you are introduced initially have quite a bit of contraints on them. It is not obvious that the contrainsts are just that, constraints. So you eventually realize that you can remove them, although it’s another skill to manipulate the tests to have the properties you desire. That’s what a statistician can do, myself still being a wanna be hack that occasioanlly gets glossy eyed when I come across these things.</p>
+<p>In any case, the definitions or rather guiding requirements for a non-parametric test being that it doesn’t satisfy some requirement in a list that would qualify for a parametric test turns out to be an unreliable way to classify these golems. The working definitions that I have choosen (for now) is that non-parametric tests use distributions that can’t be described by a finite number of parameters when making inferences about the population which is to say these use golems that are infinite dimensional (all of non para larry). The counter part, parametric inference assumes some information about the population probability density function, such that it belongs to a particular family of distributions that is defined by a finite number of parameters (intro to non-para 2009).</p>
+<p>The wilcoxin-mann whiteny test (WMWT) does not use any priori information about the population density and falls into the category as non-parametric.</p>
+<h2 id="some-intution-about-how-it-works">some intution about how it works</h2>
+<p>There are two names written into the title being wilcoxin and mann-whiteny. It seems like developed tests that are equivalent to each other with one being contained in the other and the results the same. Wilcoxin derived a statistic that will be referred to as W being <span class="math display">\[\sum c_i R_i\]</span> which is referrerd to as a linear rank statistic. The ranks given by <span class="math display">\[R_i\]</span> are added together and weighted by <span class="math display">\[c_i\]</span> in some fashion the satistician deems useful. In our case for the WMW all of the <span class="math display">\[c_i\]</span> are values of one, and we operate with just the ranks.</p>
+<p>The mann whiteny version of events i found to be the more intuitive; this looks like <span class="math display">\[\sum_{i=1}^n \sum_{j=1}^m \phi (x_i,y_j) \]</span> where <span class="math display">\[\phi (x_i,y_j)\]</span> is defined as follows: <span class="math display">\[ \begin{cases} 
+      1 &amp; x_i &lt; y_j \\
+      0.5 &amp; x_i = y_j \\
+      0 &amp; x_i &gt; y_j 
+   \end{cases}
+\]</span> Now what this does is that it takes every data point from the first group and makes a comparison to every data point from the second group, producing a score according to the rules defined above. This is literally as though if you were to manually compare every data point from each group to another every time asking if its greater than, equal or less than in order to get a sense of where the point is to the other group, then keep track of this “distance” by using a simple count.</p>
+<p>This relates to wilcoxin in that <span class="math display">\[W = U + \dfrac{n(n+1)}{2} \]</span>.</p>
+<p>Now that we have a measure of distance we can compare this to what we might expect if the population density distributions for the two groups were the same. It’s at this point the infernce begins such that we try to connect the sample statitic with what may be happening in the population.</p>
+<p>Finally we will now compare this to the situation under the null hypothesis such that there is no difference between the linear rank statistics of the groups (you could have chosen either one. This looks like the familiar set up:</p>
+<p><span class="math display">\[ \dfrac{W - \mathop{\mathbb{E}}(W_o)}{\mathop{\mathbb{V}}(W_o)}\]</span></p>
+<p>where <span class="math display">\[
+W_o = \dfrac{n(N+1)}{2}
+\]</span></p>
+<p>and the variance depending on whether there are ties as:</p>
+<p><span class="math display">\[
+\mathop{\mathbb{V}}(W_o) = \dfrac{mn(N+1)}{2}
+\]</span></p>
+<p>and if there are ties in the data then</p>
+<p><span class="math display">\[
+\mathop{\mathbb{V}}(W_o) = \dfrac{mn}{12} (N+1- \dfrac{ \sum_{i=1}^g (t_i-1)t_i(t_i+1)}{N(N-1)})
+\]</span></p>
+<h2 id="some-considerations">Some considerations</h2>
+<p>So one of the “assumptions” for the parametric tests is that there is homoscedasticity present across the groups which is to say that the variance of the groups are the same. The purpose of this in the context of the t-sample independet samples test is as follows:</p>
+<p>A normal distribution is assigned to each group for which you have to estimate the values of two parameters, being the mean and the variance. This test becomes a test for the means, if the variances are both the same. This test becomes a test for difference in the variances if the means are the same (taken with salt). This test becomes a test if the distributions for the two groups are not the same (unknown whether it’s the mean or the variance) if both of these quantities aren’t the same.</p>
+<p>Now a similar thing happens for the non-parametric test but you won’t call this homoscedasitcity per say. But you will require that the shape of the distributions ( which can be described by the variance, skewness, kurtosis) be the same before this becomes a test of whether the location being the medians are the same. This test, does not use the median in it’s calculation but may be equivalent to comparing median although i’m not sure why it can’t be said for the mean as well which you’re requiring the shapes to be different in any case that should apply to all of the location parameters (check).</p>
+<p>Rank tests does not use all the avaliable information in the sample. (check out some stuff for this)</p>
+<p>Talk about the efficiency compared to the students T test under the conditions of the normal distribution being true vs it not being true. Maybe we can throw in the simulation exercise for this as well.</p>
+<p>e two-sidedWMWtest is consistent against all alternatives</p>
+<p>with Pr(Xi &lt; Yj) x ý. . not sure what this means</p>
+<p>However, the WMW</p>
+<p>test can give a signicant result for a test at the  % level</p>
+<p>with much more than  % probability when the population</p>
+<p>medians are identical, but the population variances dier.</p>
+<h2 id="lets-talk-about-estimation">Lets talk about estimation</h2>
+<p>Under the null hypothesis the wilcoxin stat follows a standard normal distribution. There is the normal approximation that can be used if there are no ties in the ranks. Acceptable if <span class="math display">\[min(m,n) \geq 7\]</span> You can do the two sided test, the p values or whatever quantiles suite your jazz</p>
+<p>You can also do the permutation somewhat to get the null distribution of</p>
+<p><span class="math display">\[
+W_o
+\]</span></p>
+<h2 id="improvements-of-the-mann-whiteney-test">Improvements of the mann-whiteney test</h2>
+<p>generalization exists that can be applied for testing a difference</p>
+<p>in location irrespective of a possible dierence in</p>
+<p>variability</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
@@ -2108,6 +2156,15 @@ document.addEventListener('DOMContentLoaded', function() {
 <div class="d-appendix">
 </div>
 
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
 
 <!--radix_placeholder_site_after_body-->
 <!--/radix_placeholder_site_after_body-->
