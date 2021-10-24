@@ -1,2 +1,0 @@
-"0","#Set some global options for the output"
-"0","knitr::opts_chunk$set(echo = F,cache = T,message = F,warning = F)"
