@@ -42,7 +42,7 @@ Satisfying these two criteria seems like it would take care of other considerati
 
 ## On to the Simulations 
 
-The first problem we will consider is to determine a sample size with a power of 0.8 for a test for a standardized difference in means of 0.8 magnitude. The variance between the two groups will be the same with a one to one group allocation.
+The first problem we will consider is to determine a sample size with a power of 0.8 for a test for a standardized difference in means of 2.5 magnitude. The variance between the two groups will be the same with a one to one group allocation.
 
 $$
 \mu_1 \sim N(2,1) 
@@ -78,7 +78,7 @@ build_sample <- function(nsim,par_u1 = pop_u1 ,par_u2 = pop_u2,par_allocate_n1 =
   return(df)
 }
 
-dataframes <- lapply(1:50,build_sample,2,2.8,1,1,50,1,1)
+dataframes <- lapply(1:50,build_sample,2,4.5,1,1,50,1,1)
 dataframes <- bind_rows(dataframes, .id = "column_label")
 
 ggplot(dataframes, aes(fill = factor(x), y)) + 
@@ -94,3 +94,21 @@ ggplot(dataframes, aes(fill = factor(x), y)) +
   exit_shrink() +
   ease_aes('sine-in-out')
 ```
+
+The above animation should give an easy enough idealization of our expected data. Now that we have the datasets, this is easy as passing each through a regression problem for which I use the brms package in R utilzing the defaults for bayesian estimation.
+
+For each iteration of the regression certain information is extracted namely, the parameter means, 97.5 and 2.75 quantiles of the parameter distributions.
+
+For these problems I make use of the ability to explicity model the variances instead of using a pooled estimate of some kind. Even though I know that the variances are the same this will become set the trend for the upcoming problem.
+
+An example of the model output is as such:
+
+where the variances are given on a log scale but is better views as such.
+
+The relevant information is extracted and then the entire process is repeated for another sample size. The first useful piece of information is that for the estimated difference in the means. This effect size is considered large and so it doesn't require a large sample provided that you are on point with your modeling assumptions, to fit an adquate model describing this situation.
+
+By hovering over a particular point we have access to more information about that particular sample size.
+
+The next informative parameter is that of either of the variances. It is important that this is captured well as this will decide whether your data is too noisy to even begin to interpret what you gathered.
+
+We see the same criteria as mentioned for the
