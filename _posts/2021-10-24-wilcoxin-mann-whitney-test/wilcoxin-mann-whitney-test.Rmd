@@ -86,7 +86,7 @@ with much more than  % probability when the population
 
 medians are identical, but the population variances dier.
 
-## Lets talk about estimation 
+## Lets talk about estimation
 
 Under the null hypothesis the wilcoxin stat follows a standard normal distribution. There is the normal approximation that can be used if there are no ties in the ranks. Acceptable if $$min(m,n) \geq 7$$ You can do the two sided test, the p values or whatever quantiles suite your jazz
 
@@ -96,7 +96,7 @@ $$
 W_o
 $$
 
-## Improvements of the mann-whiteney test 
+## Improvements of the mann-whiteney test
 
 generalization exists that can be applied for testing a difference
 

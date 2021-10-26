@@ -1,0 +1,96 @@
+---
+title: "Monte Carlo Power Analysis: Independent Two Sample Difference of Means"
+description: |
+  A short description of the post.
+author:
+  - name: Gavin Gordon
+    url: https://example.com/norajones
+date: 10-25-2021
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+```{r message=FALSE,warning=F,echo=FALSE}
+library(tidyverse)
+library(gganimate)
+```
+
+# Motivation 
+
+At some point you may think, "boy this is overkill". But that's not really fair to say if you've ever went in search of a power analysis for a multinomial multiple logistic regression and had to report recommendations from the literature to a client instead of some hard numbers. I still haven't found any software for it (you know the free kind) although there is that one stack exchange post that hints at what you could do.
+
+I found it daunting that something like that wasn't readily accessible/available in the same vein as one could locate and utilize a linear regression. Eventually I started to grasp why it might be difficult to distill the complexity of a dataset to a few much less one formula for a sample size.
+
+This led me to favor simulations. Okay everything in stats is a simulation but that itself wasn't evident to me for quite some time. The idea that the key to unlocking an extremely versatile method for power analysis is already available the moment one is introduced to any particular test, had you the code. I feel cheated that something like this isn't introduced in alongside content of lets say from third year.
+
+So the motivation is that this is a proof of concept, that one could extend to any (I hope) kind of modeling exercise you could undertake for determining sample sizes/power (or the equivalent in the bayesian language). I imagine as the more complex modeling gets such as with hierarchical models, simulations become inevitable so this is also me setting the ground work. This also forces you to become intimate with what you expect from your data, to what analysis you can consider, to dealing with things such as cost analysis, interim analysis (such as for clinical trials which I hope to make a general use case of), expectation of missing data, and so on.
+
+## Intuition behind the technique
+
+Basically you create datasets for what you think your data is likely to look like, and run the analysis you expect to run. This gives another purpose to going through the grind of a literature review in detail to get an idea for what other persons who investigated what you're doing would have found; such knowledge helps shape your expectation.
+
+You simulate thousands of datasets (easier than it sounds) and check to see whether a particular sample size will capture an effect you're interested in or you think exists. There are a few critera that I look at such that this exercise may look a bit different from what you might have come across in your own work.
+
+In this case we may try to detect a standardized difference in means of 0.8 for which we would at a few criteria before selecting a sample size.
+
+1.  The data will be generated from distributions using parameters. Have we managed to recover the parameters. This I check for all the parameters not just the mean but also the variance in the case of the normal distribution. This becomes important when you have unequal variances between the groups.
+2.  Is the length of the credible/confidence interval small enough? This is something I would discuss with a client. How much precision around the estimate would have to be before the estimate becomes action worthy?
+3.  Is worth considering an unequal treatment/sampling allocation (something other than a 1:1 ratio)?
+
+Satisfying these two criteria seems like it would take care of other considerations such as whether the value of zero is in the credible/confidence interval, or keeping a direct count of how many times a test reaches significance.
+
+## On to the Simulations 
+
+The first problem we will consider is to determine a sample size with a power of 0.8 for a test for a standardized difference in means of 0.8 magnitude. The variance between the two groups will be the same with a one to one group allocation.
+
+$$
+\mu_1 \sim N(2,1) 
+$$
+
+$$
+\mu_2 \sim N(2.8,1)
+$$
+
+$$
+e \sim N(0,1)
+$$
+
+$$
+\dfrac{\Delta}{\sigma} = \dfrac{\mu_2 - \mu_1}{\sigma} = \dfrac{2.8-2}{1} = 0.8
+$$
+
+```{r echo=FALSE}
+build_sample <- function(nsim,par_u1 = pop_u1 ,par_u2 = pop_u2,par_allocate_n1 = allocate_n1,par_allocate_n2 = allocate_n2,par_sample_size,par_sigma_u1 = sigma_u1,par_sigma_u2 = sigma_u2){
+  sample_size_group_one = round(par_allocate_n1/sum(par_allocate_n1,par_allocate_n2) * par_sample_size)
+  sample_size_group_two = round(par_allocate_n2/sum(par_allocate_n1,par_allocate_n2) * par_sample_size)
+  
+
+  y1 <- rnorm(sample_size_group_one,par_u1,par_sigma_u1)
+  y2 <- rnorm(sample_size_group_two,par_u2,par_sigma_u2)
+  
+  x <- c(rep("group one",sample_size_group_one),rep("group two",sample_size_group_two))
+  df <- data.frame(x = x,
+                   y = c(y1,y2))
+  # hist(c(y1,y2))
+  
+  
+  return(df)
+}
+
+dataframes <- lapply(1:50,build_sample,2,2.8,1,1,50,1,1)
+dataframes <- bind_rows(dataframes, .id = "column_label")
+
+ggplot(dataframes, aes(fill = factor(x), y)) + 
+  geom_histogram() + 
+  theme_bw() + 
+  # Here comes the gganimate code
+  transition_states(
+    column_label,
+    transition_length = 7,
+    state_length = 5
+  ) +
+  enter_fade() + 
+  exit_shrink() +
+  ease_aes('sine-in-out')
+```
