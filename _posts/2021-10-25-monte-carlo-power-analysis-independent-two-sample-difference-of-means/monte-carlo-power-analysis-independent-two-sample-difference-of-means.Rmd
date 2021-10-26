@@ -14,6 +14,9 @@ output:
 ```{r message=FALSE,warning=F,echo=FALSE}
 library(tidyverse)
 library(gganimate)
+library(plotly)
+library(sjPlot)
+library(brms)
 ```
 
 # Motivation 
@@ -41,6 +44,8 @@ In this case we may try to detect a standardized difference in means of 0.8 for 
 Satisfying these two criteria seems like it would take care of other considerations such as whether the value of zero is in the credible/confidence interval, or keeping a direct count of how many times a test reaches significance.
 
 ## On to the Simulations 
+
+### Problem One
 
 The first problem we will consider is to determine a sample size with a power of 0.8 for a test for a standardized difference in means of 2.5 magnitude. The variance between the two groups will be the same with a one to one group allocation.
 
@@ -103,12 +108,94 @@ For these problems I make use of the ability to explicity model the variances in
 
 An example of the model output is as such:
 
+```{r}
+
+regress <-  readRDS("C:/Users/gavin/Documents/GitHub/myBlog/regression_sample_p1.rds")
+
+tab_model(regress)
+```
+
 where the variances are given on a log scale but is better views as such.
 
+```{r}
+hyp <- c("exp(sigma_Intercept) = 0",
+         "exp(sigma_Intercept + sigma_xgrouptwo) = 0")
+(hyp <- hypothesis(regress, hyp))
+plot(hyp)
+```
+
 The relevant information is extracted and then the entire process is repeated for another sample size. The first useful piece of information is that for the estimated difference in the means. This effect size is considered large and so it doesn't require a large sample provided that you are on point with your modeling assumptions, to fit an adquate model describing this situation.
+
+```{r echo = F}
+allocation_data <- readRDS("C:/Users/gavin/Documents/GitHub/myBlog/allocation_data.rds")
+
+pop_u1 = 2
+pop_u2 = 4.5
+
+grouptwo_info <- allocation_data %>% 
+  ggplot(aes(x = samplesize,
+             y = xgrouptwo,
+             color = allocation,
+             ymin = xgrouptwo_q2.5,
+             ymax = xgrouptwo_q97.5,
+             text = paste('interval length: ', xgrouptwo_length,
+                          '</br>interval length criteria satisfied: ', xgrouptwo_cover,
+                          '</br>detect probability: ', xgrouptwo_detect
+                          ))) +
+  geom_hline(yintercept = c(0, .5), color = "white") +
+  geom_pointrange(fatten = 1/2,color = 'red') +
+  # scale_x_discrete("reordered by the lower level of the 95% intervals", breaks = NULL) + 
+  geom_point(color = 'red') + 
+  ylim(min(allocation_data$xgrouptwo_q2.5) - 0.5,max(allocation_data$xgrouptwo_q97.5) + 0.5) + 
+  geom_hline(yintercept = pop_u2 - pop_u1) + 
+  labs(x = "Sample Size (Total)",
+       y = "Location Effect Size",
+       title = "Properties for Main Effect across Sample Sizes") + 
+  theme_bw() + 
+  theme(plot.title = element_text(hjust = 0.5))
+  
+
+ggplotly(grouptwo_info) %>% 
+  layout(hovermode = "x")
+
+```
 
 By hovering over a particular point we have access to more information about that particular sample size.
 
 The next informative parameter is that of either of the variances. It is important that this is captured well as this will decide whether your data is too noisy to even begin to interpret what you gathered.
 
-We see the same criteria as mentioned for the
+```{r echo=FALSE}
+sigma_u2 = 1
+
+grouptwo_sd_info <- allocation_data %>% 
+  ggplot(aes(x = samplesize,
+             y = sigma_xgrouptwo,
+             color = allocation,
+             ymin = sigma_xgrouptwo_q2.5,
+             ymax = sigma_xgrouptwo_q97.5,
+             text = paste('interval length: ', sigma_xgrouptwo_length,
+                          '</br>interval length criteria satisfied: ', sigma_xgrouptwo_cover,
+                          '</br>detect probability: ', sigma_xgrouptwo_detect
+                          )
+  )) +
+  geom_hline(yintercept = c(0, .5), color = "white") +
+  geom_pointrange(fatten = 1/2,color = 'red') +
+  # scale_x_discrete("reordered by the lower level of the 95% intervals", breaks = NULL) + 
+  geom_point(color = 'red') + 
+  ylim(min(allocation_data$sigma_xgrouptwo_q2.5) - 0.5,max(allocation_data$sigma_xgrouptwo_q97.5) + 0.5) + 
+  geom_hline(yintercept = sigma_u2) + 
+ labs(x = "Sample Size (Total)",
+     y = "Scale Effect Size",
+     title = "Properties for Scale Effect for Group Two across Sample Sizes") + 
+  theme_bw() + 
+  theme(plot.title = element_text(hjust = 0.5))
+
+ggplotly(grouptwo_sd_info) %>% 
+  layout(hovermode = "x")
+```
+
+We see the same criteria as mentioned for the location effect size.
+
+### Problem Two 
+
+Now we will consider a problem that deals with a smaller location effect size as well as with the additional complication of unequal variances.
