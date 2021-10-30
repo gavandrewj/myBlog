@@ -17,78 +17,106 @@ library(gganimate)
 library(plotly)
 library(sjPlot)
 library(brms)
+library(pander)
 ```
 
-# Motivation 
+# Motivation
 
-At some point you may think, "boy this is overkill". But that's not really fair to say if you've ever went in search of a power analysis for a multinomial multiple logistic regression and had to report recommendations from the literature to a client instead of some hard numbers. I still haven't found any software for it (you know the free kind) although there is that one stack exchange post that hints at what you could do.
+I found it discouring that a power analysis for a multinomial multiple logistic regression wasn't readily accessible/available in the same vein as one could use the technique. Eventually I started to grasp why it might be difficult to distill the complexity of a dataset to a few much less one formula for a sample size.
 
-I found it daunting that something like that wasn't readily accessible/available in the same vein as one could locate and utilize a linear regression. Eventually I started to grasp why it might be difficult to distill the complexity of a dataset to a few much less one formula for a sample size.
+This led me to favor simulations. Okay everything in stats is a simulation but that itself wasn't evident to me for quite some time especially until I started diving into the Bayesian methods.
 
-This led me to favor simulations. Okay everything in stats is a simulation but that itself wasn't evident to me for quite some time. The idea that the key to unlocking an extremely versatile method for power analysis is already available the moment one is introduced to any particular test, had you the code. I feel cheated that something like this isn't introduced in alongside content of lets say from third year.
-
-So the motivation is that this is a proof of concept, that one could extend to any (I hope) kind of modeling exercise you could undertake for determining sample sizes/power (or the equivalent in the bayesian language). I imagine as the more complex modeling gets such as with hierarchical models, simulations become inevitable so this is also me setting the ground work. This also forces you to become intimate with what you expect from your data, to what analysis you can consider, to dealing with things such as cost analysis, interim analysis (such as for clinical trials which I hope to make a general use case of), expectation of missing data, and so on.
+This is first a proof of exercise, that one could extend to any (I hope) kind of modeling exercise you could undertake for determining sample sizes/power. I imagine as the more complex modeling gets such as with hierarchical models, simulations become inevitable so this is also me setting the ground work. This also forces you to become intimate with what you expect from your data, what analysis you can/should consider, also dealing with things such as cost analysis, interim analysis (such as for clinical trials which I hope to make a general use case of), expectation of missing data, and so on can be factored in.
 
 ## Intuition behind the technique
 
-Basically you create datasets for what you think your data is likely to look like, and run the analysis you expect to run. This gives another purpose to going through the grind of a literature review in detail to get an idea for what other persons who investigated what you're doing would have found; such knowledge helps shape your expectation.
+Basically you create datasets, and perform the analysis you expect to do. This gives another purpose to going through the grind of a literature review in detail to get an idea for what other persons who investigated what you're doing would have found; such knowledge helps shape your expectation.
 
-You simulate thousands of datasets (easier than it sounds) and check to see whether a particular sample size will capture an effect you're interested in or you think exists. There are a few critera that I look at such that this exercise may look a bit different from what you might have come across in your own work.
+You simulate thousands of datasets and check how often a particular sample size will capture an effect you're interested in or you think exists.
 
-In this case we may try to detect a standardized difference in means of 0.8 for which we would at a few criteria before selecting a sample size.
-
-1.  The data will be generated from distributions using parameters. Have we managed to recover the parameters. This I check for all the parameters not just the mean but also the variance in the case of the normal distribution. This becomes important when you have unequal variances between the groups.
-2.  Is the length of the credible/confidence interval small enough? This is something I would discuss with a client. How much precision around the estimate would have to be before the estimate becomes action worthy?
-3.  Is worth considering an unequal treatment/sampling allocation (something other than a 1:1 ratio)?
-
-Satisfying these two criteria seems like it would take care of other considerations such as whether the value of zero is in the credible/confidence interval, or keeping a direct count of how many times a test reaches significance.
-
-## On to the Simulations 
-
-### Problem One
-
-The first problem we will consider is to determine a sample size with a power of 0.8 for a test for a standardized difference in means of 2.5 magnitude. The variance between the two groups will be the same with a one to one group allocation.
-
-$$
-\mu_1 \sim N(2,1) 
-$$
-
-$$
-\mu_2 \sim N(2.8,1)
-$$
-
-$$
-e \sim N(0,1)
-$$
-
-$$
-\dfrac{\Delta}{\sigma} = \dfrac{\mu_2 - \mu_1}{\sigma} = \dfrac{2.8-2}{1} = 0.8
-$$
-
-```{r echo=FALSE}
-build_sample <- function(nsim,par_u1 = pop_u1 ,par_u2 = pop_u2,par_allocate_n1 = allocate_n1,par_allocate_n2 = allocate_n2,par_sample_size,par_sigma_u1 = sigma_u1,par_sigma_u2 = sigma_u2){
-  sample_size_group_one = round(par_allocate_n1/sum(par_allocate_n1,par_allocate_n2) * par_sample_size)
-  sample_size_group_two = round(par_allocate_n2/sum(par_allocate_n1,par_allocate_n2) * par_sample_size)
+```{r echo=F,eval=F}
+build_sample <- function(
+  nsims,
+  u1,
+  effect_size_u,
+  allocate_n1,
+  allocate_n2,
+  sample_size,
+  sigma_u1,
+  effect_size_sigma
+                         ){
   
-
-  y1 <- rnorm(sample_size_group_one,par_u1,par_sigma_u1)
-  y2 <- rnorm(sample_size_group_two,par_u2,par_sigma_u2)
+  # get the sample size right for the two groups while respecting the allocations 
+  number_batches = floor(sample_size/(allocate_n1 + allocate_n2))
+  n1 = number_batches * allocate_n1
+  n2 = number_batches * allocate_n2
+  total_sample_size = n1 + n2
   
-  x <- c(rep("group one",sample_size_group_one),rep("group two",sample_size_group_two))
-  df <- data.frame(x = x,
-                   y = c(y1,y2))
+  
+  # create the coefficient matrix
+  treatment_vector = c(rep(0,n1),
+                       rep(1,n2))
+  
+  intercept_vector = rep(1,total_sample_size)
+  
+  x_matrix <-   matrix(c(intercept_vector,
+                         treatment_vector),
+                       nrow = total_sample_size)
+  
+  
+  # create the mean regression vector
+  coeff_mean_vector <- matrix(c(u1,effect_size_u))
+  u_regression <- x_matrix %*% coeff_mean_vector
+  
+  
+  # create the variance regression vector
+  coeff_sigma_vector <- matrix(c(sigma_u1,effect_size_sigma))
+  sigma_regression <- x_matrix %*% coeff_sigma_vector
+  
+  
+  y <- rnorm(total_sample_size,
+             mean = u_regression,
+             sd = sigma_regression)
+  
+  x <- c(rep("group one",n1),rep("group two",n2))
+  
+  
+  df <- data.frame(x = factor(x),
+                   y = y)
   # hist(c(y1,y2))
   
   
   return(df)
 }
 
-dataframes <- lapply(1:50,build_sample,2,4.5,1,1,50,1,1)
+
+dataframes <- lapply(1:50,
+                     build_sample,
+                     u1 = 2,
+                     effect_size_u = 3,
+                     allocate_n1 = 1,
+                     allocate_n2 = 1,
+                     sample_size = 50,
+                     sigma_u1 = 1,
+                     effect_size_sigma = 0
+                     )
+
 dataframes <- bind_rows(dataframes, .id = "column_label")
 
 ggplot(dataframes, aes(fill = factor(x), y)) + 
   geom_histogram() + 
+  geom_vline(xintercept = 2,
+             color = 'red') + 
+  geom_vline(xintercept = 5,
+             color = 'blue') + 
   theme_bw() + 
+  labs(
+    title = "Example Simulations with Location Effect Size of Three",
+    x = "Y values",
+    y = "Count",
+    fill = "Groups"
+  ) + 
+  theme(plot.title = element_text(hjust = 0.5)) + 
   # Here comes the gganimate code
   transition_states(
     column_label,
@@ -100,37 +128,77 @@ ggplot(dataframes, aes(fill = factor(x), y)) +
   ease_aes('sine-in-out')
 ```
 
-The above animation should give an easy enough idealization of our expected data. Now that we have the datasets, this is easy as passing each through a regression problem for which I use the brms package in R utilzing the defaults for bayesian estimation.
+The above animation should give an easy enough idealization of data generation. Now that we are able to simulate datasets, now comes the application of whatever analysis you have in mind. For our purposes a regression approach is used (brms package in R) utilizing the defaults for Bayesian estimation.
 
-For each iteration of the regression certain information is extracted namely, the parameter means, 97.5 and 2.75 quantiles of the parameter distributions.
-
-For these problems I make use of the ability to explicity model the variances instead of using a pooled estimate of some kind. Even though I know that the variances are the same this will become set the trend for the upcoming problem.
+For these problems I make use of the ability to explicitly model the variances instead of using a pooled estimate of some kind (heterogenous regression modeling). Even though I know that the variances are the same for the above animations, this will set the trend for the upcoming problems for dealing with unequal variances.
 
 An example of the model output is as such:
 
-```{r}
+<center>
+
+```{r echo = F}
 
 regress <-  readRDS("C:/Users/gavin/Documents/GitHub/myBlog/regression_sample_p1.rds")
 
 tab_model(regress)
 ```
 
-where the variances are given on a log scale but is better views as such.
+</center>
 
-```{r}
+The variances are given on a log scale and must be exponentiated before we can interpret on the usual scale. This is shown below
+
+<center>
+
+```{r echo=F}
+
 hyp <- c("exp(sigma_Intercept) = 0",
          "exp(sigma_Intercept + sigma_xgrouptwo) = 0")
-(hyp <- hypothesis(regress, hyp))
-plot(hyp)
+pander(hypothesis(regress, hyp)$hypothesis[,2:5])
 ```
 
-The relevant information is extracted and then the entire process is repeated for another sample size. The first useful piece of information is that for the estimated difference in the means. This effect size is considered large and so it doesn't require a large sample provided that you are on point with your modeling assumptions, to fit an adquate model describing this situation.
+</center>
 
-```{r echo = F}
+The relevant information is extracted (mostly the quantiles of the posterior distribution of parameters) and then the entire process is repeated several times for any one sample size.
+
+For our case I am interested in the following:
+
+1.  Have we managed to recover the parameters used to generate the sample? Making sure you check for all the parameters becomes even more important is some situations such as when you have unequal variances between the groups.
+2.  Is the length of the credible/confidence interval small enough? This is something I would discuss with a client. How much precision around the estimate would there have to be before the estimate becomes action worthy?
+3.  Is worth considering an unequal treatment/sampling allocation (something other than a 1:1 ratio)?
+
+## On to the Simulations
+
+### Problem One
+
+The first problem we will consider is to determine a sample size with a power of 0.8 for a test for a standardized difference in means of 0.5 magnitude. The variance between the two groups will be the same with varying group allocations.
+
+$$
+\mu_1 \sim N(2,1) 
+$$
+
+$$
+\mu_2 \sim N(2.5,1)
+$$
+
+$$
+e \sim N(0,1)
+$$
+
+$$
+\dfrac{\Delta}{\sigma} = \dfrac{\mu_2 - \mu_1}{\sigma} = \dfrac{2.5-2}{1} = 0.5
+$$
+
+The first useful piece of information is that for the estimated difference in the means.
+
+<center>
+
+```{r echo = F,fig.width= 7}
 allocation_data <- readRDS("C:/Users/gavin/Documents/GitHub/myBlog/allocation_data.rds")
 
-pop_u1 = 2
-pop_u2 = 4.5
+pop_u = 2
+pop_effect_size_u = 0.5 
+pop_sigma_u1 = 1
+pop_effect_size_sigma = 0
 
 grouptwo_info <- allocation_data %>% 
   ggplot(aes(x = samplesize,
@@ -141,31 +209,36 @@ grouptwo_info <- allocation_data %>%
              text = paste('interval length: ', xgrouptwo_length,
                           '</br>interval length criteria satisfied: ', xgrouptwo_cover,
                           '</br>detect probability: ', xgrouptwo_detect
-                          ))) +
+             ))) +
   geom_hline(yintercept = c(0, .5), color = "white") +
-  geom_pointrange(fatten = 1/2,color = 'red') +
+  geom_pointrange(fatten = 1/2) +
   # scale_x_discrete("reordered by the lower level of the 95% intervals", breaks = NULL) + 
-  geom_point(color = 'red') + 
+  geom_point() + 
   ylim(min(allocation_data$xgrouptwo_q2.5) - 0.5,max(allocation_data$xgrouptwo_q97.5) + 0.5) + 
-  geom_hline(yintercept = pop_u2 - pop_u1) + 
+  geom_hline(yintercept = pop_effect_size_u) + 
   labs(x = "Sample Size (Total)",
        y = "Location Effect Size",
        title = "Properties for Main Effect across Sample Sizes") + 
-  theme_bw() + 
-  theme(plot.title = element_text(hjust = 0.5))
-  
+  theme_bw() 
+
 
 ggplotly(grouptwo_info) %>% 
   layout(hovermode = "x")
 
 ```
 
+</center>
+
 By hovering over a particular point we have access to more information about that particular sample size.
+
+Almost all samples shown have the ability to include the location effect size a minimum of `r min(allocation_data$xgrouptwo_detect)` proportion of the time across all allocations. Of course the uncertainty around the estimates can be so terrible as to make the estimate untrustworthy. One might also consider for what sample size does confidence/credible interval tend to be above a constant for example 0.05; for the 1-1 allocation this occurs at `r allocation_data %>% filter(allocation == '1-1', xgrouptwo_q2.5 > 0.05) %>% dplyr::select(samplesize) %>% min()` ;for 1-3 allocation at `r allocation_data %>% filter(allocation == '1-3', xgrouptwo_q2.5 > 0.05) %>% dplyr::select(samplesize) %>% min()` ; and at the 1-5 allocation at `r allocation_data %>% filter(allocation == '1-5', xgrouptwo_q2.5 > 0.05) %>% dplyr::select(samplesize) %>% min()` .
+
+We now consider the length of the intervals. The criteria set for this simulation was that of 0.7 for the credible interval; the label of xgrouptwo_cover will show the proportion of times this criteria was satisfied. The 1-1,1-3 and 1-5 allocations first met this requirement for sample sizes `r allocation_data %>% filter(allocation == '1-1',xgrouptwo_length < 0.7) %>% dplyr::select(samplesize) %>% min()` , `r allocation_data %>% filter(allocation == '1-1',xgrouptwo_length < 0.7) %>% dplyr::select(samplesize) %>% min()` , and `r allocation_data %>% filter(allocation == '1-1',xgrouptwo_length < 0.7) %>% dplyr::select(samplesize) %>% min()` respectively.
 
 The next informative parameter is that of either of the variances. It is important that this is captured well as this will decide whether your data is too noisy to even begin to interpret what you gathered.
 
 ```{r echo=FALSE}
-sigma_u2 = 1
+
 
 grouptwo_sd_info <- allocation_data %>% 
   ggplot(aes(x = samplesize,
@@ -179,23 +252,115 @@ grouptwo_sd_info <- allocation_data %>%
                           )
   )) +
   geom_hline(yintercept = c(0, .5), color = "white") +
-  geom_pointrange(fatten = 1/2,color = 'red') +
+  geom_pointrange(fatten = 1/2) +
   # scale_x_discrete("reordered by the lower level of the 95% intervals", breaks = NULL) + 
-  geom_point(color = 'red') + 
+  geom_point() + 
   ylim(min(allocation_data$sigma_xgrouptwo_q2.5) - 0.5,max(allocation_data$sigma_xgrouptwo_q97.5) + 0.5) + 
-  geom_hline(yintercept = sigma_u2) + 
+  geom_hline(yintercept = pop_effect_size_sigma) + 
  labs(x = "Sample Size (Total)",
      y = "Scale Effect Size",
      title = "Properties for Scale Effect for Group Two across Sample Sizes") + 
-  theme_bw() + 
-  theme(plot.title = element_text(hjust = 0.5))
+  theme_bw() 
+
+ggplotly(grouptwo_sd_info) %>% 
+  layout(hovermode = "x")
+
+```
+
+All samples shown have the ability to include the location effect size a minimum of `r min(allocation_data$sigma_xgrouptwo_detect)` proportion of the time across all allocations.
+
+The length of the intervals. The criteria set for this simulation was that of 0.7 for the credible interval; the label of sigma_xgrouptwo_cover will show the proportion of times this criteria was satisfied. The 1-1,1-3 and 1-5 allocations met this requirement for sample sizes `r allocation_data %>% filter(allocation == '1-1',sigma_xgrouptwo_length < 0.7) %>% dplyr::select(samplesize) %>% min()` , `r allocation_data %>% filter(allocation == '1-3',sigma_xgrouptwo_length < 0.7) %>% dplyr::select(samplesize) %>% min()` , and `r allocation_data %>% filter(allocation == '1-5',sigma_xgrouptwo_length < 0.7) %>% dplyr::select(samplesize) %>% min()` respectively.
+
+### Problem Two
+
+Now we will consider a problem that deals with a larger location effect size but with the complication of unequal variances.
+
+$$
+\mu_1 \sim N(2,1) 
+$$
+
+$$
+\mu_2 \sim N(2.8,3)
+$$
+
+$$
+e \sim N(0,1)
+$$
+
+```{r}
+
+allocation_data <- readRDS("C:/Users/gavin/Documents/GitHub/myBlog/documents/two_sample_power_files/allocation_data_problem_two.rds")
+
+pop_u = 2
+pop_effect_size_u = 0.8 
+pop_sigma_u1 = 1
+pop_effect_size_sigma = 2
+
+grouptwo_info <- allocation_data %>% 
+  ggplot(aes(x = samplesize,
+             y = xgrouptwo,
+             color = allocation,
+             ymin = xgrouptwo_q2.5,
+             ymax = xgrouptwo_q97.5,
+             text = paste('interval length: ', xgrouptwo_length,
+                          '</br>interval length criteria satisfied: ', xgrouptwo_cover,
+                          '</br>detect probability: ', xgrouptwo_detect
+             ))) +
+  geom_hline(yintercept = c(0, .5), color = "white") +
+  geom_pointrange(fatten = 1/2) +
+  # scale_x_discrete("reordered by the lower level of the 95% intervals", breaks = NULL) + 
+  geom_point() + 
+  ylim(min(allocation_data$xgrouptwo_q2.5) - 0.5,max(allocation_data$xgrouptwo_q97.5) + 0.5) + 
+  geom_hline(yintercept = pop_effect_size_u) + 
+  labs(x = "Sample Size (Total)",
+       y = "Location Effect Size",
+       title = "Properties for Main Effect across Sample Sizes") + 
+  theme_bw() 
+
+
+ggplotly(grouptwo_info) %>% 
+  layout(hovermode = "x")
+```
+
+Almost all samples shown have the ability to include the location effect size a minimum of `r min(allocation_data$xgrouptwo_detect)` proportion of the time across all allocations. The sample size for which the credible interval is above 0.05 is: for the 1-1 allocation this occurs at `r allocation_data %>% filter(allocation == '1-1', xgrouptwo_q2.5 > 0.05) %>% dplyr::select(samplesize) %>% min()` ;for 1-3 allocation at `r allocation_data %>% filter(allocation == '1-3', xgrouptwo_q2.5 > 0.05) %>% dplyr::select(samplesize) %>% min()` ; and at the 1-5 allocation at `r allocation_data %>% filter(allocation == '1-5', xgrouptwo_q2.5 > 0.05) %>% dplyr::select(samplesize) %>% min()` .
+
+Using the same criteria of 0.7 for the credible interval: the 1-1,1-3 and 1-5 allocations first met this requirement for sample sizes `r allocation_data %>% filter(allocation == '1-1',xgrouptwo_length < 0.7) %>% dplyr::select(samplesize) %>% min()` , `r allocation_data %>% filter(allocation == '1-1',xgrouptwo_length < 0.7) %>% dplyr::select(samplesize) %>% min()` , and `r allocation_data %>% filter(allocation == '1-1',xgrouptwo_length < 0.7) %>% dplyr::select(samplesize) %>% min()` respectively.
+
+Overall it seems to be the case that the 1-1 allocation does not perform as well compared to the unequal allocations when the group variances are different. Still the larger the disparity in the group allocation doesn't necessarily equate to precision gains as the 1-3 allocation performs better than the 1-5 allocation.
+
+We now look at the effect size for the scale parameter since It is important that the difference between the groups is captured well.
+
+```{r}
+grouptwo_sd_info <- allocation_data %>% 
+  ggplot(aes(x = samplesize,
+             y = sigma_xgrouptwo,
+             color = allocation,
+             ymin = sigma_xgrouptwo_q2.5,
+             ymax = sigma_xgrouptwo_q97.5,
+             text = paste('interval length: ', sigma_xgrouptwo_length,
+                          '</br>interval length criteria satisfied: ', sigma_xgrouptwo_cover,
+                          '</br>detect probability: ', sigma_xgrouptwo_detect
+                          )
+  )) +
+  geom_hline(yintercept = c(0, .5), color = "white") +
+  geom_pointrange(fatten = 1/2) +
+  # scale_x_discrete("reordered by the lower level of the 95% intervals", breaks = NULL) + 
+  geom_point() + 
+  ylim(min(allocation_data$sigma_xgrouptwo_q2.5) - 0.5,max(allocation_data$sigma_xgrouptwo_q97.5) + 0.5) + 
+  geom_hline(yintercept = pop_effect_size_sigma) + 
+ labs(x = "Sample Size (Total)",
+     y = "Scale Effect Size",
+     title = "Properties for Scale Effect for Group Two across Sample Sizes") + 
+  theme_bw() 
 
 ggplotly(grouptwo_sd_info) %>% 
   layout(hovermode = "x")
 ```
 
-We see the same criteria as mentioned for the location effect size.
+All samples shown have the ability to include the location effect size a minimum of `r min(allocation_data$sigma_xgrouptwo_detect)` proportion of the time across all allocations.
 
-### Problem Two 
+The 0.7 benchmark is used again for the credible interval. The 1-1,1-3 and 1-5 allocations met this requirement for sample sizes `r allocation_data %>% filter(allocation == '1-1',sigma_xgrouptwo_length < 0.7) %>% dplyr::select(samplesize) %>% min()` , `r allocation_data %>% filter(allocation == '1-3',sigma_xgrouptwo_length < 0.7) %>% dplyr::select(samplesize) %>% min()` , and `r allocation_data %>% filter(allocation == '1-5',sigma_xgrouptwo_length < 0.7) %>% dplyr::select(samplesize) %>% min()` respectively.
 
-Now we will consider a problem that deals with a smaller location effect size as well as with the additional complication of unequal variances.
+Similar conclusions as for the location effect sizes seem to hold for the scale effect size.
+
+This raises a question as to whether post hoc power/sample sizes should be carried out. Some places advise against this but the initial power analysis is carried out under fictional circumstances imagined by the analyst to be the best representations of expected reality. How then are they to know that once the data is collected the same envisioned situations cover the dataset that has materialized. Care has to be taken with the differences due to variances that are present among groups; are power analysis usually complex enough to cover situations where differences in variances require more data to establish effect sizes.
