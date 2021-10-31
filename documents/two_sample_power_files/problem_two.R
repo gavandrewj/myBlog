@@ -6,6 +6,7 @@ library(tidyverse)
 library(plotly)
 library(furrr)
 library(stringr)
+library(dials)
 
 
 future::plan(multicore,
@@ -86,16 +87,41 @@ dataset <- build_sample(
 )
 
 
-ggplot(dataset,
+ggplot(dataframes[[2]],
        aes(y,
            fill = x)) +
   geom_histogram()
 
-dataset %>%
+dataframes[[3]] %>%
   group_by(x) %>%
   summarise(
     mean = mean(y)
   )
+
+model_extract(dataframes[[3]])
+
+
+values <- fixef( update(regress,newdata = dataframes[[3]],formula. = bf(y ~ x,sigma ~ x)))[,c(1,3,4)]
+
+
+
+results <- data.frame(matrix(unlist(values), nrow =1, byrow=TRUE))
+names(results) <- c(
+  'Intercept',
+  'sigma_Intercept',
+  'xgrouptwo',
+  'sigma_xgrouptwo',
+  
+  'Intercept_q2.5',
+  'sigma_Intercept_q2.5',
+  'xgrouptwo_q2.5',
+  'sigma_xgrouptwo_q2.5',
+  
+  'Intercept_q97.5',
+  'sigma_Intercept_q97.5',
+  'xgrouptwo_q97.5',
+  'sigma_xgrouptwo_q97.5'
+)
 
 
 # runs the regression and extracts the info we want
@@ -118,7 +144,7 @@ model_extract <- function(dataframeobject){
   ))
 }
 
-a <-  model_extract(dataset)
+
 
 # initial regress
 # u1 = 2
@@ -128,7 +154,7 @@ a <-  model_extract(dataset)
 # n = 50
 # sigma_u1 = 1
 # sigma_u2 = 1
-# dataset <- build_sample(1,par_sample_size = 20)
+ # dataset <- build_sample(1,par_sample_size = 20)
 regress <- brm(bf(y ~ x,sigma ~ x), dataset)
 # regress <- update(regress,dataset,formula. = bf(y ~ x,sigma ~ x))
 # summary(regress)
@@ -145,6 +171,8 @@ hyp <- "exp(sigma_Intercept + sigma_xgrouptwo) > exp(sigma_Intercept)"
 # 
 plot(hyp, chars = NULL)
 
+
+a <-  model_extract(dataset)
 # regress <- brm(y ~ x, dataset)
 # regress <- update(regress,dataset)
 
@@ -166,17 +194,24 @@ sigma_Intercept_wantcover <- 0.7
 sigma_xgrouptwo_wantcover <- 0.7
 
 
-samplerange <- seq(30,140,5)
-nsims = 5
+samplerange <- seq(30,200,10)
+nsims = 10
 allocation <- list(
   c(1,1),
   c(1,3),
   c(1,5)
 )
-pop_u = 2
-pop_effect_size_u = 0.8 
-pop_sigma_u1 = 1
-pop_effect_size_sigma = 2
+
+
+parameters_grid <- expand.grid(
+  pop_u = c(2),
+  pop_effect_size_u = c(0.8,0.5), 
+  pop_sigma_u1 = c(1),
+  pop_effect_size_sigma = c(0,1,2)
+)
+
+parameters <- parameters_grid %>% purrr::transpose()
+
 
 
 
@@ -185,6 +220,9 @@ allocation_data <- tibble()
 tic()
 
 for(allocate in allocation){
+  
+  
+  for(params in parameters){
   
   toplot <- data.frame(
     samplesize  = samplerange,
@@ -218,71 +256,69 @@ for(allocate in allocation){
   
   for(n in samplerange){
     # generate the datasets
-    dataframes <- future_map( .x = 1:nsims,
-                              .f =  build_sample,
-                              u1 = pop_u,
-                              effect_size_u = pop_effect_size_u,
-                              allocate_n1 = allocate[1],
-                              allocate_n2 = allocate[2],
-                              sample_size = n,
-                              sigma_u1 = pop_sigma_u1,
-                              effect_size_sigma = pop_effect_size_sigma,
-                              .options = furrr_options(seed = T)
+    dataframes <- future_map( 
+      .x = 1:nsims,
+      .f =  build_sample,
+      u1 = params[["pop_u"]],
+      effect_size_u = params[["pop_effect_size_u"]],
+      allocate_n1 = allocate[1],
+      allocate_n2 = allocate[2],
+      sample_size = n,
+      sigma_u1 = params[["pop_sigma_u1"]],
+      effect_size_sigma = params[["pop_effect_size_sigma"]],
+      .options = furrr_options(seed = T)
     )
-    
+  
     
     
     
     # extract the values from each dataset after running regression  
-    values <- future_map(.x = dataframes,
-                         .f = model_extract)
+    values <- future_map(
+      .x = dataframes,
+      .f = model_extract
+    )
     
+  
     # curate the results
     results <- data.frame(matrix(unlist(values), nrow =nsims, byrow=TRUE))
     names(results) <- c(
       'Intercept',
-      'Intercept_q2.5',
-      'Intercept_q97.5',
       'sigma_Intercept',
-      'sigma_Intercept_q2.5',
-      'sigma_Intercept_q97.5',
       'xgrouptwo',
-      'xgrouptwo_q2.5',
-      'xgrouptwo_q97.5',
       'sigma_xgrouptwo',
+      
+      'Intercept_q2.5',
+      'sigma_Intercept_q2.5',
+      'xgrouptwo_q2.5',
       'sigma_xgrouptwo_q2.5',
+      
+      'Intercept_q97.5',
+      'sigma_Intercept_q97.5',
+      'xgrouptwo_q97.5',
       'sigma_xgrouptwo_q97.5'
     )
-    
-    
-    # exp the coefficitents for the sigmas intercept because its on the log scale
-    # results$sigma_xgrouptwo <- exp(results$sigma_xgrouptwo  + results$sigma_Intercept)
-    # results$sigma_xgrouptwo_q2.5 <- exp(results$sigma_xgrouptwo_q2.5)
-    # results$sigma_xgrouptwo_q97.5 <- exp(results$sigma_xgrouptwo_q97.5)
-    # 
-    # results$sigma_Intercept <- exp(results$sigma_Intercept)
-    # results$sigma_Intercept_q2.5 <- exp(results$sigma_Intercept_q2.5)
-    # results$sigma_Intercept_q97.5 <- exp(results$sigma_Intercept_q97.5)
+  
+
     
     
     
     # check for interval coverage and whether the parameter is inside the credible interval 
     results$Intercept_cover <- results$Intercept_q97.5 - results$Intercept_q2.5 < Intercept_wantcover
-    results$Intercept_detect <-  pop_u > results$Intercept_q2.5 &  pop_u < results$Intercept_q97.5 
-    
+    results$Intercept_detect <-  params[["pop_u"]] > results$Intercept_q2.5 &  params[["pop_u"]] < results$Intercept_q97.5 
+  
     
     results$xgrouptwo_cover <- results$xgrouptwo_q97.5 - results$xgrouptwo_q2.5  < xgrouptwo_wantcover
-    results$xgrouptwo_detect <-  pop_effect_size_u > results$xgrouptwo_q2.5 &  pop_effect_size_u < results$xgrouptwo_q97.5 
+    results$xgrouptwo_detect <-  params[["pop_effect_size_u"]] > results$xgrouptwo_q2.5 &  params[["pop_effect_size_u"]] < results$xgrouptwo_q97.5 
     
     
     results$sigma_Intercept_cover <- results$sigma_Intercept_q97.5 - results$sigma_Intercept_q2.5 < sigma_Intercept_wantcover
-    results$sigma_Intercept_detect <-   pop_sigma_u1 > results$sigma_Intercept_q2.5 &  pop_sigma_u1 < results$sigma_Intercept_q97.5 
+    results$sigma_Intercept_detect <-   params[["pop_sigma_u1"]] > results$sigma_Intercept_q2.5 &  params[["pop_sigma_u1"]] < results$sigma_Intercept_q97.5 
     
     
     results$sigma_xgrouptwo_cover <- results$sigma_xgrouptwo_q97.5 - results$sigma_xgrouptwo_q2.5 < sigma_xgrouptwo_wantcover
-    results$sigma_xgrouptwo_detect <- pop_effect_size_sigma > results$sigma_xgrouptwo_q2.5 &  pop_effect_size_sigma < results$sigma_xgrouptwo_q97.5 
-    
-    
+    results$sigma_xgrouptwo_detect <- params[["pop_effect_size_sigma"]] > results$sigma_xgrouptwo_q2.5 &  params[["pop_effect_size_sigma"]] < results$sigma_xgrouptwo_q97.5 
+  
+  
     # extract the mean of the parameters descriptors for the simulations for each n 
     
     toplot[[toplot$samplesize == n,'Intercept']] <- mean(results$Intercept)
@@ -312,14 +348,18 @@ for(allocate in allocation){
     toplot[[toplot$samplesize == n,'sigma_xgrouptwo_detect']] <- mean(results$sigma_xgrouptwo_detect)
     
     
-    toplot <- as.data.frame(apply(toplot,2,round,digits = 3))
+    toplot <- as.data.frame(apply(toplot,2,round,digits = 2))
     
   }
   
+  
   allocation_data <- rbind(allocation_data,
                            toplot)
-  
 }
+  }
+
+
+
 
 toc()
 
@@ -333,15 +373,29 @@ allo <- str_replace_all(allo,c("c" = "",
                                "[//(]"="",
                                "[//)]" = "",
                                " " = "-"))
+
+para <- paste(unlist(parameters))
+
+para <- split(para, ceiling(seq_along(para)/4))
+
+allocation_data$params <- rep(para,each = length(samplerange),times = length(allocation) )
+
+
+
 allocation_data$allocation <- factor(
-  rep(allo,each = length(samplerange))
+  rep(allo,each = nrow(parameters_grid) * length(samplerange))
 )
+
+allocation_data$n1 <- 0
+allocation_data$n2 <- 0
 
 for(i in 1:nrow(allocation_data)){
   allocate_adjust <- as.numeric(unlist(str_split(allocation_data$allocation[i],"-")))
   number_batches = floor(allocation_data$samplesize[i]/(allocate_adjust[1] + allocate_adjust[2]))
   n1 = number_batches * allocate_adjust[1]
   n2 = number_batches * allocate_adjust[2]
+  allocation_data$n1[i] = n1
+  allocation_data$n2[i] = n2
   allocation_data$samplesize[i] = n1 + n2
 }
 
@@ -355,10 +409,30 @@ allocation_data <- allocation_data %>%
     sigma_Intercept_length = sigma_Intercept_q97.5 - sigma_Intercept_q2.5,
     xgrouptwo_length = xgrouptwo_q97.5 - xgrouptwo_q2.5,
     sigma_xgrouptwo_length = sigma_xgrouptwo_q97.5 - sigma_xgrouptwo_q2.5
+  ) 
+
+
+show_table <- allocation_data %>% 
+  dplyr::select(
+    allocation,
+    params,
+    samplesize,
+    Intercept_detect,
+    Intercept_length,
+    xgrouptwo_detect,
+    xgrouptwo_length,
+    sigma_Intercept_detect,
+    sigma_Intercept_length,
+    sigma_xgrouptwo_detect,
+    sigma_xgrouptwo_length
   )
 
+
+saveRDS(show_table,
+        paste0(getwd(),"/documents/two_sample_power_files/show_table_problem.rds"))
+
 saveRDS(allocation_data,
-        paste0(getwd(),"/documents/two_sample_power_files/allocation_data_problem_two.rds"))
+        paste0(getwd(),"/documents/two_sample_power_files/allocation_data_problem_all.rds"))
 
 
 groupone_info <- allocation_data %>% 
@@ -457,4 +531,6 @@ grouptwo_sd_info <- allocation_data %>%
 
 ggplotly(grouptwo_sd_info) %>% 
   layout(hovermode = "x")
+
+
 

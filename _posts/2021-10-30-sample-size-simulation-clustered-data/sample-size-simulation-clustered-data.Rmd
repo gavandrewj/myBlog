@@ -1,0 +1,22 @@
+---
+title: "Sample Size Simulation: Clustered Data"
+description: |
+  A short description of the post.
+author:
+  - name: Gavin Gordon
+    url: https://example.com/norajones
+date: 10-30-2021
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+# Motivation
+
+# Intuition 
+
+# What happens when we recover effects without care for clustering 

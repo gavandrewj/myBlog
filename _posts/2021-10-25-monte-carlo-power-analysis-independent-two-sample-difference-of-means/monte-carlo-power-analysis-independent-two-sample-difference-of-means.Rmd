@@ -11,6 +11,10 @@ output:
     self_contained: false
 ---
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
 ```{r message=FALSE,warning=F,echo=FALSE}
 library(tidyverse)
 library(gganimate)
@@ -22,7 +26,7 @@ library(pander)
 
 # Motivation
 
-I found it discouring that a power analysis for a multinomial multiple logistic regression wasn't readily accessible/available in the same vein as one could use the technique. Eventually I started to grasp why it might be difficult to distill the complexity of a dataset to a few much less one formula for a sample size.
+I found it discouraging that a power analysis for a multinomial multiple logistic regression wasn't readily accessible/available in the same vein as one could use the technique. Eventually I started to grasp why it might be difficult to distill the complexity of a dataset to a few much less one formula for a sample size.
 
 This led me to favor simulations. Okay everything in stats is a simulation but that itself wasn't evident to me for quite some time especially until I started diving into the Bayesian methods.
 
@@ -34,7 +38,7 @@ Basically you create datasets, and perform the analysis you expect to do. This g
 
 You simulate thousands of datasets and check how often a particular sample size will capture an effect you're interested in or you think exists.
 
-```{r echo=F,eval=F}
+```{r echo=F}
 build_sample <- function(
   nsims,
   u1,
@@ -170,7 +174,7 @@ For our case I am interested in the following:
 
 ### Problem One
 
-The first problem we will consider is to determine a sample size with a power of 0.8 for a test for a standardized difference in means of 0.5 magnitude. The variance between the two groups will be the same with varying group allocations.
+The first problem we will consider is to determine a sample size that can recover the location and scale effects given below with a credible interval length of 0.7 of for the precision. The difference in means is 0.5 magnitude with the variance between the two groups being the same but over varying group allocations (1-1,1-3,1-5).
 
 $$
 \mu_1 \sim N(2,1) 
@@ -185,7 +189,7 @@ e \sim N(0,1)
 $$
 
 $$
-\dfrac{\Delta}{\sigma} = \dfrac{\mu_2 - \mu_1}{\sigma} = \dfrac{2.5-2}{1} = 0.5
+sigma ~ \gamma()
 $$
 
 The first useful piece of information is that for the estimated difference in the means.
@@ -360,6 +364,20 @@ ggplotly(grouptwo_sd_info) %>%
 All samples shown have the ability to include the location effect size a minimum of `r min(allocation_data$sigma_xgrouptwo_detect)` proportion of the time across all allocations.
 
 The 0.7 benchmark is used again for the credible interval. The 1-1,1-3 and 1-5 allocations met this requirement for sample sizes `r allocation_data %>% filter(allocation == '1-1',sigma_xgrouptwo_length < 0.7) %>% dplyr::select(samplesize) %>% min()` , `r allocation_data %>% filter(allocation == '1-3',sigma_xgrouptwo_length < 0.7) %>% dplyr::select(samplesize) %>% min()` , and `r allocation_data %>% filter(allocation == '1-5',sigma_xgrouptwo_length < 0.7) %>% dplyr::select(samplesize) %>% min()` respectively.
+
+### 
+
+### Problem Three
+
+Simple Linear Regression
+
+### Problem Four
+
+Linear Regression with both continuous and categorical variables both being random
+
+### 
+
+## Conclusions
 
 Similar conclusions as for the location effect sizes seem to hold for the scale effect size.
 

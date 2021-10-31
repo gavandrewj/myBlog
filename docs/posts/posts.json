@@ -1,5 +1,22 @@
 [
   {
+    "path": "posts/2021-10-30-sample-size-simulation-clustered-data/",
+    "title": "Sample Size Simulation: Clustered Data",
+    "description": "A short description of the post.",
+    "author": [
+      {
+        "name": "Gavin Gordon",
+        "url": "https://example.com/norajones"
+      }
+    ],
+    "date": "2021-10-30",
+    "categories": [],
+    "contents": "\r\nDistill is a publication format for scientific and technical writing, native to the web.\r\nLearn more about using Distill at https://rstudio.github.io/distill.\r\n\r\n\r\n\r\n",
+    "preview": {},
+    "last_modified": "2021-10-30T17:25:58-04:00",
+    "input_file": "sample-size-simulation-clustered-data.knit.md"
+  },
+  {
     "path": "posts/2021-10-25-monte-carlo-power-analysis-independent-two-sample-difference-of-means/",
     "title": "Monte Carlo Power Analysis: Independent Two Sample Difference of Means",
     "description": "A short description of the post.",
