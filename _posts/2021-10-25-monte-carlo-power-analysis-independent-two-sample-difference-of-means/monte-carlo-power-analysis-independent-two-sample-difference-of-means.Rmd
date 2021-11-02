@@ -28,17 +28,20 @@ library(pander)
 
 I found it discouraging that a power analysis for a multinomial multiple logistic regression wasn't readily accessible/available in the same vein as one could use the technique. Eventually I started to grasp why it might be difficult to distill the complexity of a dataset to a few much less one formula for a sample size.
 
-This led me to favor simulations. Okay everything in stats is a simulation but that itself wasn't evident to me for quite some time especially until I started diving into the Bayesian methods.
+This led me to favor simulations. Okay everything in stats is a simulation but that itself wasn't evident to me for quite some time until I started diving into the Bayesian methods with respect to posterior predictive checks.
 
-This is first a proof of exercise, that one could extend to any (I hope) kind of modeling exercise you could undertake for determining sample sizes/power. I imagine as the more complex modeling gets such as with hierarchical models, simulations become inevitable so this is also me setting the ground work. This also forces you to become intimate with what you expect from your data, what analysis you can/should consider, also dealing with things such as cost analysis, interim analysis (such as for clinical trials which I hope to make a general use case of), expectation of missing data, and so on can be factored in.
+This is first a proof of exercise, hopefully one that will generalize to any form of modeling exercise one could undertake for determining sample sizes/power as well as add to my capacity for performing simulations. As modeling becomes more complex such as with hierarchical models, simulations become inevitable so this is also me setting the ground work.
+
+A Power/Sample Size analysis forces you to become intimate with your expectations from data, to consider many possible analyses, while also serving as management tool for providing information for cost analysis and interim analysis (such as for clinical trials which I hope to make a general use case of). Simulations extend this capability by allowing you to include many additional variables while being able to vary the relationships you between these variables. You would not have to depend on sourcing prepackaged code for power/sample size calculations when considering different analysis as you are in full control of the data generating mechanism; you only need what may already be available to you in terms of the models you expect to run.... and also hardware specs that won't deplete your patience.
 
 ## Intuition behind the technique
 
-Basically you create datasets, and perform the analysis you expect to do. This gives another purpose to going through the grind of a literature review in detail to get an idea for what other persons who investigated what you're doing would have found; such knowledge helps shape your expectation.
+Basically you create datasets, and perform the analysis you expect to do. This data generation process is guided by the knowledge sourced from your literature review so it is imperative you examine the results in detail to understand what kinds of datasets you may encounter.
 
-You simulate thousands of datasets and check how often a particular sample size will capture an effect you're interested in or you think exists.
+You simulate thousands of datasets and check how well a particular sample size will capture an effect you're either interested in or one you think exists.
 
 ```{r echo=F}
+
 build_sample <- function(
   nsims,
   u1,
@@ -132,9 +135,9 @@ ggplot(dataframes, aes(fill = factor(x), y)) +
   ease_aes('sine-in-out')
 ```
 
-The above animation should give an easy enough idealization of data generation. Now that we are able to simulate datasets, now comes the application of whatever analysis you have in mind. For our purposes a regression approach is used (brms package in R) utilizing the defaults for Bayesian estimation.
+The above animation should give an easy enough view of data generation. The data is that from two Normal Distributions that have the same variance but their mode of central tendency are typically three units apart. Now that we are able to simulate datasets, now comes the application of whatever analysis you have in mind. For our purposes a regression approach is used (brms package in R) utilizing the defaults for Bayesian estimation.
 
-For these problems I make use of the ability to explicitly model the variances instead of using a pooled estimate of some kind (heterogenous regression modeling). Even though I know that the variances are the same for the above animations, this will set the trend for the upcoming problems for dealing with unequal variances.
+For these problems I make use of the ability to explicitly model the variances instead of using a pooled estimate of some kind (heterogeneous regression modeling). Even though I know that the variances are the same for the above animations, this will set the trend for the upcoming problems for dealing with unequal variances.
 
 An example of the model output is as such:
 
@@ -149,7 +152,9 @@ tab_model(regress)
 
 </center>
 
-The variances are given on a log scale and must be exponentiated before we can interpret on the usual scale. This is shown below
+We have two intercepts and two effect sizes. This is because there is one regression equation that models the mean of the normal distribution, and similarly there is another regression that models the variance of the normal distribution.
+
+The variances are given on a log scale and must be exponentiated before we can interpret on the same scale as our data as shown below
 
 <center>
 
@@ -162,19 +167,20 @@ pander(hypothesis(regress, hyp)$hypothesis[,2:5])
 
 </center>
 
-The relevant information is extracted (mostly the quantiles of the posterior distribution of parameters) and then the entire process is repeated several times for any one sample size.
+The relevant information is extracted (mostly the quantiles of the posterior distribution of parameters) and then the entire process is repeated several times for any one sample size and also in our case for different group allocation schemes.
 
-For our case I am interested in the following:
+I am interested in the following:
 
-1.  Have we managed to recover the parameters used to generate the sample? Making sure you check for all the parameters becomes even more important is some situations such as when you have unequal variances between the groups.
-2.  Is the length of the credible/confidence interval small enough? This is something I would discuss with a client. How much precision around the estimate would there have to be before the estimate becomes action worthy?
+1.  Have we managed to recover the parameters used to generate the sample? Making sure you check for all the parameters becomes important such as in situations when you expect to have unequal variances between groups.
+2.  Is the length of the credible interval small enough? This is something I would discuss with a client. How much precision around the estimate would there have to be before the estimate becomes action worthy?
 3.  Is worth considering an unequal treatment/sampling allocation (something other than a 1:1 ratio)?
+4.  Is the credible interval typically positioned away from values which I would consider there to be no effect?
 
 ## On to the Simulations
 
 ### Problem One
 
-The first problem we will consider is to determine a sample size that can recover the location and scale effects given below with a credible interval length of 0.7 of for the precision. The difference in means is 0.5 magnitude with the variance between the two groups being the same but over varying group allocations (1-1,1-3,1-5).
+The first problem we will consider is to determine a sample size that can recover the location and scale effects given below with a credible interval length of 0.7 for the precision. The difference in means is 0.5 magnitude with the variance between the two groups being the same but over varying group allocations (1-1,1-3,1-5).
 
 $$
 \mu_1 \sim N(2,1) 
@@ -241,11 +247,13 @@ ggplotly(grouptwo_info) %>%
 
 By hovering over a particular point we have access to more information about that particular sample size.
 
-Almost all samples shown have the ability to include the location effect size a minimum of `r min(info$xgrouptwo_detect)` proportion of the time across all allocations. Of course the uncertainty around the estimates can be so terrible as to make the estimate untrustworthy. One might also consider for what sample size does confidence/credible interval tend to be above a constant for example 0.1; for the 1-1 allocation this occurs at `r info %>% filter(allocation == '1-1', xgrouptwo_q2.5 > 0.1) %>% dplyr::select(sample_size) %>% min()` ;for 1-3 allocation at `r info %>% filter(allocation == '1-3', xgrouptwo_q2.5 > 0.1) %>% dplyr::select(sample_size) %>% min()` ; and at the 1-5 allocation at `r info %>% filter(allocation == '1-5', xgrouptwo_q2.5 > 0.1) %>% dplyr::select(sample_size) %>% min()` .
+Almost all samples shown have the ability to include the location effect size a minimum of `r min(info$xgrouptwo_detect)` proportion of the time across all allocations. It seems that you don't quite need to worry about detecting the effect though the uncertainty around the estimates can be so terrible as to make the estimate untrustworthy as can be seen by the wide credible intervals for the smaller sample sizes.
 
-We now consider the length of the intervals. The criteria set for this simulation was that of 0.7 for the credible interval; the label of xgrouptwo_cover will show the proportion of times this criteria was satisfied. The 1-1,1-3 and 1-5 allocations first met this requirement for sample sizes `r info %>% filter(allocation == '1-1',xgrouptwo_length < 0.7) %>% dplyr::select(sample_size) %>% min()` , `r info %>% filter(allocation == '1-3',xgrouptwo_length < 0.7) %>% dplyr::select(sample_size) %>% min()` , and `r info %>% filter(allocation == '1-5',xgrouptwo_length < 0.7) %>% dplyr::select(sample_size) %>% min()` respectively.
+This is why we directly consider the length of the intervals. The criteria set for this simulation was that of 0.7 for the credible interval; the label of xgrouptwo_cover will show the proportion of times this criteria was satisfied. The 1-1 allocation first met this requirement for sample sizes `r info %>% filter(allocation == '1-1',xgrouptwo_length < 0.7) %>% dplyr::select(sample_size) %>% min()` but was not able to maintain this for 0.8 proportion of the times until the sample size was `r info %>% filter(allocation == '1-1',xgrouptwo_cover >= 0.8) %>% dplyr::select(sample_size) %>% min()` . For the 1-3 allocation these sample sizes were `r info %>% filter(allocation == '1-3',xgrouptwo_length < 0.7) %>% dplyr::select(sample_size) %>% min()` and `r info %>% filter(allocation == '1-3',xgrouptwo_cover >= 0.8) %>% dplyr::select(sample_size) %>% min()` respectively. For the 1-5 allocation the sample sizes were `r info %>% filter(allocation == '1-5',xgrouptwo_length < 0.7) %>% dplyr::select(sample_size) %>% min()` and `r info %>% filter(allocation == '1-5',xgrouptwo_cover >= 0.8) %>% dplyr::select(sample_size) %>% min()` respectively. Even though the length of the interval may be precise, what if it actually tends to occurs near values for which we dismiss the effect size as non-existent. This may not be of concern for larger effect sizes say those greater than 1, but as what you are trying to detect becomes smaller, the proximity to the zero value can become concerning. Of course bayesian estimation gives the probability of an interval around the zero value so this alleviates the concern to some extent. Even so this is a problem I've noticed with some power analysis in that it gives the minimum sample size needed to reject the Null Hypothesis, for which in this case it would be the sample size needed to exclude zero from the interval. The problem is that zero isn't exactly that far from the interval when using that sample size, thus you would have to be extremely precise in your prediction of the true variability if you were to take that sample size at face value.
 
-The next informative parameter is that of either of the variances. It is important that this is captured well as this will decide whether your data is too noisy to even begin to interpret what you gathered.
+Therefore one might also consider for what sample size does the lower bound of the credible interval tend to be above a constant for example 0.1; for the 1-1 allocation this first occurs at `r info %>% filter(allocation == '1-1', xgrouptwo_q2.5 > 0.1) %>% dplyr::select(sample_size) %>% min()` and it was not able to maintain this for 80% of the times until a sample size of `r info %>% filter(allocation == '1-1', xgrouptwo_q2.5_0.1above >= 0.8) %>% dplyr::select(sample_size) %>% min()` ;for 1-3 allocation this happened at sample sizes `r info %>% filter(allocation == '1-3', xgrouptwo_q2.5 > 0.1) %>% dplyr::select(sample_size) %>% min()` and `r info %>% filter(allocation == '1-3', xgrouptwo_q2.5_0.1above >= 0.8) %>% dplyr::select(sample_size) %>% min()` respectively; for 1-5 allocation at `r info %>% filter(allocation == '1-5', xgrouptwo_q2.5 > 0.1) %>% dplyr::select(sample_size) %>% min()` and `r info %>% filter(allocation == '1-5', xgrouptwo_q2.5_0.1above >= 0.8) %>% dplyr::select(sample_size) %>% min()` respectively.
+
+The next informative parameter is that of the scale effect. It is important that this is captured well as this will decide whether your data is too noisy to even begin to interpret what you gathered. Remember that for this situation the variances are the same so we expect this scale effect parameter to be zero.
 
 ```{r echo=FALSE}
 
@@ -280,9 +288,82 @@ ggplotly(grouptwo_sd_info) %>%
 
 ```
 
-All samples shown have the ability to include the location effect size a minimum of `r min(info$sigma_xgrouptwo_detect)` proportion of the time across all allocations.
+All samples shown have the ability to include the scaleeffect size a minimum of `r min(info$sigma_xgrouptwo_detect)` proportion of the time across all allocations.
 
 The length of the intervals. The criteria set for this simulation was that of 0.7 for the credible interval; the label of sigma_xgrouptwo_cover will show the proportion of times this criteria was satisfied. The 1-1,1-3 and 1-5 allocations met this requirement for sample sizes `r info %>% filter(allocation == '1-1',sigma_xgrouptwo_length < 0.7) %>% dplyr::select(sample_size) %>% min()` , `r info %>% filter(allocation == '1-3',sigma_xgrouptwo_length < 0.7) %>% dplyr::select(sample_size) %>% min()` , and `r info %>% filter(allocation == '1-5',sigma_xgrouptwo_length < 0.7) %>% dplyr::select(sample_size) %>% min()` respectively.
+
+Since this estimate is centered around zero, I let the length of the interval serve as the limit for upper and lower bounds of the estimate.
+
+Thus in summary the following table details for each allocation the sample size requirements if we want the following to be satisfied at least 80% of the time:
+
+1.  location effect to be captured.
+
+2.  location effect credible interval to have a length less than 0.7
+
+3.  location effect credible interval lower bound to be above 0.1
+
+4.  scale effect credible interval to have a length of 0.7
+
+```{r}
+allo_1_total_samplesize <- info %>% filter(allocation == '1-1',xgrouptwo_detect >= 0.8,xgrouptwo_cover >=0.8,xgrouptwo_q2.5_0.1above >= 0.8 ,sigma_xgrouptwo_cover > 0.8) %>% dplyr::select(sample_size) %>% min()
+
+allo_1_n1_samplesize <- info %>% filter(allocation == '1-1',xgrouptwo_detect >= 0.8,xgrouptwo_cover >=0.8,xgrouptwo_q2.5_0.1above >= 0.8 ,sigma_xgrouptwo_cover > 0.8) %>% dplyr::select(n1) %>% min()
+
+allo_1_n2_samplesize <- info %>% filter(allocation == '1-1',xgrouptwo_detect >= 0.8,xgrouptwo_cover >=0.8,xgrouptwo_q2.5_0.1above >= 0.8 ,sigma_xgrouptwo_cover > 0.8) %>% dplyr::select(n2) %>% min()
+
+
+# sample sizes for 1-3 allocation
+allo_3_total_samplesize <- info %>% filter(allocation == '1-3',xgrouptwo_detect >= 0.8,xgrouptwo_cover >=0.8,xgrouptwo_q2.5_0.1above >= 0.8 ,sigma_xgrouptwo_cover > 0.8) %>% dplyr::select(sample_size) %>% min()
+
+allo_3_n1_samplesize <- info %>% filter(allocation == '1-3',xgrouptwo_detect >= 0.8,xgrouptwo_cover >=0.8,xgrouptwo_q2.5_0.1above >= 0.8 ,sigma_xgrouptwo_cover > 0.8) %>% dplyr::select(n1) %>% min()
+
+allo_3_n2_samplesize <- info %>% filter(allocation == '1-3',xgrouptwo_detect >= 0.8,xgrouptwo_cover >=0.8,xgrouptwo_q2.5_0.1above >= 0.8 ,sigma_xgrouptwo_cover > 0.8) %>% dplyr::select(n2) %>% min()
+
+
+# sample size for 1-5 allocation 
+allo_5_total_samplesize <- info %>% filter(allocation == '1-5',xgrouptwo_detect >= 0.8,xgrouptwo_cover >=0.8,xgrouptwo_q2.5_0.1above >= 0.8 ,sigma_xgrouptwo_cover > 0.8) %>% dplyr::select(sample_size) %>% min()
+
+allo_5_n1_samplesize <- info %>% filter(allocation == '1-5',xgrouptwo_detect >= 0.8,xgrouptwo_cover >=0.8,xgrouptwo_q2.5_0.1above >= 0.8 ,sigma_xgrouptwo_cover > 0.8) %>% dplyr::select(n1) %>% min()
+
+allo_5_n2_samplesize <- info %>% filter(allocation == '1-5',xgrouptwo_detect >= 0.8,xgrouptwo_cover >=0.8,xgrouptwo_q2.5_0.1above >= 0.8 ,sigma_xgrouptwo_cover > 0.8) %>% dplyr::select(n2) %>% min()
+
+
+sample_size_tab <- data.frame(
+  allocation = c(
+    "1-1",
+    "1-3",
+    "1-5"
+  ),
+  total = c(
+    allo_1_total_samplesize,
+    allo_3_total_samplesize,
+    allo_5_total_samplesize
+    ),
+  n1 = c(
+    allo_1_n1_samplesize,
+    allo_3_n1_samplesize,
+    allo_5_n1_samplesize
+  ),
+  n2 = c(
+    allo_1_n2_samplesize,
+    allo_3_n2_samplesize,
+    allo_5_n2_samplesize
+  )
+)
+
+names(sample_size_tab) <- c(
+  "Allocation",
+  "Total Sample Size",
+  "Group One Sample Size",
+  "Group Two Sample Size"
+)
+
+
+pander(sample_size_tab)
+
+```
+
+1-1 : total sample size `r` with the sample size for group
 
 ### Problem Two
 
