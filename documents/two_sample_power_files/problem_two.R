@@ -7,24 +7,32 @@ library(plotly)
 library(furrr)
 library(stringr)
 library(dials)
+library(data.table)
+library(dtplyr)
+library(dplyr, warn.conflicts = FALSE)
+
+memory.limit(80000)
 
 
-future::plan(multicore,
-             workers = 4)
+# future::plan(multicore,
+#              workers = 4)
 
+plan(multisession)
 
-
+sample_specification = list_to_sim[[1]]
 # creates the sample
 build_sample <- function(
-  nsims,
-  u1,
-  effect_size_u,
-  allocate_n1,
-  allocate_n2,
-  sample_size,
-  sigma_u1,
-  effect_size_sigma
+  sample_specification
 ){
+  
+  
+  u1 = sample_specification["u"]
+  effect_size_u = sample_specification["effect_size_u"]
+  allocate_n1 = sample_specification["allocate_n1"]
+  allocate_n2 = sample_specification["allocate_n2"]
+  sample_size = sample_specification["sample_size"]
+  sigma_u = sample_specification['sigma_u']
+  effect_size_sigma = sample_specification['effect_size_sigma']
   
   # get the sample size right for the two groups while respecting the allocations 
   number_batches = floor(sample_size/(allocate_n1 + allocate_n2))
@@ -50,7 +58,7 @@ build_sample <- function(
   
   
   # create the variance regression vector
-  coeff_sigma_vector <- matrix(c(sigma_u1,effect_size_sigma))
+  coeff_sigma_vector <- matrix(c(sigma_u,effect_size_sigma))
   sigma_regression <- x_matrix %*% coeff_sigma_vector
   
   
@@ -63,65 +71,336 @@ build_sample <- function(
   
   df <- data.frame(x = factor(x),
                    y = y)
-  # hist(c(y1,y2))
   
   
-  return(df)
+  model <- update(regress,newdata = df,formula. = bf(y ~ x,sigma ~ x))
+  
+  
+  values <-   as.vector(t(fixef(model)[c(1,3),c(1,3,4)])) 
+  
+
+  hyp <- c("exp(sigma_Intercept) = 0",
+           "exp(sigma_Intercept + sigma_xgrouptwo) = 0")
+
+  values <-  c(values,as.vector(t(hypothesis(model, hyp)$hypothesis[1,c(2,4,5)])))
+  
+  hyp <- "exp(sigma_Intercept + sigma_xgrouptwo) > exp(sigma_Intercept)"
+  
+  values <-  c(values,as.vector(t(hypothesis(model, hyp)$hypothesis[1,c(2,4,5)])))
+  
+  
+  return(values)
 }
 
 
 
 
+# set up the specs for the data generation 
 
-
-
-dataset <- build_sample(
-  nsims = 1,
-  u1 = 2,
-  effect_size_u = 5,
-  allocate_n1 = 1,
-  allocate_n2 = 1,
-  sample_size = 50,
-  sigma_u1 = 1,
-  effect_size_sigma = 0
+parameters_grid <- expand.grid(
+  allocation = c('1-1','1-3','1-5'),
+  sample_size = seq(30,400,10),
+  u = c(2),
+  effect_size_u = c(0.5,0.8), 
+  sigma_u = c(1),
+  effect_size_sigma = c(0,1,2),
+  nsim = 1:20 
 )
 
+time_est <- nrow(parameters_grid) / 360 * 3.6 / 60
 
-ggplot(dataframes[[2]],
-       aes(y,
-           fill = x)) +
-  geom_histogram()
-
-dataframes[[3]] %>%
-  group_by(x) %>%
-  summarise(
-    mean = mean(y)
-  )
-
-model_extract(dataframes[[3]])
+# add on a unique counter for split into a list
+parameters_grid$unique = 1:nrow(parameters_grid)
 
 
-values <- fixef( update(regress,newdata = dataframes[[3]],formula. = bf(y ~ x,sigma ~ x)))[,c(1,3,4)]
+# split the allocation to get the allocate parameters
+parameters_grid <- parameters_grid %>% 
+  mutate(
+    allocate_n1 = as.numeric(str_split(allocation,"-",simplify = T)[,1]),
+    allocate_n2 = as.numeric(str_split(allocation,"-",simplify = T)[,2]),
+  ) 
 
 
 
-results <- data.frame(matrix(unlist(values), nrow =1, byrow=TRUE))
-names(results) <- c(
+#  create the list to feed into the future
+list_to_sim <- parameters_grid %>%
+  dplyr::select(!allocation) %>% 
+  group_split(unique) %>%
+  map(unlist)
+
+
+
+# initiate the regression 
+# dataset <- data.frame(
+#   x = factor(c(rep("group one",20),rep("group two",20))),
+#   y = rnorm(40)
+# )
+# 
+# regress <- brm(bf(y ~ x,sigma ~ x), dataset)
+
+
+
+# run the sims
+tic()
+info_list <- future_map( 
+  .x = list_to_sim,
+  .f =  build_sample
+)
+toc()
+
+saveRDS(info_list,
+        paste0(getwd(),"/documents/two_sample_power_files/info_list_table_problem.rds"))
+
+
+#16294/13680 for one simulation 
+
+info <- data.table(matrix(unlist(info_list), nrow=length(info_list), byrow=TRUE))
+
+
+
+
+names(info) <- c(
   'Intercept',
-  'sigma_Intercept',
-  'xgrouptwo',
-  'sigma_xgrouptwo',
-  
   'Intercept_q2.5',
-  'sigma_Intercept_q2.5',
-  'xgrouptwo_q2.5',
-  'sigma_xgrouptwo_q2.5',
-  
   'Intercept_q97.5',
-  'sigma_Intercept_q97.5',
+  
+  'xgrouptwo',
+  'xgrouptwo_q2.5',
   'xgrouptwo_q97.5',
+  
+  
+  'sigma_Intercept',
+  'sigma_Intercept_q2.5',
+  'sigma_Intercept_q97.5',
+  
+  'sigma_xgrouptwo',
+  'sigma_xgrouptwo_q2.5',
   'sigma_xgrouptwo_q97.5'
+  
 )
+
+
+# deal with after simulation 
+
+info <- cbind(parameters_grid,info)
+
+Intercept_wantcover <- 0.7
+xgrouptwo_wantcover <- 0.7
+sigma_Intercept_wantcover <- 0.7
+sigma_xgrouptwo_wantcover <- 0.7
+
+info <- lazy_dt(info)
+
+
+info <- info %>%
+  
+  mutate(
+    
+    Intercept_cover = Intercept_q97.5 - Intercept_q2.5 < Intercept_wantcover,
+    Intercept_detect =  u > Intercept_q2.5 &  u < Intercept_q97.5 ,
+    Intercept_length =  Intercept_q97.5 -  Intercept_q2.5 ,
+    
+    
+    
+    xgrouptwo_cover = xgrouptwo_q97.5 - xgrouptwo_q2.5  < xgrouptwo_wantcover,
+    xgrouptwo_detect =  effect_size_u > xgrouptwo_q2.5 &  effect_size_u < xgrouptwo_q97.5, 
+    xgrouptwo_length = xgrouptwo_q97.5 - xgrouptwo_q2.5,
+    
+    
+    sigma_Intercept_cover = sigma_Intercept_q97.5 - sigma_Intercept_q2.5 < sigma_Intercept_wantcover,
+    sigma_Intercept_detect =   sigma_u > sigma_Intercept_q2.5 &  sigma_u < sigma_Intercept_q97.5, 
+    sigma_Intercept_length = sigma_Intercept_q97.5 - sigma_Intercept_q2.5 ,
+    
+    
+    sigma_xgrouptwo_cover = sigma_xgrouptwo_q97.5 - sigma_xgrouptwo_q2.5 < sigma_xgrouptwo_wantcover,
+    sigma_xgrouptwo_detect = effect_size_sigma > sigma_xgrouptwo_q2.5 &  effect_size_sigma < sigma_xgrouptwo_q97.5, 
+    sigma_xgrouptwo_length = sigma_xgrouptwo_q97.5 - sigma_xgrouptwo_q2.5 
+    
+    
+  ) %>% 
+  
+  mutate(para_com = paste( 
+    as.character(u),
+    "-",
+    as.character(effect_size_u),
+    "-",
+    as.character(sigma_u),
+    "-",
+    as.character(effect_size_sigma)
+                           ),
+    .keep = "unused") %>% 
+  
+  dplyr::select(!c(allocate_n1,allocate_n2,nsim,unique,.keep,u,effect_size_u,effect_size_sigma,sigma_u)) %>% 
+  
+  mutate(
+    across(ends_with("cover"),as.numeric),
+    across(ends_with("detect"),as.numeric),
+    
+  ) %>% 
+  
+  group_by(
+    allocation,
+    para_com,
+    sample_size
+  ) %>%
+  
+  mutate(
+     across(.cols = everything(),
+             mean) 
+  ) %>% 
+  distinct() %>% 
+  arrange(allocation,
+          para_com,
+          sample_size) %>% 
+  
+  as_tibble()
+
+info$n1 <- 0
+info$n2 <- 0
+
+for(i in 1:nrow(info)){
+  allocate_adjust <- as.numeric(unlist(str_split(info$allocation[i],"-")))
+  number_batches = floor(info$sample_size[i]/(allocate_adjust[1] + allocate_adjust[2]))
+  n1 = number_batches * allocate_adjust[1]
+  n2 = number_batches * allocate_adjust[2]
+  info$n1[i] = n1
+  info$n2[i] = n2
+  info$sample_size[i] = n1 + n2
+}
+
+
+
+
+# graphs
+
+groupone_info <- info %>%
+  filter(para_com == "2 - 0.5 - 1 - 0") %>% 
+  ggplot(aes(x = sample_size,
+             y = Intercept,
+             color = allocation,
+             ymin = Intercept_q2.5,
+             ymax = Intercept_q97.5,
+             text = paste('interval length: ', Intercept_length,
+                          '</br>interval length criteria satisfied: ', Intercept_cover,
+                          '</br>detect probability: ', Intercept_detect,
+                          '</br>group one sample size: ',n1,
+                          '</br>group two sample size: ',n2
+             ))) +
+  geom_hline(yintercept = c(0, .5), color = "white") +
+  geom_pointrange(fatten = 1/2) +
+  # scale_x_discrete("reordered by the lower level of the 95% intervals", breaks = NULL) + 
+  geom_point() + 
+  ylim(min(info$Intercept_q2.5) - 0.5,max(info$Intercept_q97.5) + 0.5) + 
+  geom_hline(yintercept = 2) + 
+  labs(x = "Sample Size (Total)",
+       y = "Location Effect Size",
+       title = "Properties for Main Effect across Sample Sizes") + 
+  theme_bw() 
+
+
+ggplotly(groupone_info) %>% 
+  layout(hovermode = "x")
+
+
+grouptwo_info <- info %>%
+  filter(para_com == "2 - 0.5 - 1 - 0") %>% 
+  ggplot(aes(x = sample_size,
+             y = xgrouptwo,
+             color = allocation,
+             ymin = xgrouptwo_q2.5,
+             ymax = xgrouptwo_q97.5,
+             text = paste('interval length: ', xgrouptwo_length,
+                          '</br>interval length criteria satisfied: ', xgrouptwo_cover,
+                          '</br>detect probability: ', xgrouptwo_detect,
+                          '</br>group one sample size: ',n1,
+                          '</br>group two sample size: ',n2
+             ))) +
+  geom_hline(yintercept = c(0, .5), color = "white") +
+  geom_pointrange(fatten = 1/2) +
+  # scale_x_discrete("reordered by the lower level of the 95% intervals", breaks = NULL) + 
+  geom_point() + 
+  ylim(min(info$xgrouptwo_q2.5) - 0.5,max(info$xgrouptwo_q97.5) + 0.5) + 
+  geom_hline(yintercept = 0.5) + 
+  labs(x = "Sample Size (Total)",
+       y = "Location Effect Size",
+       title = "Properties of the Location Effect across Sample Sizes") + 
+  theme_bw() 
+
+
+ggplotly(grouptwo_info) %>% 
+  layout(hovermode = "x")
+
+
+
+groupone_sd_info <- info %>%
+  filter(para_com == "2 - 0.5 - 1 - 0") %>% 
+  ggplot(aes(x = sample_size,
+             y = sigma_Intercept,
+             color = allocation,
+             ymin = sigma_Intercept_q2.5,
+             ymax = sigma_Intercept_q97.5,
+             text = paste('interval length: ', sigma_Intercept_length,
+                          '</br>interval length criteria satisfied: ', sigma_Intercept_cover,
+                          '</br>detect probability: ', sigma_Intercept_detect,
+                          '</br>group one sample size: ',n1,
+                          '</br>group two sample size: ',n2
+             ))) +
+  # geom_hline(yintercept = c(0, .5), color = "white") +
+  geom_pointrange(fatten = 1/2) +
+  # scale_x_discrete("reordered by the lower level of the 95% intervals", breaks = NULL) + 
+  geom_point() + 
+  ylim(min(info$sigma_Intercept_q2.5) - 0.5,max(info$sigma_Intercept_q97.5) + 0.5) + 
+  geom_hline(yintercept = 1) + 
+  labs(x = "Sample Size (Total)",
+       y = "Location Effect Size",
+       title = "Properties for Main Effect across Sample Sizes") + 
+  theme_bw() 
+
+
+ggplotly(groupone_sd_info) %>% 
+  layout(hovermode = "x")
+
+
+
+grouptwo_sd_info <- info %>%
+  filter(para_com == "2 - 0.5 - 1 - 0") %>% 
+  ggplot(aes(x = sample_size,
+             y = sigma_xgrouptwo,
+             color = allocation,
+             ymin = sigma_xgrouptwo_q2.5,
+             ymax = sigma_xgrouptwo_q97.5,
+             text = paste('interval length: ', sigma_xgrouptwo_length,
+                          '</br>interval length criteria satisfied: ', sigma_xgrouptwo_cover,
+                          '</br>detect probability: ', sigma_xgrouptwo_detect,
+                          '</br>group one sample size: ',n1,
+                          '</br>group two sample size: ',n2
+             ))) +
+  geom_hline(yintercept = c(0, .5), color = "white") +
+  geom_pointrange(fatten = 1/2) +
+  # scale_x_discrete("reordered by the lower level of the 95% intervals", breaks = NULL) + 
+  geom_point() + 
+  ylim(min(info$sigma_xgrouptwo_q2.5) - 0.5,max(info$sigma_xgrouptwo_q97.5) + 0.5) + 
+  geom_hline(yintercept = 0) + 
+  labs(x = "Sample Size (Total)",
+       y = "Location Effect Size",
+       title = "Properties of the Scale Effect across Sample Sizes") + 
+  theme_bw() 
+
+
+ggplotly(grouptwo_sd_info) %>% 
+  layout(hovermode = "x")
+
+
+
+
+saveRDS(info,
+        paste0(getwd(),"/documents/two_sample_power_files/all_problems.rds"))
+
+
+
+
+# intercep intercep2.5 intercept 97.5 effect effect2.5 effect 97.5 sigmaintercept sigmaintere2.5 siginter97.5 sigmaeffec sigmeffec2.5 sigmaeffect97.5
+
 
 
 # runs the regression and extracts the info we want
@@ -146,20 +425,15 @@ model_extract <- function(dataframeobject){
 
 
 
-# initial regress
-# u1 = 2
-# pop_u2 = 2.8
-# allocate_n1 = 1
-# allocate_n2 = 1
-# n = 50
-# sigma_u1 = 1
-# sigma_u2 = 1
- # dataset <- build_sample(1,par_sample_size = 20)
-regress <- brm(bf(y ~ x,sigma ~ x), dataset)
-# regress <- update(regress,dataset,formula. = bf(y ~ x,sigma ~ x))
-# summary(regress)
-# plot(regress, ask = FALSE)
-# plot(conditional_effects(regress), points = TRUE)
+
+
+x <- c(rep("group one",n1),rep("group two",n2))
+
+
+df <- data.frame(x = factor(x),
+                 y = y)
+
+
 
 hyp <- c("exp(sigma_Intercept) = 0",
          "exp(sigma_Intercept + sigma_xgrouptwo) = 0")
@@ -194,8 +468,8 @@ sigma_Intercept_wantcover <- 0.7
 sigma_xgrouptwo_wantcover <- 0.7
 
 
-samplerange <- seq(30,200,10)
-nsims = 10
+samplerange <- seq(30,400,10)
+nsims = 20
 allocation <- list(
   c(1,1),
   c(1,3),
@@ -205,9 +479,9 @@ allocation <- list(
 
 parameters_grid <- expand.grid(
   pop_u = c(2),
-  pop_effect_size_u = c(0.8,0.5), 
+  pop_effect_size_u = c(0.5,0.3,0.8), 
   pop_sigma_u1 = c(1),
-  pop_effect_size_sigma = c(0,1,2)
+  pop_effect_size_sigma = c(1,2)
 )
 
 parameters <- parameters_grid %>% purrr::transpose()
@@ -303,21 +577,7 @@ for(allocate in allocation){
     
     
     # check for interval coverage and whether the parameter is inside the credible interval 
-    results$Intercept_cover <- results$Intercept_q97.5 - results$Intercept_q2.5 < Intercept_wantcover
-    results$Intercept_detect <-  params[["pop_u"]] > results$Intercept_q2.5 &  params[["pop_u"]] < results$Intercept_q97.5 
-  
-    
-    results$xgrouptwo_cover <- results$xgrouptwo_q97.5 - results$xgrouptwo_q2.5  < xgrouptwo_wantcover
-    results$xgrouptwo_detect <-  params[["pop_effect_size_u"]] > results$xgrouptwo_q2.5 &  params[["pop_effect_size_u"]] < results$xgrouptwo_q97.5 
-    
-    
-    results$sigma_Intercept_cover <- results$sigma_Intercept_q97.5 - results$sigma_Intercept_q2.5 < sigma_Intercept_wantcover
-    results$sigma_Intercept_detect <-   params[["pop_sigma_u1"]] > results$sigma_Intercept_q2.5 &  params[["pop_sigma_u1"]] < results$sigma_Intercept_q97.5 
-    
-    
-    results$sigma_xgrouptwo_cover <- results$sigma_xgrouptwo_q97.5 - results$sigma_xgrouptwo_q2.5 < sigma_xgrouptwo_wantcover
-    results$sigma_xgrouptwo_detect <- params[["pop_effect_size_sigma"]] > results$sigma_xgrouptwo_q2.5 &  params[["pop_effect_size_sigma"]] < results$sigma_xgrouptwo_q97.5 
-  
+   
   
     # extract the mean of the parameters descriptors for the simulations for each n 
     
@@ -386,18 +646,6 @@ allocation_data$allocation <- factor(
   rep(allo,each = nrow(parameters_grid) * length(samplerange))
 )
 
-allocation_data$n1 <- 0
-allocation_data$n2 <- 0
-
-for(i in 1:nrow(allocation_data)){
-  allocate_adjust <- as.numeric(unlist(str_split(allocation_data$allocation[i],"-")))
-  number_batches = floor(allocation_data$samplesize[i]/(allocate_adjust[1] + allocate_adjust[2]))
-  n1 = number_batches * allocate_adjust[1]
-  n2 = number_batches * allocate_adjust[2]
-  allocation_data$n1[i] = n1
-  allocation_data$n2[i] = n2
-  allocation_data$samplesize[i] = n1 + n2
-}
 
 
 
@@ -433,104 +681,5 @@ saveRDS(show_table,
 
 saveRDS(allocation_data,
         paste0(getwd(),"/documents/two_sample_power_files/allocation_data_problem_all.rds"))
-
-
-groupone_info <- allocation_data %>% 
-  ggplot(aes(x = samplesize,
-             y = Intercept,
-             color = allocation,
-             ymin = Intercept_q2.5,
-             ymax = Intercept_q97.5,
-             text = paste('interval length: ', Intercept_length,
-                          '</br>interval length criteria satisfied: ', Intercept_cover,
-                          '</br>detect probability: ', Intercept_detect
-             ))) +
-  geom_hline(yintercept = c(0, .5), color = "white") +
-  geom_pointrange(fatten = 1/2) +
-  scale_x_discrete("reordered by the lower level of the 95% intervals", breaks = NULL) + 
-  geom_point() + 
-  ylim(min(allocation_data$Intercept_q2.5) - 0.5,max(allocation_data$Intercept_q97.5) + 0.5) + 
-  geom_hline(yintercept = pop_u) + 
-  theme_bw()
-
-ggplotly(groupone_info)
-
-
-grouptwo_info <- allocation_data %>% 
-  ggplot(aes(x = samplesize,
-             y = xgrouptwo,
-             color = allocation,
-             ymin = xgrouptwo_q2.5,
-             ymax = xgrouptwo_q97.5,
-             text = paste('interval length: ', xgrouptwo_length,
-                          '</br>interval length criteria satisfied: ', xgrouptwo_cover,
-                          '</br>detect probability: ', xgrouptwo_detect
-             ))) +
-  geom_hline(yintercept = c(0, .5), color = "white") +
-  geom_pointrange(fatten = 1/2) +
-  # scale_x_discrete("reordered by the lower level of the 95% intervals", breaks = NULL) + 
-  geom_point() + 
-  ylim(min(allocation_data$xgrouptwo_q2.5) - 0.5,max(allocation_data$xgrouptwo_q97.5) + 0.5) + 
-  geom_hline(yintercept = pop_effect_size_u) + 
-  labs(x = "Sample Size (Total)",
-       y = "Location Effect Size",
-       title = "Properties for Main Effect across Sample Sizes") + 
-  theme_bw() 
-
-
-ggplotly(grouptwo_info) %>% 
-  layout(hovermode = "x")
-
-
-
-groupone_sd_info <- allocation_data %>% 
-  ggplot(aes(x = samplesize,
-             y = sigma_Intercept,
-             color = allocation,
-             ymin = sigma_Intercept_q2.5,
-             ymax = sigma_Intercept_q97.5,
-             text = paste('interval length: ', sigma_Intercept_length,
-                          '</br>interval length criteria satisfied: ', sigma_Intercept_cover,
-                          '</br>detect probability: ', sigma_Intercept_detect
-             )
-  )) +
-  geom_hline(yintercept = c(0, .5), color = "white") +
-  geom_pointrange(fatten = 1/2) +
-  scale_x_discrete("reordered by the lower level of the 95% intervals", breaks = NULL) + 
-  geom_point() + 
-  ylim(min(allocation_data$sigma_Intercept_q2.5) - 0.5,max(allocation_data$sigma_Intercept_q97.5) + 0.5) + 
-  geom_hline(yintercept = pop_sigma_u1) + 
-  theme_bw()
-
-ggplotly(groupone_sd_info) %>% 
-  layout(hovermode = "x")
-
-
-
-grouptwo_sd_info <- allocation_data %>% 
-  ggplot(aes(x = samplesize,
-             y = sigma_xgrouptwo,
-             color = allocation,
-             ymin = sigma_xgrouptwo_q2.5,
-             ymax = sigma_xgrouptwo_q97.5,
-             text = paste('interval length: ', sigma_xgrouptwo_length,
-                          '</br>interval length criteria satisfied: ', sigma_xgrouptwo_cover,
-                          '</br>detect probability: ', sigma_xgrouptwo_detect
-             )
-  )) +
-  geom_hline(yintercept = c(0, .5), color = "white") +
-  geom_pointrange(fatten = 1/2) +
-  # scale_x_discrete("reordered by the lower level of the 95% intervals", breaks = NULL) + 
-  geom_point() + 
-  ylim(min(allocation_data$sigma_xgrouptwo_q2.5) - 0.5,max(allocation_data$sigma_xgrouptwo_q97.5) + 0.5) + 
-  geom_hline(yintercept = pop_effect_size_sigma) + 
-  labs(x = "Sample Size (Total)",
-       y = "Scale Effect Size",
-       title = "Properties for Scale Effect for Group Two across Sample Sizes") + 
-  theme_bw() 
-
-ggplotly(grouptwo_sd_info) %>% 
-  layout(hovermode = "x")
-
 
 

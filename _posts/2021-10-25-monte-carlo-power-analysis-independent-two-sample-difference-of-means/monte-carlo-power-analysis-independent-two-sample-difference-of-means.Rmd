@@ -197,37 +197,43 @@ The first useful piece of information is that for the estimated difference in th
 <center>
 
 ```{r echo = F,fig.width= 7}
-allocation_data <- readRDS("C:/Users/gavin/Documents/GitHub/myBlog/allocation_data.rds")
+info <- readRDS("C:/Users/gavin/Documents/GitHub/myBlog/documents/two_sample_power_files/all_problems.rds")  %>%
+  filter(para_com == "2 - 0.5 - 1 - 0")
 
 pop_u = 2
 pop_effect_size_u = 0.5 
 pop_sigma_u1 = 1
 pop_effect_size_sigma = 0
 
-grouptwo_info <- allocation_data %>% 
-  ggplot(aes(x = samplesize,
+
+grouptwo_info <- info %>%
+  filter(para_com == "2 - 0.5 - 1 - 0") %>% 
+  ggplot(aes(x = sample_size,
              y = xgrouptwo,
              color = allocation,
              ymin = xgrouptwo_q2.5,
              ymax = xgrouptwo_q97.5,
              text = paste('interval length: ', xgrouptwo_length,
                           '</br>interval length criteria satisfied: ', xgrouptwo_cover,
-                          '</br>detect probability: ', xgrouptwo_detect
+                          '</br>detect probability: ', xgrouptwo_detect,
+                          '</br>group one sample size: ',n1,
+                          '</br>group two sample size: ',n2
              ))) +
   geom_hline(yintercept = c(0, .5), color = "white") +
   geom_pointrange(fatten = 1/2) +
   # scale_x_discrete("reordered by the lower level of the 95% intervals", breaks = NULL) + 
   geom_point() + 
-  ylim(min(allocation_data$xgrouptwo_q2.5) - 0.5,max(allocation_data$xgrouptwo_q97.5) + 0.5) + 
-  geom_hline(yintercept = pop_effect_size_u) + 
+  ylim(min(info$xgrouptwo_q2.5) - 0.5,max(info$xgrouptwo_q97.5) + 0.5) + 
+  geom_hline(yintercept = 0.5) + 
   labs(x = "Sample Size (Total)",
        y = "Location Effect Size",
-       title = "Properties for Main Effect across Sample Sizes") + 
+       title = "Properties of the Location Effect across Sample Sizes") + 
   theme_bw() 
 
 
 ggplotly(grouptwo_info) %>% 
   layout(hovermode = "x")
+
 
 ```
 
@@ -235,45 +241,48 @@ ggplotly(grouptwo_info) %>%
 
 By hovering over a particular point we have access to more information about that particular sample size.
 
-Almost all samples shown have the ability to include the location effect size a minimum of `r min(allocation_data$xgrouptwo_detect)` proportion of the time across all allocations. Of course the uncertainty around the estimates can be so terrible as to make the estimate untrustworthy. One might also consider for what sample size does confidence/credible interval tend to be above a constant for example 0.05; for the 1-1 allocation this occurs at `r allocation_data %>% filter(allocation == '1-1', xgrouptwo_q2.5 > 0.05) %>% dplyr::select(samplesize) %>% min()` ;for 1-3 allocation at `r allocation_data %>% filter(allocation == '1-3', xgrouptwo_q2.5 > 0.05) %>% dplyr::select(samplesize) %>% min()` ; and at the 1-5 allocation at `r allocation_data %>% filter(allocation == '1-5', xgrouptwo_q2.5 > 0.05) %>% dplyr::select(samplesize) %>% min()` .
+Almost all samples shown have the ability to include the location effect size a minimum of `r min(info$xgrouptwo_detect)` proportion of the time across all allocations. Of course the uncertainty around the estimates can be so terrible as to make the estimate untrustworthy. One might also consider for what sample size does confidence/credible interval tend to be above a constant for example 0.1; for the 1-1 allocation this occurs at `r info %>% filter(allocation == '1-1', xgrouptwo_q2.5 > 0.1) %>% dplyr::select(sample_size) %>% min()` ;for 1-3 allocation at `r info %>% filter(allocation == '1-3', xgrouptwo_q2.5 > 0.1) %>% dplyr::select(sample_size) %>% min()` ; and at the 1-5 allocation at `r info %>% filter(allocation == '1-5', xgrouptwo_q2.5 > 0.1) %>% dplyr::select(sample_size) %>% min()` .
 
-We now consider the length of the intervals. The criteria set for this simulation was that of 0.7 for the credible interval; the label of xgrouptwo_cover will show the proportion of times this criteria was satisfied. The 1-1,1-3 and 1-5 allocations first met this requirement for sample sizes `r allocation_data %>% filter(allocation == '1-1',xgrouptwo_length < 0.7) %>% dplyr::select(samplesize) %>% min()` , `r allocation_data %>% filter(allocation == '1-1',xgrouptwo_length < 0.7) %>% dplyr::select(samplesize) %>% min()` , and `r allocation_data %>% filter(allocation == '1-1',xgrouptwo_length < 0.7) %>% dplyr::select(samplesize) %>% min()` respectively.
+We now consider the length of the intervals. The criteria set for this simulation was that of 0.7 for the credible interval; the label of xgrouptwo_cover will show the proportion of times this criteria was satisfied. The 1-1,1-3 and 1-5 allocations first met this requirement for sample sizes `r info %>% filter(allocation == '1-1',xgrouptwo_length < 0.7) %>% dplyr::select(sample_size) %>% min()` , `r info %>% filter(allocation == '1-3',xgrouptwo_length < 0.7) %>% dplyr::select(sample_size) %>% min()` , and `r info %>% filter(allocation == '1-5',xgrouptwo_length < 0.7) %>% dplyr::select(sample_size) %>% min()` respectively.
 
 The next informative parameter is that of either of the variances. It is important that this is captured well as this will decide whether your data is too noisy to even begin to interpret what you gathered.
 
 ```{r echo=FALSE}
 
-
-grouptwo_sd_info <- allocation_data %>% 
-  ggplot(aes(x = samplesize,
+grouptwo_sd_info <- info %>%
+  filter(para_com == "2 - 0.5 - 1 - 0") %>% 
+  ggplot(aes(x = sample_size,
              y = sigma_xgrouptwo,
              color = allocation,
              ymin = sigma_xgrouptwo_q2.5,
              ymax = sigma_xgrouptwo_q97.5,
              text = paste('interval length: ', sigma_xgrouptwo_length,
                           '</br>interval length criteria satisfied: ', sigma_xgrouptwo_cover,
-                          '</br>detect probability: ', sigma_xgrouptwo_detect
-                          )
-  )) +
+                          '</br>detect probability: ', sigma_xgrouptwo_detect,
+                          '</br>group one sample size: ',n1,
+                          '</br>group two sample size: ',n2
+             ))) +
   geom_hline(yintercept = c(0, .5), color = "white") +
   geom_pointrange(fatten = 1/2) +
   # scale_x_discrete("reordered by the lower level of the 95% intervals", breaks = NULL) + 
   geom_point() + 
-  ylim(min(allocation_data$sigma_xgrouptwo_q2.5) - 0.5,max(allocation_data$sigma_xgrouptwo_q97.5) + 0.5) + 
-  geom_hline(yintercept = pop_effect_size_sigma) + 
- labs(x = "Sample Size (Total)",
-     y = "Scale Effect Size",
-     title = "Properties for Scale Effect for Group Two across Sample Sizes") + 
+  ylim(min(info$sigma_xgrouptwo_q2.5) - 0.5,max(info$sigma_xgrouptwo_q97.5) + 0.5) + 
+  geom_hline(yintercept = 0) + 
+  labs(x = "Sample Size (Total)",
+       y = "Location Effect Size",
+       title = "Properties of the Scale Effect across Sample Sizes") + 
   theme_bw() 
+
 
 ggplotly(grouptwo_sd_info) %>% 
   layout(hovermode = "x")
 
+
 ```
 
-All samples shown have the ability to include the location effect size a minimum of `r min(allocation_data$sigma_xgrouptwo_detect)` proportion of the time across all allocations.
+All samples shown have the ability to include the location effect size a minimum of `r min(info$sigma_xgrouptwo_detect)` proportion of the time across all allocations.
 
-The length of the intervals. The criteria set for this simulation was that of 0.7 for the credible interval; the label of sigma_xgrouptwo_cover will show the proportion of times this criteria was satisfied. The 1-1,1-3 and 1-5 allocations met this requirement for sample sizes `r allocation_data %>% filter(allocation == '1-1',sigma_xgrouptwo_length < 0.7) %>% dplyr::select(samplesize) %>% min()` , `r allocation_data %>% filter(allocation == '1-3',sigma_xgrouptwo_length < 0.7) %>% dplyr::select(samplesize) %>% min()` , and `r allocation_data %>% filter(allocation == '1-5',sigma_xgrouptwo_length < 0.7) %>% dplyr::select(samplesize) %>% min()` respectively.
+The length of the intervals. The criteria set for this simulation was that of 0.7 for the credible interval; the label of sigma_xgrouptwo_cover will show the proportion of times this criteria was satisfied. The 1-1,1-3 and 1-5 allocations met this requirement for sample sizes `r info %>% filter(allocation == '1-1',sigma_xgrouptwo_length < 0.7) %>% dplyr::select(sample_size) %>% min()` , `r info %>% filter(allocation == '1-3',sigma_xgrouptwo_length < 0.7) %>% dplyr::select(sample_size) %>% min()` , and `r info %>% filter(allocation == '1-5',sigma_xgrouptwo_length < 0.7) %>% dplyr::select(sample_size) %>% min()` respectively.
 
 ### Problem Two
 
@@ -284,7 +293,7 @@ $$
 $$
 
 $$
-\mu_2 \sim N(2.8,3)
+\mu_2 \sim N(2.5,2)
 $$
 
 $$
@@ -293,77 +302,79 @@ $$
 
 ```{r}
 
-allocation_data <- readRDS("C:/Users/gavin/Documents/GitHub/myBlog/documents/two_sample_power_files/allocation_data_problem_two.rds")
+info <- readRDS("C:/Users/gavin/Documents/GitHub/myBlog/documents/two_sample_power_files/all_problems.rds")  %>%
+  filter(para_com == "2 - 0.5 - 1 - 2")
 
-pop_u = 2
-pop_effect_size_u = 0.8 
-pop_sigma_u1 = 1
-pop_effect_size_sigma = 2
 
-grouptwo_info <- allocation_data %>% 
-  ggplot(aes(x = samplesize,
+grouptwo_info <- info %>%
+  ggplot(aes(x = sample_size,
              y = xgrouptwo,
              color = allocation,
              ymin = xgrouptwo_q2.5,
              ymax = xgrouptwo_q97.5,
              text = paste('interval length: ', xgrouptwo_length,
                           '</br>interval length criteria satisfied: ', xgrouptwo_cover,
-                          '</br>detect probability: ', xgrouptwo_detect
+                          '</br>detect probability: ', xgrouptwo_detect,
+                          '</br>group one sample size: ',n1,
+                          '</br>group two sample size: ',n2
              ))) +
   geom_hline(yintercept = c(0, .5), color = "white") +
   geom_pointrange(fatten = 1/2) +
   # scale_x_discrete("reordered by the lower level of the 95% intervals", breaks = NULL) + 
   geom_point() + 
-  ylim(min(allocation_data$xgrouptwo_q2.5) - 0.5,max(allocation_data$xgrouptwo_q97.5) + 0.5) + 
-  geom_hline(yintercept = pop_effect_size_u) + 
+  ylim(min(info$xgrouptwo_q2.5) - 0.5,max(info$xgrouptwo_q97.5) + 0.5) + 
+  geom_hline(yintercept = 0.5) + 
   labs(x = "Sample Size (Total)",
        y = "Location Effect Size",
-       title = "Properties for Main Effect across Sample Sizes") + 
+       title = "Properties of the Location Effect across Sample Sizes") + 
   theme_bw() 
 
 
 ggplotly(grouptwo_info) %>% 
   layout(hovermode = "x")
+
 ```
 
-Almost all samples shown have the ability to include the location effect size a minimum of `r min(allocation_data$xgrouptwo_detect)` proportion of the time across all allocations. The sample size for which the credible interval is above 0.05 is: for the 1-1 allocation this occurs at `r allocation_data %>% filter(allocation == '1-1', xgrouptwo_q2.5 > 0.05) %>% dplyr::select(samplesize) %>% min()` ;for 1-3 allocation at `r allocation_data %>% filter(allocation == '1-3', xgrouptwo_q2.5 > 0.05) %>% dplyr::select(samplesize) %>% min()` ; and at the 1-5 allocation at `r allocation_data %>% filter(allocation == '1-5', xgrouptwo_q2.5 > 0.05) %>% dplyr::select(samplesize) %>% min()` .
+Almost all samples shown have the ability to include the location effect size a minimum of `r min(info$xgrouptwo_detect)` proportion of the time across all allocations. The sample size for which the credible interval is above 0.05 is: for the 1-1 allocation this occurs at `r info %>% filter(allocation == '1-1', xgrouptwo_q2.5 > 0.05) %>% dplyr::select(sample_size) %>% min()` ;for 1-3 allocation at `r info %>% filter(allocation == '1-3', xgrouptwo_q2.5 > 0.05) %>% dplyr::select(sample_size) %>% min()` ; and at the 1-5 allocation at `r info %>% filter(allocation == '1-5', xgrouptwo_q2.5 > 0.05) %>% dplyr::select(sample_size) %>% min()` .
 
-Using the same criteria of 0.7 for the credible interval: the 1-1,1-3 and 1-5 allocations first met this requirement for sample sizes `r allocation_data %>% filter(allocation == '1-1',xgrouptwo_length < 0.7) %>% dplyr::select(samplesize) %>% min()` , `r allocation_data %>% filter(allocation == '1-1',xgrouptwo_length < 0.7) %>% dplyr::select(samplesize) %>% min()` , and `r allocation_data %>% filter(allocation == '1-1',xgrouptwo_length < 0.7) %>% dplyr::select(samplesize) %>% min()` respectively.
+Using the same criteria of 0.7 for the credible interval: the 1-1,1-3 and 1-5 allocations first met this requirement for sample sizes `r info %>% filter(allocation == '1-1',xgrouptwo_length < 0.9) %>% dplyr::select(sample_size) %>% min()` , `r info %>% filter(allocation == '1-3',xgrouptwo_length < 0.9) %>% dplyr::select(sample_size) %>% min()` , and `r info %>% filter(allocation == '1-5',xgrouptwo_length < 0.9) %>% dplyr::select(sample_size) %>% min()` respectively.
 
 Overall it seems to be the case that the 1-1 allocation does not perform as well compared to the unequal allocations when the group variances are different. Still the larger the disparity in the group allocation doesn't necessarily equate to precision gains as the 1-3 allocation performs better than the 1-5 allocation.
 
 We now look at the effect size for the scale parameter since It is important that the difference between the groups is captured well.
 
 ```{r}
-grouptwo_sd_info <- allocation_data %>% 
-  ggplot(aes(x = samplesize,
+grouptwo_sd_info <- info %>%
+  ggplot(aes(x = sample_size,
              y = sigma_xgrouptwo,
              color = allocation,
              ymin = sigma_xgrouptwo_q2.5,
              ymax = sigma_xgrouptwo_q97.5,
              text = paste('interval length: ', sigma_xgrouptwo_length,
                           '</br>interval length criteria satisfied: ', sigma_xgrouptwo_cover,
-                          '</br>detect probability: ', sigma_xgrouptwo_detect
-                          )
-  )) +
+                          '</br>detect probability: ', sigma_xgrouptwo_detect,
+                          '</br>group one sample size: ',n1,
+                          '</br>group two sample size: ',n2
+             ))) +
   geom_hline(yintercept = c(0, .5), color = "white") +
   geom_pointrange(fatten = 1/2) +
   # scale_x_discrete("reordered by the lower level of the 95% intervals", breaks = NULL) + 
   geom_point() + 
-  ylim(min(allocation_data$sigma_xgrouptwo_q2.5) - 0.5,max(allocation_data$sigma_xgrouptwo_q97.5) + 0.5) + 
-  geom_hline(yintercept = pop_effect_size_sigma) + 
- labs(x = "Sample Size (Total)",
-     y = "Scale Effect Size",
-     title = "Properties for Scale Effect for Group Two across Sample Sizes") + 
+  ylim(min(info$sigma_xgrouptwo_q2.5) - 0.5,max(info$sigma_xgrouptwo_q97.5) + 0.5) + 
+  geom_hline(yintercept = 2) + 
+  labs(x = "Sample Size (Total)",
+       y = "Location Effect Size",
+       title = "Properties of the Scale Effect across Sample Sizes") + 
   theme_bw() 
+
 
 ggplotly(grouptwo_sd_info) %>% 
   layout(hovermode = "x")
 ```
 
-All samples shown have the ability to include the location effect size a minimum of `r min(allocation_data$sigma_xgrouptwo_detect)` proportion of the time across all allocations.
+All samples shown have the ability to include the location effect size a minimum of `r min(info$sigma_xgrouptwo_detect)` proportion of the time across all allocations.
 
-The 0.7 benchmark is used again for the credible interval. The 1-1,1-3 and 1-5 allocations met this requirement for sample sizes `r allocation_data %>% filter(allocation == '1-1',sigma_xgrouptwo_length < 0.7) %>% dplyr::select(samplesize) %>% min()` , `r allocation_data %>% filter(allocation == '1-3',sigma_xgrouptwo_length < 0.7) %>% dplyr::select(samplesize) %>% min()` , and `r allocation_data %>% filter(allocation == '1-5',sigma_xgrouptwo_length < 0.7) %>% dplyr::select(samplesize) %>% min()` respectively.
+The 0.7 benchmark is used again for the credible interval. The 1-1,1-3 and 1-5 allocations met this requirement for sample sizes `r info %>% filter(allocation == '1-1',sigma_xgrouptwo_length < 0.7) %>% dplyr::select(sample_size) %>% min()` , `r info %>% filter(allocation == '1-3',sigma_xgrouptwo_length < 0.7) %>% dplyr::select(sample_size) %>% min()` , and `r info %>% filter(allocation == '1-5',sigma_xgrouptwo_length < 0.7) %>% dplyr::select(sample_size) %>% min()` respectively.
 
 ### 
 
