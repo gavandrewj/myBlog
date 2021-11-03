@@ -40,7 +40,7 @@ Basically you create datasets, and perform the analysis you expect to do. This d
 
 You simulate thousands of datasets and check how well a particular sample size will capture an effect you're either interested in or one you think exists.
 
-```{r echo=F}
+```{r echo=F,eval=T}
 
 build_sample <- function(
   nsims,
@@ -381,6 +381,8 @@ $$
 
 For this problem we will not be calculating the sample size requirements as you will see it would require simulations for total sample sizes that exceed 400. Instead we will compare how the gains over the allocations compare to each other across the different criteria.
 
+The first criteria of selection will be the proportion of times we were able to detect the estimate. You may recall this went well for the first problem and there does not seem to be a poor performance in the plot below.
+
 <center>
 
 ```{r echo = F,fig.width= 7}
@@ -421,9 +423,9 @@ ggplotly(grouptwo_info) %>%
 
 </center>
 
-By hovering over a particular point we have access to more information about that particular sample size.
+Not sure what to comment right now about this. Going to wait until I am able to run more simulations.
 
-The next informative parameter is that of the scale effect. It is important that this is captured well as this will decide whether your data is too noisy to even begin to interpret what you gathered. Remember that for this situation the variances are the same so we expect this scale effect parameter to be zero.
+The next criteria is the length of the intervals. Immediately we can see that the 1-1 allocation is always performing worse for all sample sizes relative to the other allocations.
 
 ```{r echo=FALSE}
 
@@ -449,7 +451,7 @@ grouptwo_info <- info %>%
   # geom_hline(yintercept = 0.5) + 
   labs(x = "Sample Size (Total)",
        y = "Proportion",
-       title = "Properties of the Location Detect Proportions across Allocations") + 
+       title = "Properties of the Location Effect Interval Length across Allocations") + 
   theme_bw() 
 
 
@@ -459,7 +461,7 @@ ggplotly(grouptwo_info) %>%
 
 ```
 
-All samples shown have the ability to include the scaleeffect size a minimum of `r min(info$sigma_xgrouptwo_detect)` proportion of the time across all allocations.
+The 1-3 allocation seems to be performing slightly better than the 1-5 allocation across all sample sizes. This difference seems to decrease as the sample sizes increase. Overall it would be better to use the 1-3 allocation. Interestingly the variance for group two is three times that of group one and so the allocation that is based on the ratio of variability works best.
 
 ```{r}
 
@@ -494,6 +496,8 @@ ggplotly(grouptwo_info) %>%
 
 ```
 
+Although I will wait for more simulations to be run, it does seem like the 1-3 allocation seems to be higher in the proportion than most sample sizes when compared to the 1-1 allocation. It is not clear that what the pattern is for the 1-3 compared to the 1-5 allocation as these seem to have similar performance.
+
 ```{r}
 
 
@@ -518,13 +522,82 @@ grouptwo_info <- info %>%
   # geom_hline(yintercept = 0.5) + 
   labs(x = "Sample Size (Total)",
        y = "Proportion",
-       title = "Properties of the Location Detect Proportions across Allocations") + 
+       title = "Properties of the Scale Effect Interval Length across Allocations") + 
   theme_bw() 
 
 
 ggplotly(grouptwo_info) %>% 
   layout(hovermode = "x")
 ```
+
+Here we see the same pattern as with the Location effect interval where the 1-1 allocation performed worse compared to the other allocations, and of the remainder the 1-3 allocation performed better.
+
+The question we may have is whether the difference in interval length is enough to consider using one allocation to the other.
+
+```{r}
+
+
+diff_allocation <- function(
+  dataset,
+  base_allocation,
+  other_allocation,
+  criteria,
+  crit_name
+  ){
+  
+   to_diff <- info %>% 
+    filter(allocation == base_allocation) %>% 
+    dplyr::select(
+      criteria,
+      sample_size
+      )
+  
+  names(to_diff) <- c('first','sample_size')
+
+  to_diff$second <- info %>% 
+    filter(allocation == other_allocation) %>% 
+    dplyr::pull(criteria)
+  
+  
+  to_diff <- to_diff %>% 
+    mutate(
+      diff = first - second
+    )
+  
+  
+  p <- to_diff %>% 
+  ggplot(
+    aes(
+      sample_size,
+      diff)
+    ) + 
+    geom_line() + 
+    labs(
+      x = "Sample Size",
+      y = "Difference",
+      title = paste('Difference between',crit_name,"for allocations",base_allocation,'vs',other_allocation)
+    ) + 
+    theme_bw()
+  
+   ggplotly(p)
+  # p
+}
+
+
+ diff_allocation(info,'1-1','1-3','sigma_xgrouptwo_length','Interval Length')
+ 
+
+```
+
+Going to wait until more sims come in
+
+```{r}
+
+diff_allocation(info,'1-1','1-5','sigma_xgrouptwo_length','Interval Length')
+
+```
+
+Going to wait until more sims come in
 
 ```{r}
 
@@ -549,7 +622,7 @@ grouptwo_info <- info %>%
   # geom_hline(yintercept = 0.5) + 
   labs(x = "Sample Size (Total)",
        y = "Proportion",
-       title = "Properties of the Location Detect Proportions across Allocations") + 
+       title = "Scale Interval coverage across Allocations") + 
   theme_bw() 
 
 
@@ -557,7 +630,11 @@ ggplotly(grouptwo_info) %>%
   layout(hovermode = "x")
 ```
 
-### Problem Three
+Finally we have a comparison of the credible interval length over the scale effect. That is how often was the 0.7 interval length satisfied for a particular sample size across allocations.
+
+In conclusion for problem two, the unequal allocation serves to better estimate the parameters as the sample size increases. There is merit to allocation samples according to the ratio of variances between the groups with those that have a larger variance having more samples.
+
+### Problem Three {#problem-three}
 
 Simple Linear Regression
 
