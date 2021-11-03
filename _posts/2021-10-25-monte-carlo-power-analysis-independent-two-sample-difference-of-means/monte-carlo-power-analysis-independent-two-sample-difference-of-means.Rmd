@@ -24,6 +24,99 @@ library(brms)
 library(pander)
 ```
 
+```{r}
+
+diff_allocation <- function(
+  dataset,
+  base_allocation,
+  other_allocation,
+  criteria,
+  crit_name
+  ){
+  
+
+to_diff <- dataset %>% 
+  filter(allocation == base_allocation) %>% 
+  dplyr::select(
+    criteria,
+    sample_size
+  )
+
+
+names(to_diff) <- c('base_allocate','sample_size')
+
+
+
+for(i in 1:length(other_allocation)){
+  
+  varname <- paste('diff_',i,sep = "")
+  allocate_name <- paste('allocate_',i,sep = "")  
+  
+to_diff[[allocate_name]] <- dataset %>% 
+  filter(allocation == other_allocation[i]) %>% 
+  dplyr::pull(criteria)
+
+
+to_diff[[varname]] <- to_diff[['base_allocate']] - to_diff[[allocate_name]]
+
+}
+
+
+to_diff <- to_diff %>% 
+  dplyr::select(!c(starts_with('allocate'),base_allocate)) %>% 
+  pivot_longer(!sample_size,
+               names_to = 'Allocation') %>%
+  mutate(Allocation = factor(Allocation,labels = other_allocation)) 
+  
+
+to_diff$n1 <- 0
+to_diff$n2 <- 0
+
+for(i in 1:nrow(to_diff)){
+  allocate_adjust <- as.numeric(unlist(str_split(to_diff$Allocation[i],"-")))
+  number_batches = floor(to_diff$sample_size[i]/(allocate_adjust[1] + allocate_adjust[2]))
+  n1 = number_batches * allocate_adjust[1]
+  n2 = number_batches * allocate_adjust[2]
+  to_diff$n1[i] = n1
+  to_diff$n2[i] = n2
+  to_diff$sample_size[i] = n1 + n2
+}
+
+p <- to_diff %>% 
+ggplot(
+    aes(
+      sample_size,
+      value,
+      group = Allocation,
+      color = Allocation,
+      text = paste(
+        '</br>group one sample size: ',n1,
+        '</br>group two sample size: ',n2
+      ))
+  ) + 
+  geom_line() + 
+  # labs(
+  #   x = "Sample Size",
+  #   y = "Difference",
+  #   title = paste('Difference between',crit_name,"for allocations",base_allocation,'vs',other_allocation[1])
+  # ) + 
+  theme_bw() + 
+  # scale_color_discrete(labels = other_allocation) + 
+  geom_hline(yintercept = 0) + 
+  labs(
+    color = 'Allocations',
+    title = paste0('Drop in ',crit_name, ' relative to 1-1 Allocation'),
+    x = 'Sample Size',
+    y = 'Magnitude'
+  ) + 
+  theme(plot.title = element_text(hjust = 0.5))
+  
+ggplotly(p)
+  # p
+}
+
+```
+
 # Motivation
 
 I found it discouraging that a power analysis for a multinomial multiple logistic regression wasn't readily accessible/available in the same vein as one could use the technique. Eventually I started to grasp why it might be difficult to distill the complexity of a dataset to a few much less one formula for a sample size.
@@ -423,6 +516,11 @@ ggplotly(grouptwo_info) %>%
 
 </center>
 
+```{r}
+ diff_allocation(info,'1-1',c('1-3','1-5'),'xgrouptwo_detect','Detection of Group Two Location Effect')
+
+```
+
 Not sure what to comment right now about this. Going to wait until I am able to run more simulations.
 
 The next criteria is the length of the intervals. Immediately we can see that the 1-1 allocation is always performing worse for all sample sizes relative to the other allocations.
@@ -463,6 +561,20 @@ ggplotly(grouptwo_info) %>%
 
 The 1-3 allocation seems to be performing slightly better than the 1-5 allocation across all sample sizes. This difference seems to decrease as the sample sizes increase. Overall it would be better to use the 1-3 allocation. Interestingly the variance for group two is three times that of group one and so the allocation that is based on the ratio of variability works best.
 
+Now the question becomes, if we know that the allocations seem to perform better, just how much better? The following graphs **compares the drop in Interval length for the group two location effect size.**
+
+```{r}
+
+ diff_allocation(info,'1-1',c('1-3','1-5'),'xgrouptwo_length','Interval Length')
+
+```
+
+We can see that early on with the smaller sample sizes the gain is quite large with the 1-3 allocation benefiting with a 0.4 reduction in the interval length. This benefit decreases over time but seems to reach an almost constant level at around 0.1 for the larger sample sizes.
+
+The smaller samples for the 1-5 allocations have difficult time compared to the 1-1 allocation but similarly become more beneficial as the sample size increases while also reaching some sort of gently decreasing boundary for the larger sample sizes.
+
+Will wait for more sims to give more solid numbers.
+
 ```{r}
 
 
@@ -497,6 +609,10 @@ ggplotly(grouptwo_info) %>%
 ```
 
 Although I will wait for more simulations to be run, it does seem like the 1-3 allocation seems to be higher in the proportion than most sample sizes when compared to the 1-1 allocation. It is not clear that what the pattern is for the 1-3 compared to the 1-5 allocation as these seem to have similar performance.
+
+```{r}
+ diff_allocation(info,'1-1',c('1-3','1-5'),'xgrouptwo_q2.5_0.1above','Intervals above 0.1')
+```
 
 ```{r}
 
@@ -537,65 +653,17 @@ The question we may have is whether the difference in interval length is enough 
 ```{r}
 
 
-diff_allocation <- function(
-  dataset,
-  base_allocation,
-  other_allocation,
-  criteria,
-  crit_name
-  ){
-  
-   to_diff <- info %>% 
-    filter(allocation == base_allocation) %>% 
-    dplyr::select(
-      criteria,
-      sample_size
-      )
-  
-  names(to_diff) <- c('first','sample_size')
-
-  to_diff$second <- info %>% 
-    filter(allocation == other_allocation) %>% 
-    dplyr::pull(criteria)
-  
-  
-  to_diff <- to_diff %>% 
-    mutate(
-      diff = first - second
-    )
-  
-  
-  p <- to_diff %>% 
-  ggplot(
-    aes(
-      sample_size,
-      diff)
-    ) + 
-    geom_line() + 
-    labs(
-      x = "Sample Size",
-      y = "Difference",
-      title = paste('Difference between',crit_name,"for allocations",base_allocation,'vs',other_allocation)
-    ) + 
-    theme_bw()
-  
-   ggplotly(p)
-  # p
-}
 
 
- diff_allocation(info,'1-1','1-3','sigma_xgrouptwo_length','Interval Length')
- 
+  diff_allocation(info,'1-1',c('1-3','1-5'),'sigma_xgrouptwo_length','Interval Length of Group Two Scale Effect')
 
 ```
+
+The above graph gives us an idea of how much more efficient the allocations get when compared to a baseline being the 1-1 allocation. When we are seeking to estimate small effect sizes a decrease in an interval length of even 0.1 would be hugely beneficial. The 1-3 allocation has the most gains consistent over the sample sizes while the 1-5 allocation seems to initially be worse than the 1-1 allocation but does become better although not as great as the 1-3.
+
+Will wait on more sims
 
 Going to wait until more sims come in
-
-```{r}
-
-diff_allocation(info,'1-1','1-5','sigma_xgrouptwo_length','Interval Length')
-
-```
 
 Going to wait until more sims come in
 
@@ -636,7 +704,7 @@ In conclusion for problem two, the unequal allocation serves to better estimate 
 
 ### Problem Three {#problem-three}
 
-Simple Linear Regression
+Multiple Linear Regression
 
 ### Problem Four
 
