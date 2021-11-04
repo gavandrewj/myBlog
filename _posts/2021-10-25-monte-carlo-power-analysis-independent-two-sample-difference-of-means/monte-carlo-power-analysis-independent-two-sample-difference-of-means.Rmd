@@ -875,9 +875,129 @@ animate(p, fps=1)
 
 ### 
 
-Okay I will admit, having that kind of variability especially with data from the social sciences is likely a fantasy. You will probably have much more variation in your dataset. Nevertheless the simulations would have to be catered to your scenario.
+Okay I will admit, having that kind of variability especially with data from social beings is likely to be a fantasy. You will probably have much more variation in your dataset. Nevertheless the simulations would have to be catered to your scenario.
 
-We have two groups; the red points you will notice a thinner band in the variation while the blue points are likely to be more spread out.
+We have two groups; the red points you will notice a thinner band compared to the blue points which are likely to be more spread out. This is the consequence of the unequal variances of the two groups. We are basically saying that the linear relationship exits within both groups but it applies to the members of group one more than those of group two.
+
+For this we will just draw a comparison for the sample size needed to estimate the location effect compared to the first situation when there was an absense of a linear relationship.
+
+And then we shall inspect the details for the effect size of the linear regression itself.
+
+The first graph shown below details the information for location effect.
+
+```{r}
+info <- readRDS("C:/Users/gavin/Documents/GitHub/myBlog/documents/two_sample_power_files/problem_three_regression.rds")
+
+grouptwo_info <- info %>%
+  filter(para_com == "2 - 0.5 - 1 - 1 - 0.5") %>% 
+  ggplot(aes(x = sample_size,
+             y =  treatmentgrouptwo,
+             color = allocation,
+             ymin = treatmentgrouptwo_q2.5,
+             ymax = treatmentgrouptwo_q97.5,
+             text = paste('interval length: ', treatmentgrouptwo_length,
+                          '</br>interval length criteria satisfied: ', treatmentgrouptwo_cover,
+                          '</br>detect probability: ', treatmentgrouptwo_detect,
+                          '</br>group one sample size: ',n1,
+                          '</br>group two sample size: ',n2
+             ))) +
+  geom_hline(yintercept = c(0, .5), color = "white") +
+  geom_pointrange(fatten = 1/2) +
+  # scale_x_discrete("reordered by the lower level of the 95% intervals", breaks = NULL) + 
+  geom_point() + 
+  ylim(min(info$treatmentgrouptwo_q2.5) - 0.5,max(info$treatmentgrouptwo_q97.5) + 0.5) + 
+  geom_hline(yintercept = 0.5) + 
+  labs(x = "Sample Size (Total)",
+       y = "Location Effect Size",
+       title = "Properties of the Location Effect across Sample Sizes") + 
+  theme_bw() 
+
+
+ggplotly(grouptwo_info) %>% 
+  layout(hovermode = "x")
+```
+
+Almost all samples shown have the ability to include the location effect size a minimum of `r min(info$treatmentgrouptwo_detect)` proportion of the time across all allocations. It seems that you don't quite need to worry about detecting the effect though the uncertainty around the estimates can be so terrible as to make the estimate untrustworthy as can be seen by the wide credible intervals for the smaller sample sizes.
+
+This is why we directly consider the length of the intervals. The criteria set for this simulation was that of 0.7 for the credible interval; the label of xgrouptwo_cover will show the proportion of times this criteria was satisfied. The 1-1 allocation first met this requirement for sample sizes `r info %>% filter(allocation == '1-1',treatmentgrouptwo_length < 0.7) %>% dplyr::select(sample_size) %>% min()` but was not able to maintain this for 0.8 proportion of the times until the sample size was `r info %>% filter(allocation == '1-1',treatmentgrouptwo_cover >= 0.8) %>% dplyr::select(sample_size) %>% min()` . For the 1-3 allocation these sample sizes were `r info %>% filter(allocation == '1-3',treatmentgrouptwo_length < 0.7) %>% dplyr::select(sample_size) %>% min()` and `r info %>% filter(allocation == '1-3',treatmentgrouptwo_cover >= 0.8) %>% dplyr::select(sample_size) %>% min()` respectively. For the 1-5 allocation the sample sizes were `r info %>% filter(allocation == '1-5',treatmentgrouptwo_length < 0.7) %>% dplyr::select(sample_size) %>% min()` and `r info %>% filter(allocation == '1-5',treatmentgrouptwo_cover >= 0.8) %>% dplyr::select(sample_size) %>% min()` respectively. Even though the length of the interval may be precise, what if it actually tends to occurs near values for which we dismiss the effect size as non-existent. This may not be of concern for larger effect sizes say those greater than 1, but as what you are trying to detect becomes smaller, the proximity to the zero value can become concerning. Of course bayesian estimation gives the probability of an interval around the zero value so this alleviates the concern to some extent. Even so this is a problem I've noticed with some power analysis in that it gives the minimum sample size needed to reject the Null Hypothesis, for which in this case it would be the sample size needed to exclude zero from the interval. The problem is that zero isn't exactly that far from the interval when using that sample size, thus you would have to be extremely precise in your prediction of the true variability if you were to take that sample size at face value.
+
+Therefore one might also consider for what sample size does the lower bound of the credible interval tend to be above a constant for example 0.1; for the 1-1 allocation this first occurs at `r info %>% filter(allocation == '1-1', treatmentgrouptwo_q2.5 > 0.1) %>% dplyr::select(sample_size) %>% min()` and it was not able to maintain this for 80% of the times until a sample size of `r info %>% filter(allocation == '1-1', treatmentgrouptwo_q2.5_0.1above >= 0.8) %>% dplyr::select(sample_size) %>% min()` ;for 1-3 allocation this happened at sample sizes `r info %>% filter(allocation == '1-3', treatmentgrouptwo_q2.5 > 0.1) %>% dplyr::select(sample_size) %>% min()` and `r info %>% filter(allocation == '1-3', treatmentgrouptwo_q2.5_0.1above >= 0.8) %>% dplyr::select(sample_size) %>% min()` respectively; for 1-5 allocation at `r info %>% filter(allocation == '1-5', treatmentgrouptwo_q2.5 > 0.1) %>% dplyr::select(sample_size) %>% min()` and `r info %>% filter(allocation == '1-5', treatmentgrouptwo_q2.5_0.1above >= 0.8) %>% dplyr::select(sample_size) %>% min()` respectively.
+
+The next informative parameter is that of the scale effect. It is important that this is captured well as this will decide whether your data is too noisy to even begin to interpret what you gathered. Remember that for this situation the variances are the same so we expect this scale effect parameter to be zero.
+
+```{r}
+
+grouptwo_sd_info <- info %>%
+  filter(para_com == "2 - 0.5 - 1 - 1 - 0.5") %>%  
+  ggplot(aes(x = sample_size,
+             y = sigma_treatmentgrouptwo,
+             color = allocation,
+             ymin = sigma_treatmentgrouptwo_q2.5,
+             ymax = sigma_treatmentgrouptwo_q97.5,
+             text = paste('interval length: ', sigma_treatmentgrouptwo_length,
+                          '</br>interval length criteria satisfied: ', sigma_treatmentgrouptwo_cover,
+                          '</br>detect probability: ', sigma_treatmentgrouptwo_detect,
+                          '</br>group one sample size: ',n1,
+                          '</br>group two sample size: ',n2
+             ))) +
+  geom_hline(yintercept = c(0, .5), color = "white") +
+  geom_pointrange(fatten = 1/2) +
+  # scale_x_discrete("reordered by the lower level of the 95% intervals", breaks = NULL) + 
+  geom_point() + 
+  ylim(min(info$sigma_treatmentgrouptwo_q2.5) - 0.5,max(info$sigma_treatmentgrouptwo_q97.5) + 0.5) + 
+  geom_hline(yintercept = 1) + 
+  labs(x = "Sample Size (Total)",
+       y = "Scale Effect Size",
+       title = "Properties of the Scale Effect across Sample Sizes") + 
+  theme_bw() 
+
+
+ggplotly(grouptwo_sd_info) %>% 
+  layout(hovermode = "x")
+```
+
+The length of the intervals. The criteria set for this simulation was that of 0.7 for the credible interval; the label of sigma_treatmentgrouptwo_cover will show the proportion of times this criteria was satisfied. The 1-1,1-3 and 1-5 allocations met this requirement for sample sizes `r info %>% filter(allocation == '1-1',sigma_treatmentgrouptwo_length < 0.7) %>% dplyr::select(sample_size) %>% min()` , `r info %>% filter(allocation == '1-3',sigma_treatmentgrouptwo_length < 0.7) %>% dplyr::select(sample_size) %>% min()` , and `r info %>% filter(allocation == '1-5',sigma_treatmentgrouptwo_length < 0.7) %>% dplyr::select(sample_size) %>% min()` respectively.
+
+```{r}
+
+x_info <- info %>%
+  filter(para_com == "2 - 0.5 - 1 - 1 - 0.5") %>%
+  ggplot(aes(x = sample_size,
+             y = x,
+             color = allocation,
+             ymin = x_q2.5,
+             ymax = x_q97.5,
+             text = paste('interval length: ', x_length,
+                          '</br>interval length criteria satisfied: ', x_cover,
+                          '</br>detect probability: ', x_detect,
+                          '</br>group one sample size: ',n1,
+                          '</br>group two sample size: ',n2
+             ))) +
+  geom_hline(yintercept = c(0, .5), color = "white") +
+  geom_pointrange(fatten = 1/2) +
+  # scale_x_discrete("reordered by the lower level of the 95% intervals", breaks = NULL) + 
+  geom_point() + 
+  ylim(min(info$x_q2.5) - 0.5,max(info$x_q97.5) + 0.5) + 
+  geom_hline(yintercept = 1.2) + 
+  labs(x = "Sample Size (Total)",
+       y = "Location Effect Size",
+       title = "Properties of the Scale Effect across Sample Sizes") + 
+  theme_bw() 
+
+
+ggplotly(x_info) %>% 
+  layout(hovermode = "x")
+
+
+```
+
+It seems that just about any sample size in the set we have considered manage to get a good precision as well
+
+Almost all samples shown have the ability to include the location effect size a minimum of `r min(info$x_detect)` proportion of the time across all allocations. It seems that you don't quite need to worry about detecting the effect though the uncertainty around the estimates can be so terrible as to make the estimate untrustworthy as can be seen by the wide credible intervals for the smaller sample sizes.
+
+This is why we directly consider the length of the intervals. The criteria set for this simulation was that of 0.7 for the credible interval; the label of xgrouptwo_cover will show the proportion of times this criteria was satisfied. The 1-1 allocation first met this requirement for sample sizes `r info %>% filter(allocation == '1-1',x_length < 0.7) %>% dplyr::select(sample_size) %>% min()` but was not able to maintain this for 0.8 proportion of the times until the sample size was `r info %>% filter(allocation == '1-1',x_cover >= 0.8) %>% dplyr::select(sample_size) %>% min()` . For the 1-3 allocation these sample sizes were `r info %>% filter(allocation == '1-3',x_length < 0.7) %>% dplyr::select(sample_size) %>% min()` and `r info %>% filter(allocation == '1-3',x_cover >= 0.8) %>% dplyr::select(sample_size) %>% min()` respectively. For the 1-5 allocation the sample sizes were `r info %>% filter(allocation == '1-5',x_length < 0.7) %>% dplyr::select(sample_size) %>% min()` and `r info %>% filter(allocation == '1-5',x_cover >= 0.8) %>% dplyr::select(sample_size) %>% min()` respectively. Even though the length of the interval may be precise, what if it actually tends to occurs near values for which we dismiss the effect size as non-existent. This may not be of concern for larger effect sizes say those greater than 1, but as what you are trying to detect becomes smaller, the proximity to the zero value can become concerning. Of course bayesian estimation gives the probability of an interval around the zero value so this alleviates the concern to some extent. Even so this is a problem I've noticed with some power analysis in that it gives the minimum sample size needed to reject the Null Hypothesis, for which in this case it would be the sample size needed to exclude zero from the interval. The problem is that zero isn't exactly that far from the interval when using that sample size, thus you would have to be extremely precise in your prediction of the true variability if you were to take that sample size at face value.
+
+Therefore one might also consider for what sample size does the lower bound of the credible interval tend to be above a constant for example 0.1; for the 1-1 allocation this first occurs at `r info %>% filter(allocation == '1-1', x_q2.5 > 0.1) %>% dplyr::select(sample_size) %>% min()` and it was not able to maintain this for 80% of the times until a sample size of `r info %>% filter(allocation == '1-1', x_q2.5_0.1above >= 0.8) %>% dplyr::select(sample_size) %>% min()` ;for 1-3 allocation this happened at sample sizes `r info %>% filter(allocation == '1-3', x_q2.5 > 0.1) %>% dplyr::select(sample_size) %>% min()` and `r info %>% filter(allocation == '1-3', x_q2.5_0.1above >= 0.8) %>% dplyr::select(sample_size) %>% min()` respectively; for 1-5 allocation at `r info %>% filter(allocation == '1-5', x_q2.5 > 0.1) %>% dplyr::select(sample_size) %>% min()` and `r info %>% filter(allocation == '1-5', x_q2.5_0.1above >= 0.8) %>% dplyr::select(sample_size) %>% min()` respectively.
 
 ## Conclusions
 
