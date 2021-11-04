@@ -203,7 +203,7 @@ dataframes <- lapply(1:50,
 
 dataframes <- bind_rows(dataframes, .id = "column_label")
 
-ggplot(dataframes, aes(fill = factor(x), y)) + 
+p <- ggplot(dataframes, aes(fill = factor(x), y)) + 
   geom_histogram() + 
   geom_vline(xintercept = 2,
              color = 'red') + 
@@ -226,6 +226,8 @@ ggplot(dataframes, aes(fill = factor(x), y)) +
   enter_fade() + 
   exit_shrink() +
   ease_aes('sine-in-out')
+
+animate(p,fps = 1)
 ```
 
 The above animation should give an easy enough view of data generation. The data is that from two Normal Distributions that have the same variance but their mode of central tendency are typically three units apart. Now that we are able to simulate datasets, now comes the application of whatever analysis you have in mind. For our purposes a regression approach is used (brms package in R) utilizing the defaults for Bayesian estimation.
@@ -704,13 +706,178 @@ In conclusion for problem two, the unequal allocation serves to better estimate 
 
 ### Problem Three {#problem-three}
 
-Multiple Linear Regression
+```{r}
 
-### Problem Four
 
-Linear Regression with both continuous and categorical variables both being random
+build_sample <- function(
+  sample_specification
+){
+  
+  
+  u_treatment = sample_specification["u_treatment"]
+  effect_size_u = sample_specification["effect_size_u"]
+  allocate_n1 = sample_specification["allocate_n1"]
+  allocate_n2 = sample_specification["allocate_n2"]
+  sample_size = sample_specification["sample_size"]
+  sigma_u = sample_specification['sigma_u']
+  effect_size_sigma = sample_specification['effect_size_sigma']
+  continuous_effect_size = sample_specification['continuous_effect_size']
+  
+  # get the sample size right for the two groups while respecting the allocations 
+  number_batches = floor(sample_size/(allocate_n1 + allocate_n2))
+  n1 = number_batches * allocate_n1
+  n2 = number_batches * allocate_n2
+  total_sample_size = n1 + n2
+  
+  
+  # create the coefficient matrix
+  treatment_vector = c(rep(0,n1),
+                       rep(1,n2))
+  
+  continuous_vector = runif(
+    total_sample_size,
+    10,
+    50)
+  
+  intercept_vector = rep(1,total_sample_size)
+  
+  x_matrix <-   matrix(c(intercept_vector,
+                         treatment_vector,
+                         continuous_vector),
+                       nrow = total_sample_size)
+  
+  
+  # create the mean regression vector
+  coeff_mean_vector <- matrix(c(u_treatment,effect_size_u,continuous_effect_size))
+  
+  u_regression <- x_matrix %*% coeff_mean_vector
+  
+  
+  # create the variance regression vector
+  sigma_matrix <-   matrix(c(intercept_vector,
+                             treatment_vector
+  ),
+  nrow = total_sample_size)
+  
+  
+  coeff_sigma_vector <- matrix(c(sigma_u,effect_size_sigma))
+  
+  sigma_regression <- sigma_matrix %*% coeff_sigma_vector
+  
+  
+  y <- rnorm(total_sample_size,
+             mean = u_regression,
+             sd = sigma_regression)
+  # 
+  # data.frame(x = continuous_vector,
+  #            y = y,
+  #            grp = factor(treatment_vector)) %>%
+  #   ggplot(
+  #     aes(x,
+  #         y,
+  #         color = grp)
+  #   ) +
+  #   geom_point(size = 4) +
+  #   theme_bw()
+  
+  treatment_vector <- c(rep("group one",n1),rep("group two",n2))
+  
+  
+  df <- data.frame(x = continuous_vector,
+                   treatment = factor(treatment_vector), 
+                   y = y)
+
+
+return(df)
+}
+
+
+
+
+
+# set up the specs for the data generation 
+
+parameters_grid <- expand.grid(
+  allocation = c('1-1'),
+  sample_size = 50,
+  u_treatment = 2, 
+  effect_size_u = 2, 
+  allocate_n1 = 1,
+  allocate_n2 = 1,
+  sigma_u = 1,
+  effect_size_sigma = 3,
+  continuous_effect_size = 1.2,
+  nsim = 1:50
+)
+
+#16294/13680 for one simulation 
+
+# time_est <- nrow(parameters_grid) * 132/200 / 60
+
+# add on a unique counter for split into a list
+parameters_grid$unique = 1:nrow(parameters_grid)
+
+
+# split the allocation to get the allocate parameters
+parameters_grid <- parameters_grid %>% 
+  mutate(
+    allocate_n1 = as.numeric(str_split(allocation,"-",simplify = T)[,1]),
+    allocate_n2 = as.numeric(str_split(allocation,"-",simplify = T)[,2]),
+  ) 
+
+
+
+#  create the list to feed into the future
+list_to_sim <- parameters_grid %>%
+  dplyr::select(!allocation) %>% 
+  group_split(unique) %>%
+  map(unlist)
+
+
+
+dataframes <- lapply( 
+  X = list_to_sim,
+  FUN  =  build_sample
+)
+
+
+
+
+dataframes <- bind_rows(dataframes, .id = "column_label")
+
+p <- ggplot(dataframes, aes(x, y,color = treatment)) + 
+  geom_point(size = 4 ) + 
+  # geom_vline(xintercept = 2,
+  #            color = 'red') + 
+  # geom_vline(xintercept = 5,
+  #            color = 'blue') + 
+  theme_bw() + 
+  labs(
+    title = "Linearly Related variables with unequal Group Variances",
+    x = "Y values",
+    y = "Count",
+    color = "Groups"
+  ) + 
+  theme(plot.title = element_text(hjust = 0.5)) + 
+  # Here comes the gganimate code
+  transition_states(
+    column_label,
+    transition_length = 1
+  ) +
+  enter_fade() + 
+  exit_shrink() +
+  ease_aes('sine-in-out')
+
+
+animate(p, fps=1)
+
+```
 
 ### 
+
+Okay I will admit, having that kind of variability especially with data from the social sciences is likely a fantasy. You will probably have much more variation in your dataset. Nevertheless the simulations would have to be catered to your scenario.
+
+We have two groups; the red points you will notice a thinner band in the variation while the blue points are likely to be more spread out.
 
 ## Conclusions
 
