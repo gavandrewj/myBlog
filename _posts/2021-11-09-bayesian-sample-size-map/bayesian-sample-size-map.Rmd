@@ -1,0 +1,44 @@
+---
+title: "Bayesian Sample Size Map"
+description: |
+  A short description of the post.
+author:
+  - name: Gavin Gordon
+    url: https://example.com/norajones
+date: 11-09-2021
+output:
+  distill::distill_article:
+    self_contained: false
+draft: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+1.  layout the format for the algorithm: make distinction between sampling prior and fitting prior
+2.  Make case for high density posterior (using the tolerance region) vs the credible interval quantiles
+3.  What are the ways you can compute the sample size
+4.  Why we choose to focus on interval methods via monte carlo sims
+5.  Pros and Cons of the monte carlo methods
+6.  What are the papers I want to replicate
+
+entend to include model comparison criteria
+
+adjusts to the priors
+
+include info from multiple sources although i dunno about this tbh
+
+Relatively Advanced Situations
+
+misclassfication errors
+
+continuous testing? multiple tests to classifiy something
+
+hierarchical situations
+
+Multivariate methods
+
+Adaptive Testing
+
+Decision Theory Based Final unless its required for Adaptive Testing

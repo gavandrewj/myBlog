@@ -1,0 +1,27 @@
+---
+title: "Robust Models"
+description: |
+  A short description of the post.
+author:
+  - name: Gavin Gordon
+    url: https://example.com/norajones
+date: 11-09-2021
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+This is create a series of posts about using models where you can capture the mean and variance for a distribution or has some other benefit on top of what is ususally selected. 
+
+using t in instead of the normal
+using negative binomal instead of poisson 
+using beta binomial instead of binomial 
+using t instead of logistic and probit regression 
+
+For a later date
+

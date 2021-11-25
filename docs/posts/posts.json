@@ -1,5 +1,22 @@
 [
   {
+    "path": "posts/2021-11-09-robust-models/",
+    "title": "Robust Models",
+    "description": "A short description of the post.",
+    "author": [
+      {
+        "name": "Gavin Gordon",
+        "url": "https://example.com/norajones"
+      }
+    ],
+    "date": "2021-11-09",
+    "categories": [],
+    "contents": "\r\nThis is create a series of posts about using models where you can capture the mean and variance for a distribution or has some other benefit on top of what is ususally selected.\r\nusing t in instead of the normal using negative binomal instead of poisson using beta binomial instead of binomial using t instead of logistic and probit regression\r\nFor a later date\r\n\r\n\r\n\r\n",
+    "preview": {},
+    "last_modified": "2021-11-09T17:22:05-04:00",
+    "input_file": "robust-models.knit.md"
+  },
+  {
     "path": "posts/2021-10-30-sample-size-simulation-clustered-data/",
     "title": "Sample Size Simulation: Clustered Data",
     "description": "A short description of the post.",

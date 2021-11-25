@@ -21,6 +21,7 @@ library(gganimate)
 library(plotly)
 library(sjPlot)
 library(brms)
+library(truncdist)
 library(pander)
 ```
 
@@ -714,31 +715,41 @@ build_sample <- function(
 ){
   
   
-  u_treatment = sample_specification["u_treatment"]
-  effect_size_u = sample_specification["effect_size_u"]
-  allocate_n1 = sample_specification["allocate_n1"]
-  allocate_n2 = sample_specification["allocate_n2"]
-  sample_size = sample_specification["sample_size"]
-  sigma_u = sample_specification['sigma_u']
-  effect_size_sigma = sample_specification['effect_size_sigma']
-  continuous_effect_size = sample_specification['continuous_effect_size']
+ 
+  # specify the conditions for data generation 
+  u_treatment = rtrunc(1,'norm',mean = 2,sd = 0.2,a = 1, b = 3) #
+  effect_size_u = rtrunc(1,'norm',mean = 1,sd = 0.2,a = 0.5, b = 1.5)
+  allocate_n1 = sample(c(1),size = 1,replace = T)
+  allocate_n2 = sample(c(1,3),size = 1,replace = T)
+  sample_size = sample(seq(30,300),size = 1,replace = T)
+  sigma_u = rtrunc(1,'gamma',shape = 1,scale = 1,a = 1, b = 1.5)
+  effect_size_sigma = rtrunc(1,'gamma',shape = 1,scale = 1,a = 0.5, b = 1.5)
+  continuous_effect_size = rtrunc(1,'norm',mean = 0.6,sd = 0.2,a = 0.3, b = 0.9)
+  
+  
+
   
   # get the sample size right for the two groups while respecting the allocations 
   number_batches = floor(sample_size/(allocate_n1 + allocate_n2))
   n1 = number_batches * allocate_n1
   n2 = number_batches * allocate_n2
   total_sample_size = n1 + n2
+
   
   
   # create the coefficient matrix
-  treatment_vector = c(rep(0,n1),
-                       rep(1,n2))
+  treatment_vector = c(
+    rep(0,n1),
+    rep(1,n2)
+    )
   
   continuous_vector = runif(
     total_sample_size,
     10,
-    50)
+    50
+    )
   
+
   intercept_vector = rep(1,total_sample_size)
   
   x_matrix <-   matrix(c(intercept_vector,
@@ -747,38 +758,36 @@ build_sample <- function(
                        nrow = total_sample_size)
   
   
+  
   # create the mean regression vector
   coeff_mean_vector <- matrix(c(u_treatment,effect_size_u,continuous_effect_size))
   
   u_regression <- x_matrix %*% coeff_mean_vector
   
   
+  
   # create the variance regression vector
-  sigma_matrix <-   matrix(c(intercept_vector,
-                             treatment_vector
-  ),
-  nrow = total_sample_size)
+  sigma_matrix <-   matrix(
+    c(
+      intercept_vector,
+      treatment_vector
+      ),
+    nrow = total_sample_size
+    )
   
-  
+
   coeff_sigma_vector <- matrix(c(sigma_u,effect_size_sigma))
   
   sigma_regression <- sigma_matrix %*% coeff_sigma_vector
   
   
+  # generate the dependent variable
   y <- rnorm(total_sample_size,
              mean = u_regression,
              sd = sigma_regression)
-  # 
-  # data.frame(x = continuous_vector,
-  #            y = y,
-  #            grp = factor(treatment_vector)) %>%
-  #   ggplot(
-  #     aes(x,
-  #         y,
-  #         color = grp)
-  #   ) +
-  #   geom_point(size = 4) +
-  #   theme_bw()
+  
+  
+
   
   treatment_vector <- c(rep("group one",n1),rep("group two",n2))
   
@@ -798,39 +807,16 @@ return(df)
 # set up the specs for the data generation 
 
 parameters_grid <- expand.grid(
-  allocation = c('1-1'),
-  sample_size = 50,
-  u_treatment = 2, 
-  effect_size_u = 2, 
-  allocate_n1 = 1,
-  allocate_n2 = 1,
-  sigma_u = 1,
-  effect_size_sigma = 3,
-  continuous_effect_size = 1.2,
   nsim = 1:50
 )
 
-#16294/13680 for one simulation 
 
-# time_est <- nrow(parameters_grid) * 132/200 / 60
-
-# add on a unique counter for split into a list
-parameters_grid$unique = 1:nrow(parameters_grid)
-
-
-# split the allocation to get the allocate parameters
-parameters_grid <- parameters_grid %>% 
-  mutate(
-    allocate_n1 = as.numeric(str_split(allocation,"-",simplify = T)[,1]),
-    allocate_n2 = as.numeric(str_split(allocation,"-",simplify = T)[,2]),
-  ) 
 
 
 
 #  create the list to feed into the future
 list_to_sim <- parameters_grid %>%
-  dplyr::select(!allocation) %>% 
-  group_split(unique) %>%
+  group_split(nsim) %>%
   map(unlist)
 
 
@@ -854,8 +840,8 @@ p <- ggplot(dataframes, aes(x, y,color = treatment)) +
   theme_bw() + 
   labs(
     title = "Linearly Related variables with unequal Group Variances",
-    x = "Y values",
-    y = "Count",
+    x = "X",
+    y = "Y",
     color = "Groups"
   ) + 
   theme(plot.title = element_text(hjust = 0.5)) + 
@@ -875,47 +861,22 @@ animate(p, fps=1)
 
 ### 
 
-Okay I will admit, having that kind of variability especially with data from social beings is likely to be a fantasy. You will probably have much more variation in your dataset. Nevertheless the simulations would have to be catered to your scenario.
-
 We have two groups; the red points you will notice a thinner band compared to the blue points which are likely to be more spread out. This is the consequence of the unequal variances of the two groups. We are basically saying that the linear relationship exits within both groups but it applies to the members of group one more than those of group two.
 
-For this we will just draw a comparison for the sample size needed to estimate the location effect compared to the first situation when there was an absense of a linear relationship.
+We have two different location effects at work here. One due to the binary variable represented by the blue and red points while the other is a continuous variable represented by the X axis. As before we only consider a situation where the variability differs across the binary variable; you can imagine that we could have also considered the variance changing across the continuous variable that would result familiar patterns such as the funnel/cone shape when the equal variance assumption is not satisfied across the continuous variable.
 
-And then we shall inspect the details for the effect size of the linear regression itself.
-
-The first graph shown below details the information for location effect.
+The first graph shown below details the information for location effect for the continuous variable.
 
 ```{r}
-info <- readRDS("C:/Users/gavin/Documents/GitHub/myBlog/documents/two_sample_power_files/problem_three_regression.rds")
-
-grouptwo_info <- info %>%
-  filter(para_com == "2 - 0.5 - 1 - 1 - 0.5") %>% 
-  ggplot(aes(x = sample_size,
-             y =  treatmentgrouptwo,
-             color = allocation,
-             ymin = treatmentgrouptwo_q2.5,
-             ymax = treatmentgrouptwo_q97.5,
-             text = paste('interval length: ', treatmentgrouptwo_length,
-                          '</br>interval length criteria satisfied: ', treatmentgrouptwo_cover,
-                          '</br>detect probability: ', treatmentgrouptwo_detect,
-                          '</br>group one sample size: ',n1,
-                          '</br>group two sample size: ',n2
-             ))) +
-  geom_hline(yintercept = c(0, .5), color = "white") +
-  geom_pointrange(fatten = 1/2) +
-  # scale_x_discrete("reordered by the lower level of the 95% intervals", breaks = NULL) + 
-  geom_point() + 
-  ylim(min(info$treatmentgrouptwo_q2.5) - 0.5,max(info$treatmentgrouptwo_q97.5) + 0.5) + 
-  geom_hline(yintercept = 0.5) + 
-  labs(x = "Sample Size (Total)",
-       y = "Location Effect Size",
-       title = "Properties of the Location Effect across Sample Sizes") + 
-  theme_bw() 
+readRDS(  "C:/Users/gavin/Documents/GitHub/myBlog/documents/two_sample_power_files/problem_three_grouptwo_all_view.rds"
+          )
 
 
-ggplotly(grouptwo_info) %>% 
-  layout(hovermode = "x")
 ```
+
+Comment on the early, mid and late game behaviour of the allocations. It seems like the efficiency of the 1-1 is good early on but it eventually gets overtaken by the 1-2, then the 1-3 allocations. Nevmind they occupy the same regions with over-lapping confidence bands. So there are some benefits to knowing this, is that if there is a cost differential for getting items, where items from group two is cheaper to sample from, there is a point, once the sample becomes larger enough the 1-3 allocation would give you the same precision (slightly better) than having to maintain the 1-1 allocation driving costs up.
+
+So next we will consider only sampling from the 1-2 allocation and add on some additional requirements that we would want the estimate to have.
 
 Almost all samples shown have the ability to include the location effect size a minimum of `r min(info$treatmentgrouptwo_detect)` proportion of the time across all allocations. It seems that you don't quite need to worry about detecting the effect though the uncertainty around the estimates can be so terrible as to make the estimate untrustworthy as can be seen by the wide credible intervals for the smaller sample sizes.
 
