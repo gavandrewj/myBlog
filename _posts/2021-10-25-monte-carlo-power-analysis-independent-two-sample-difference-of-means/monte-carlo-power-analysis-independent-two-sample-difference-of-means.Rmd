@@ -878,9 +878,25 @@ We have two groups; the red points you will notice a thinner band compared to th
 
 We have two different location effects at work here. One due to the binary variable represented by the blue and red points while the other is a continuous variable represented by the X axis. As before we only consider a situation where the variability differs across the binary variable; you can imagine that we could have also considered the variance changing across the continuous variable that would result familiar patterns such as the funnel/cone shape when the equal variance assumption is not satisfied across the continuous variable.
 
-Now comes the variation that will be introduced across the parameters. Below are the graphs that give the range of the estimates that we want to create samples for and to determine a sample that will recapture the generated effects for the majority of the time. Again this information will be sourced from a combination of your literature review and your own subject matter knowledge about what may be happening.
+For those interested in the model:
 
-```{r fig.align='center'}
+$$
+Y_i \sim N(\theta_i,\sigma_i) \ \  \ \ \ for \ i \ from \ 1 \ to \ n
+$$
+
+$$
+\theta_i =  \beta_1 + \beta_2*Variable_{group} + \beta_3*Variable_{continuous}  
+$$
+
+$$
+\sigma_i = \beta_4 + \beta_5*Variable_{group}  
+$$
+
+Both of the parameters for the population probability distribution are modeled linearly using predictors; in this way we can account for how the variances change across the two groups and avoid the assumption of homoscedasticity altogether. The probability distributions of the beta parameters are not specified.
+
+Now comes the variation that will be introduced across the parameters. Below are the graphs that give the range of the estimates that we want to use to create samples. We need a range for the $\beta_2,\beta_3$ and $\beta_5$ as these are the effect sizes that will determine the respective linear equations for the mean and variance of the population distribution. Again this information will be sourced from a combination of your literature review and your own subject matter knowledge about what may be happening.
+
+```{r fig.align='center',fig.cap= 'Distributions for Beta Effect Sizes'}
 readRDS(
   paste0(file_path,"parameter_explore.rds")
 )
@@ -889,7 +905,9 @@ readRDS(
 
 For the continuous effect and group location effects we simulate both from normal distributions that have means 0.6 and 0.5 respectively and variances 0.2 and 0.1 respectively. The values for the difference in variance across the groups were simulated from a gamma distribution with scale and shape parameters of 1. All of the distributions were truncated as shown in the graph.
 
-The first graph shown below details the information for location effect for the grouping variable. For almost all samples we have a detection probability that is above 0.9 so as described before, we do not have to worry much as to whether we will recover the population parameter within the credible intervals.
+The purpose of the line graphs shown below is to detail the information for a range of sample sizes for further inspection. This initial look is not to draw any hard conclusions but instead provide the insight as to what sample sizes we should be focusing in on.
+
+The ability to detect the location effect for the grouping variable is first shown.
 
 ```{r}
 
@@ -900,12 +918,30 @@ readRDS(
 
 ```
 
-However when we consider the precision, the noise around the estimate may give us quite large credible intervals thus we may want to collect a larger sample to gain a certain level of precision. For this problem we will seek a credible interval length of 0.7
+For almost all samples we have a detection probability that is above 0.9 so as described before, we do not have to worry much as to whether we will recover the population parameter within the credible intervals. We notice that the 1-2 allocation maintains an almost steady detection probability of at least 0.95.
+
+However when we consider the precision, the noise around the estimate may give us quite large credible intervals thus we may want to collect a larger sample to gain a certain level of precision. The next graph shows us how the interval length of the location effect changes across the different sample sizes.
 
 ```{r}
 readRDS(  
     paste0(file_path,"grouptwo_location_all_info.rds")
 )
+
+```
+
+The problem with the smaller sample sizes being so noisy with the large interval lengths is that those intervals may allocate a considerable amount of probability to regions where we know is quite far from the true effect size we planned it. We resolve this issue by thinking about what interval length that if achieved, we would be confident enough to make decisions using the estimate. If we consider having the length to be 0.7, and assuming that the estimator converges to the average true value of 0.5 then we are essentially saying that the interval of values 0.15 to 0.85 is good enough consider the effect real and actionable. You may of course require much greater precision for your own purposes but as you can see this will require quite large sample sizes. The good news is for this problem a 1-1 allocation isn't necessary to achieve this level of precision. This may help with costs as it may be very expensive to sample from one group compared to the others. If the group where you can sample at low cost from the group requiring the two members then this will amount to considerable savings.
+
+For this problem we will consider the 1-2 allocation as a cost calculation is not considered here. It would seem that we should investiate the sample sizes between 350 to 370 to achieve our goal.
+
+The next two graphs desribe what happens with the scale effect size for the group variable. This effect size is responsible for the difference in variability noted earlier in the animation where the blue points were varying about its regression line more than the red points. Similar considerations as to the detection and interval length are considered for this problem.
+
+```{r}
+
+readRDS(
+    paste0(file_path,"grouptwo_scale_detect_all_info")
+)
+
+
 
 ```
 
@@ -917,20 +953,11 @@ readRDS(
 
 ```
 
-```{r}
+It should be noted that it seems to require a much smaller sample to pick up the scale effect size. This is because it is actually quite larger than the location effect size. The mean of the gamma distribution it is simulated from is one, thus is twice as large. It makes sense that a larger effect requires a much smaller sample size to detect.
 
-readRDS(
-    paste0(file_path,"grouptwo_scale_detect_all_info")
-)
+The sample size requirement has not increased. A smaller sample size of about 190 may capture the group scale effect but it would not capture the group location effect. Thus we still maintain the sample needed as before.
 
-```
-
-```{r}
-
-readRDS(
-    paste0(file_path,"grouptwo_X_location_all_info")
-)
-```
+Finally for the initial set we consider the continuous variable location effect.
 
 ```{r}
 
@@ -939,6 +966,20 @@ readRDS(
 )
 
 ```
+
+```{r}
+readRDS(
+    paste0(file_path,"grouptwo_X_location_all_info")
+)
+
+
+```
+
+What is interesting about continuous effect sizes, is that even though the size isn't that much larger than the group effect size, small sample sizes are able to get really precise intervals on the estimate. The variability of the betas are directly affected by how much variation is covered in the predictors; the larger the variation the better the estimates. This is basically saying that if you are able to collect information from a broad range of your continuous variable then this means you have more information contained in your predictor variable and this is reflected in the calculation of your continuous effect size.
+
+In the simulations we have assumed a random sample was taken over some arbitrary range. You should take another look at the animation and notice that we always seems to have values spread out across a consistent range.
+
+The current sample size assumption will easily satisfy the detection and interval length criteria for the continuous effect size.
 
 ```{r}
 readRDS(
