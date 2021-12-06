@@ -1,0 +1,27 @@
+---
+title: "Model building Philosophy: Causality"
+description: |
+  A short description of the post.
+author:
+  - name: Gavin Gordon
+    url: https://example.com/norajones
+date: 2021-12-04
+output:
+  distill::distill_article:
+    self_contained: false
+draft: true    
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+Interactions larger main effects should check whats up. Yea but if several things have large main effects do you check the interactions for just those. Or does that mean you check to see what has an interaction with variable that have large main effects?
+
+Models with interactions are often easier to interpret once you center the variables to some conveienent reference point such as it's mean. (andrew gelman hierarchcial)
+
+# 
+
+## What to do when you cant interpret effects an though these were independent. 
+
+In other words..what is the deal with having multicollinearity i guess? This is also present at the conceptual level I guess. Especially with observational data damn thats a dangerous statement.

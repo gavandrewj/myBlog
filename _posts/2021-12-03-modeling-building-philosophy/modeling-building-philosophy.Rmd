@@ -1,0 +1,39 @@
+---
+title: "Modeling Building Philosophy"
+description: |
+  A short description of the post.
+author:
+  - name: Gavin Gordon
+    url: https://example.com/norajones
+date: 2021-12-03
+output:
+  distill::distill_article:
+    self_contained: false
+draft: true
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+Do you want to establish some some of causal link between variables?
+
+Do you want a good way to capture information?
+
+Do you want to be able to know the future state of something? 
+
+
+Talk about the different kinds of questions that can be asked with reference to the three step ladder.
+
+Talk about approaches to the questions from a statistical point of view
+
+What is the minimal amount of background work that you should have before you try collecting data and fitting models?
+
+What if you don't have a conceptual understanding of how the variable fits into the causal or associative links of the model? How can you be sure you are not corrupting the thing you are trying to measure?
+
+
+
+Books to read for this
+Judea Pearl two books
+Regress and other stories 

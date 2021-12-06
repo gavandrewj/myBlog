@@ -28,7 +28,8 @@ library(gifski)
 
 ```{r}
 
-file_path =  "C:/Users/gavin/Documents/GitHub/myBlog/documents/two_sample_power_files/problem_three/"
+file_path =  "C:/Users/gavin/Documents/blog_power_files/linear_regression/problem_three/"
+
 
 ```
 
@@ -127,19 +128,19 @@ ggplotly(p)
 
 # Motivation
 
-I found it discouraging that a power analysis for a multinomial multiple logistic regression wasn't readily accessible/available in the same vein as one could use the technique. Eventually I started to grasp why it might be difficult to distill the complexity of a dataset to a few much less one formula for a sample size.
+I found it discouraging that a power analysis for a multinomial multiple logistic regression wasn't readily accessible/available in the same vein as one could use the technique. Eventually I started to grasp why it might be difficult to distill the complexity of a dataset to a few much less one formula for a sample size while also having a certain flexibility to vary the conditions of the expected data.
 
-This led me to favor simulations. Okay everything in stats is a simulation but that itself wasn't evident to me for quite some time until I started diving into the Bayesian methods with respect to posterior predictive checks.
+This led me to favor simulations and such is first a proof of exercise, hopefully one that will generalize to any/most forms of modeling exercises one could undertake for determining a sample size as well as add to my capacity for performing simulations. As modeling becomes more complex such as with hierarchical models, simulations seem to become inevitable so this is also me setting the ground work.
 
-This is first a proof of exercise, hopefully one that will generalize to any form of modeling exercise one could undertake for determining sample sizes/power as well as add to my capacity for performing simulations. As modeling becomes more complex such as with hierarchical models, simulations become inevitable so this is also me setting the ground work.
-
-A Power/Sample Size analysis forces you to become intimate with your expectations from data, to consider many possible analyses, while also serving as management tool for providing information for cost analysis and interim analysis (such as for clinical trials which I hope to make a general use case of). Simulations extend this capability by allowing you to include many additional variables while being able to vary the relationships you between these variables. You would not have to depend on sourcing prepackaged code for power/sample size calculations when considering different analysis as you are in full control of the data generating mechanism; you only need what may already be available to you in terms of the models you expect to run.... and also hardware specs that won't deplete your patience.
+A Sample Size analysis forces you to become intimate with your expectations from data, to consider many ways in which your data might materialize, while also serving as management tool for providing information for cost analysis and possible consideration for interim analysis (such as for clinical trials which I hope to make a general use case of). Simulations extend this capability by allowing you to include many additional variables while being able to vary the relationships you between these variables. You would not have to depend on sourcing prepackaged code for sample size calculations when considering different analysis as you are in full control of the data generating mechanism; you only need what is likely already available to you in terms of the models you expect to run.... and also hardware specs that won't deplete your patience.
 
 ## Intuition behind the technique
 
 Basically you create datasets, and perform the analysis you expect to do. This data generation process is guided by the knowledge sourced from your literature review so it is imperative you examine the results in detail to understand what kinds of datasets you may encounter.
 
 You simulate thousands of datasets and check how well a particular sample size will capture an effect you're either interested in or one you think exists.
+
+<center>
 
 ```{r echo=F,eval=T}
 
@@ -238,9 +239,11 @@ p <- ggplot(dataframes, aes(fill = factor(x), y)) +
 animate(p,fps = 1,renderer = gifski_renderer())
 ```
 
-The above animation should give an easy enough view of data generation. The data is that from two Normal Distributions that have the same variance but their mode of central tendency are typically three units apart. Now that we are able to simulate datasets, now comes the application of whatever analysis you have in mind. For our purposes a regression approach is used (brms package in R) utilizing the defaults for Bayesian estimation.
+</center>
 
-For these problems I make use of the ability to explicitly model the variances instead of using a pooled estimate of some kind (heterogeneous regression modeling). Even though I know that the variances are the same for the above animations, this will set the trend for the upcoming problems for dealing with unequal variances.
+The above animation should give an easy enough view of data generation. The data is from two Normal Distributions that have the same variance but their mode of central tendency are typically three units apart. After being able to simulate datasets of interest, now comes the application of whatever analysis you have in mind. For our purposes a regression approach is used (brms package in R) utilizing the defaults for Bayesian estimation.
+
+For these problems I make use of the ability to explicitly model the variances instead of using a pooled estimate of some kind (heterogeneous regression modeling). Even though I know that the variances are the same for the above animations, this will set the trend for the upcoming problem for dealing with unequal variances.
 
 An example of the model output is as such:
 
@@ -255,9 +258,9 @@ tab_model(regress)
 
 </center>
 
-We have two intercepts and two effect sizes. This is because there is one regression equation that models the mean of the normal distribution, and similarly there is another regression that models the variance of the normal distribution.
+We have two intercepts and two effect sizes. This is because there is one regression equation that models the mean of the normal distribution given as $intercept + xgrouptwo*variable_{group}$ , and similarly there is another regression that models the variance of the normal distribution given as $sigma\_intercept + sigma\_xgrouptwo * variable_{group}$ . If we had assumed a constant variance for the two groups there would just be a single value for the variance equation.
 
-The variances are given on a log scale and must be exponentiated before we can interpret on the same scale as our data as shown below
+The variances are given on a log scale and must be exponentiated before we can interpret on the same scale as our data as shown below:
 
 <center>
 
@@ -270,451 +273,21 @@ pander(hypothesis(regress, hyp)$hypothesis[,2:5])
 
 </center>
 
-The relevant information is extracted (mostly the quantiles of the posterior distribution of parameters) and then the entire process is repeated several times for any one sample size and also in our case for different group allocation schemes.
+The relevant information is extracted (mostly the quantiles of the posterior distribution of parameters), checked for whatever criteria we may be interested in and then the entire process is repeated several times for any one sample size; and also in our case for different group allocation schemes.
 
-I am interested in the following:
+The following have been useful considerations:
 
-1.  Have we managed to recover the parameters used to generate the sample? Making sure you check for all the parameters becomes important such as in situations when you expect to have unequal variances between groups.
-2.  Is the length of the credible interval small enough? This is something I would discuss with a client. How much precision around the estimate would there have to be before the estimate becomes action worthy?
-3.  Is worth considering an unequal treatment/sampling allocation (something other than a 1:1 ratio)?
-4.  Is the credible interval typically positioned away from values which I would consider there to be no effect?
+1.  Have we managed to recover the parameters used to generate the sample? If so how often have we done so; this is the equivalent of checking for power.
+2.  How does the length of the credible interval change across the sample sizes? What length is suitable to my needs? This is considering the stability of the estimates and is something I would discuss with a client by framing the question as how much precision around a particular estimate would there have to be before the estimate becomes action worthy?
+3.  Is worth considering an unequal treatment/sampling allocation (something other than a 1:1 ratio for our two category group variable)?
+4.  Is the credible interval typically positioned away from values which I would consider there to be no effect? For instance having a sample size that would keep the credible interval of the location effect size a certain distance away from zero (should the effect exist).
+5.  Is there anything of interest that can be said about the simulations that fail to satisfy a particular criteria or are these happening randomly?
+
+For direction and code related to the problem of detecting a group location effect size for some of the above considerations I direct you to a series of posts by <a href = "https://solomonkurz.netlify.app/post/bayesian-power-analysis-part-i/"> Solomon Kurz </a> .
 
 ## On to the Simulations
 
-### Problem One
-
-The first problem we will consider is to determine a sample size that can recover the location and scale effects given below with a credible interval length of 0.7 for the precision. The difference in means is 0.5 magnitude with the variance between the two groups being the same but over varying group allocations (1-1,1-3,1-5).
-
-$$
-\mu_1 \sim N(2,1) 
-$$
-
-$$
-\mu_2 \sim N(2.5,1)
-$$
-
-$$
-e \sim N(0,1)
-$$
-
-$$
-sigma ~ \gamma()
-$$
-
-The first useful piece of information is that for the estimated difference in the means.
-
-<center>
-
-```{r echo = F,fig.width= 7}
-info <- readRDS("C:/Users/gavin/Documents/GitHub/myBlog/documents/two_sample_power_files/all_problems.rds")  %>%
-  filter(para_com == "2 - 0.5 - 1 - 0")
-
-pop_u = 2
-pop_effect_size_u = 0.5 
-pop_sigma_u1 = 1
-pop_effect_size_sigma = 0
-
-
-grouptwo_info <- info %>%
-  filter(para_com == "2 - 0.5 - 1 - 0") %>% 
-  ggplot(aes(x = sample_size,
-             y = xgrouptwo,
-             color = allocation,
-             ymin = xgrouptwo_q2.5,
-             ymax = xgrouptwo_q97.5,
-             text = paste('interval length: ', xgrouptwo_length,
-                          '</br>interval length criteria satisfied: ', xgrouptwo_cover,
-                          '</br>detect probability: ', xgrouptwo_detect,
-                          '</br>group one sample size: ',n1,
-                          '</br>group two sample size: ',n2
-             ))) +
-  geom_hline(yintercept = c(0, .5), color = "white") +
-  geom_pointrange(fatten = 1/2) +
-  # scale_x_discrete("reordered by the lower level of the 95% intervals", breaks = NULL) + 
-  geom_point() + 
-  ylim(min(info$xgrouptwo_q2.5) - 0.5,max(info$xgrouptwo_q97.5) + 0.5) + 
-  geom_hline(yintercept = 0.5) + 
-  labs(x = "Sample Size (Total)",
-       y = "Location Effect Size",
-       title = "Properties of the Location Effect across Sample Sizes") + 
-  theme_bw() 
-
-
-ggplotly(grouptwo_info) %>% 
-  layout(hovermode = "x")
-
-
-```
-
-</center>
-
-By hovering over a particular point we have access to more information about that particular sample size.
-
-Almost all samples shown have the ability to include the location effect size a minimum of `r min(info$xgrouptwo_detect)` proportion of the time across all allocations. It seems that you don't quite need to worry about detecting the effect though the uncertainty around the estimates can be so terrible as to make the estimate untrustworthy as can be seen by the wide credible intervals for the smaller sample sizes.
-
-This is why we directly consider the length of the intervals. The criteria set for this simulation was that of 0.7 for the credible interval; the label of xgrouptwo_cover will show the proportion of times this criteria was satisfied. The 1-1 allocation first met this requirement for sample sizes `r info %>% filter(allocation == '1-1',xgrouptwo_length < 0.7) %>% dplyr::select(sample_size) %>% min()` but was not able to maintain this for 0.8 proportion of the times until the sample size was `r info %>% filter(allocation == '1-1',xgrouptwo_cover >= 0.8) %>% dplyr::select(sample_size) %>% min()` . For the 1-3 allocation these sample sizes were `r info %>% filter(allocation == '1-3',xgrouptwo_length < 0.7) %>% dplyr::select(sample_size) %>% min()` and `r info %>% filter(allocation == '1-3',xgrouptwo_cover >= 0.8) %>% dplyr::select(sample_size) %>% min()` respectively. For the 1-5 allocation the sample sizes were `r info %>% filter(allocation == '1-5',xgrouptwo_length < 0.7) %>% dplyr::select(sample_size) %>% min()` and `r info %>% filter(allocation == '1-5',xgrouptwo_cover >= 0.8) %>% dplyr::select(sample_size) %>% min()` respectively. Even though the length of the interval may be precise, what if it actually tends to occurs near values for which we dismiss the effect size as non-existent. This may not be of concern for larger effect sizes say those greater than 1, but as what you are trying to detect becomes smaller, the proximity to the zero value can become concerning. Of course bayesian estimation gives the probability of an interval around the zero value so this alleviates the concern to some extent. Even so this is a problem I've noticed with some power analysis in that it gives the minimum sample size needed to reject the Null Hypothesis, for which in this case it would be the sample size needed to exclude zero from the interval. The problem is that zero isn't exactly that far from the interval when using that sample size, thus you would have to be extremely precise in your prediction of the true variability if you were to take that sample size at face value.
-
-Therefore one might also consider for what sample size does the lower bound of the credible interval tend to be above a constant for example 0.1; for the 1-1 allocation this first occurs at `r info %>% filter(allocation == '1-1', xgrouptwo_q2.5 > 0.1) %>% dplyr::select(sample_size) %>% min()` and it was not able to maintain this for 80% of the times until a sample size of `r info %>% filter(allocation == '1-1', xgrouptwo_q2.5_0.1above >= 0.8) %>% dplyr::select(sample_size) %>% min()` ;for 1-3 allocation this happened at sample sizes `r info %>% filter(allocation == '1-3', xgrouptwo_q2.5 > 0.1) %>% dplyr::select(sample_size) %>% min()` and `r info %>% filter(allocation == '1-3', xgrouptwo_q2.5_0.1above >= 0.8) %>% dplyr::select(sample_size) %>% min()` respectively; for 1-5 allocation at `r info %>% filter(allocation == '1-5', xgrouptwo_q2.5 > 0.1) %>% dplyr::select(sample_size) %>% min()` and `r info %>% filter(allocation == '1-5', xgrouptwo_q2.5_0.1above >= 0.8) %>% dplyr::select(sample_size) %>% min()` respectively.
-
-The next informative parameter is that of the scale effect. It is important that this is captured well as this will decide whether your data is too noisy to even begin to interpret what you gathered. Remember that for this situation the variances are the same so we expect this scale effect parameter to be zero.
-
-```{r echo=FALSE}
-
-grouptwo_sd_info <- info %>%
-  filter(para_com == "2 - 0.5 - 1 - 0") %>% 
-  ggplot(aes(x = sample_size,
-             y = sigma_xgrouptwo,
-             color = allocation,
-             ymin = sigma_xgrouptwo_q2.5,
-             ymax = sigma_xgrouptwo_q97.5,
-             text = paste('interval length: ', sigma_xgrouptwo_length,
-                          '</br>interval length criteria satisfied: ', sigma_xgrouptwo_cover,
-                          '</br>detect probability: ', sigma_xgrouptwo_detect,
-                          '</br>group one sample size: ',n1,
-                          '</br>group two sample size: ',n2
-             ))) +
-  geom_hline(yintercept = c(0, .5), color = "white") +
-  geom_pointrange(fatten = 1/2) +
-  # scale_x_discrete("reordered by the lower level of the 95% intervals", breaks = NULL) + 
-  geom_point() + 
-  ylim(min(info$sigma_xgrouptwo_q2.5) - 0.5,max(info$sigma_xgrouptwo_q97.5) + 0.5) + 
-  geom_hline(yintercept = 0) + 
-  labs(x = "Sample Size (Total)",
-       y = "Location Effect Size",
-       title = "Properties of the Scale Effect across Sample Sizes") + 
-  theme_bw() 
-
-
-ggplotly(grouptwo_sd_info) %>% 
-  layout(hovermode = "x")
-
-
-```
-
-All samples shown have the ability to include the scaleeffect size a minimum of `r min(info$sigma_xgrouptwo_detect)` proportion of the time across all allocations.
-
-The length of the intervals. The criteria set for this simulation was that of 0.7 for the credible interval; the label of sigma_xgrouptwo_cover will show the proportion of times this criteria was satisfied. The 1-1,1-3 and 1-5 allocations met this requirement for sample sizes `r info %>% filter(allocation == '1-1',sigma_xgrouptwo_length < 0.7) %>% dplyr::select(sample_size) %>% min()` , `r info %>% filter(allocation == '1-3',sigma_xgrouptwo_length < 0.7) %>% dplyr::select(sample_size) %>% min()` , and `r info %>% filter(allocation == '1-5',sigma_xgrouptwo_length < 0.7) %>% dplyr::select(sample_size) %>% min()` respectively.
-
-Since this estimate is centered around zero, I let the length of the interval serve as the limit for upper and lower bounds of the estimate.
-
-Thus in summary the following table details for each allocation the sample size requirements if we want the following to be satisfied at least 80% of the time:
-
-1.  location effect to be captured.
-
-2.  location effect credible interval to have a length less than 0.7
-
-3.  location effect credible interval lower bound to be above 0.1
-
-4.  scale effect credible interval to have a length of 0.7
-
-```{r}
-allo_1_total_samplesize <- info %>% filter(allocation == '1-1',xgrouptwo_detect >= 0.8,xgrouptwo_cover >=0.8,xgrouptwo_q2.5_0.1above >= 0.8 ,sigma_xgrouptwo_cover > 0.8) %>% dplyr::select(sample_size) %>% min()
-
-allo_1_n1_samplesize <- info %>% filter(allocation == '1-1',xgrouptwo_detect >= 0.8,xgrouptwo_cover >=0.8,xgrouptwo_q2.5_0.1above >= 0.8 ,sigma_xgrouptwo_cover > 0.8) %>% dplyr::select(n1) %>% min()
-
-allo_1_n2_samplesize <- info %>% filter(allocation == '1-1',xgrouptwo_detect >= 0.8,xgrouptwo_cover >=0.8,xgrouptwo_q2.5_0.1above >= 0.8 ,sigma_xgrouptwo_cover > 0.8) %>% dplyr::select(n2) %>% min()
-
-
-# sample sizes for 1-3 allocation
-allo_3_total_samplesize <- info %>% filter(allocation == '1-3',xgrouptwo_detect >= 0.8,xgrouptwo_cover >=0.8,xgrouptwo_q2.5_0.1above >= 0.8 ,sigma_xgrouptwo_cover > 0.8) %>% dplyr::select(sample_size) %>% min()
-
-allo_3_n1_samplesize <- info %>% filter(allocation == '1-3',xgrouptwo_detect >= 0.8,xgrouptwo_cover >=0.8,xgrouptwo_q2.5_0.1above >= 0.8 ,sigma_xgrouptwo_cover > 0.8) %>% dplyr::select(n1) %>% min()
-
-allo_3_n2_samplesize <- info %>% filter(allocation == '1-3',xgrouptwo_detect >= 0.8,xgrouptwo_cover >=0.8,xgrouptwo_q2.5_0.1above >= 0.8 ,sigma_xgrouptwo_cover > 0.8) %>% dplyr::select(n2) %>% min()
-
-
-# sample size for 1-5 allocation 
-allo_5_total_samplesize <- info %>% filter(allocation == '1-5',xgrouptwo_detect >= 0.8,xgrouptwo_cover >=0.8,xgrouptwo_q2.5_0.1above >= 0.8 ,sigma_xgrouptwo_cover > 0.8) %>% dplyr::select(sample_size) %>% min()
-
-allo_5_n1_samplesize <- info %>% filter(allocation == '1-5',xgrouptwo_detect >= 0.8,xgrouptwo_cover >=0.8,xgrouptwo_q2.5_0.1above >= 0.8 ,sigma_xgrouptwo_cover > 0.8) %>% dplyr::select(n1) %>% min()
-
-allo_5_n2_samplesize <- info %>% filter(allocation == '1-5',xgrouptwo_detect >= 0.8,xgrouptwo_cover >=0.8,xgrouptwo_q2.5_0.1above >= 0.8 ,sigma_xgrouptwo_cover > 0.8) %>% dplyr::select(n2) %>% min()
-
-
-sample_size_tab <- data.frame(
-  allocation = c(
-    "1-1",
-    "1-3",
-    "1-5"
-  ),
-  total = c(
-    allo_1_total_samplesize,
-    allo_3_total_samplesize,
-    allo_5_total_samplesize
-    ),
-  n1 = c(
-    allo_1_n1_samplesize,
-    allo_3_n1_samplesize,
-    allo_5_n1_samplesize
-  ),
-  n2 = c(
-    allo_1_n2_samplesize,
-    allo_3_n2_samplesize,
-    allo_5_n2_samplesize
-  )
-)
-
-names(sample_size_tab) <- c(
-  "Allocation",
-  "Total Sample Size",
-  "Group One Sample Size",
-  "Group Two Sample Size"
-)
-
-
-pander(sample_size_tab)
-
-```
-
-### Problem Two
-
-Now we will consider a problem that deals with a larger location effect size but with the complication of unequal variances.
-
-$$
-\mu_1 \sim N(2,1) 
-$$
-
-$$
-\mu_2 \sim N(2.5,2)
-$$
-
-$$
-e \sim N(0,1)
-$$
-
-For this problem we will not be calculating the sample size requirements as you will see it would require simulations for total sample sizes that exceed 400. Instead we will compare how the gains over the allocations compare to each other across the different criteria.
-
-The first criteria of selection will be the proportion of times we were able to detect the estimate. You may recall this went well for the first problem and there does not seem to be a poor performance in the plot below.
-
-<center>
-
-```{r echo = F,fig.width= 7}
-info <- readRDS("C:/Users/gavin/Documents/GitHub/myBlog/documents/two_sample_power_files/all_problems.rds")  %>%
-  filter(para_com == "2 - 0.5 - 1 - 2")
-
-
-
-grouptwo_info <- info %>%
-  ggplot(aes(x = sample_size,
-             y = xgrouptwo_detect,
-             color = allocation,
-             group = allocation,
-             # ymin = xgrouptwo_q2.5,
-             # ymax = xgrouptwo_q97.5,
-             text = paste(
-                          '</br>group one sample size: ',n1,
-                          '</br>group two sample size: ',n2
-             ))) +
-  # geom_hline(yintercept = c(0, .5), color = "white") +
-  # geom_pointrange(fatten = 1/2) +
-  # scale_x_discrete("reordered by the lower level of the 95% intervals", breaks = NULL) + 
-  # geom_point() +
-  geom_line() + 
-  # ylim(min(info$xgrouptwo_q2.5) - 0.5,max(info$xgrouptwo_q97.5) + 0.5) + 
-  # geom_hline(yintercept = 0.5) + 
-  labs(x = "Sample Size (Total)",
-       y = "Proportion",
-       title = "Properties of the Location Detect Proportions across Allocations") + 
-  theme_bw() 
-
-
-ggplotly(grouptwo_info) %>% 
-  layout(hovermode = "x")
-
-
-```
-
-</center>
-
-```{r}
- diff_allocation(info,'1-1',c('1-3','1-5'),'xgrouptwo_detect','Detection of Group Two Location Effect')
-
-```
-
-Not sure what to comment right now about this. Going to wait until I am able to run more simulations.
-
-The next criteria is the length of the intervals. Immediately we can see that the 1-1 allocation is always performing worse for all sample sizes relative to the other allocations.
-
-```{r echo=FALSE}
-
-
-
-grouptwo_info <- info %>%
-  ggplot(aes(x = sample_size,
-             y = xgrouptwo_length,
-             color = allocation,
-             group = allocation,
-             # ymin = xgrouptwo_q2.5,
-             # ymax = xgrouptwo_q97.5,
-             text = paste(
-                          '</br>group one sample size: ',n1,
-                          '</br>group two sample size: ',n2
-             ))) +
-  # geom_hline(yintercept = c(0, .5), color = "white") +
-  # geom_pointrange(fatten = 1/2) +
-  # scale_x_discrete("reordered by the lower level of the 95% intervals", breaks = NULL) + 
-  # geom_point() +
-  geom_line() + 
-  # ylim(min(info$xgrouptwo_q2.5) - 0.5,max(info$xgrouptwo_q97.5) + 0.5) + 
-  # geom_hline(yintercept = 0.5) + 
-  labs(x = "Sample Size (Total)",
-       y = "Proportion",
-       title = "Properties of the Location Effect Interval Length across Allocations") + 
-  theme_bw() 
-
-
-ggplotly(grouptwo_info) %>% 
-  layout(hovermode = "x")
-
-
-```
-
-The 1-3 allocation seems to be performing slightly better than the 1-5 allocation across all sample sizes. This difference seems to decrease as the sample sizes increase. Overall it would be better to use the 1-3 allocation. Interestingly the variance for group two is three times that of group one and so the allocation that is based on the ratio of variability works best.
-
-Now the question becomes, if we know that the allocations seem to perform better, just how much better? The following graphs **compares the drop in Interval length for the group two location effect size.**
-
-```{r}
-
- diff_allocation(info,'1-1',c('1-3','1-5'),'xgrouptwo_length','Interval Length')
-
-```
-
-We can see that early on with the smaller sample sizes the gain is quite large with the 1-3 allocation benefiting with a 0.4 reduction in the interval length. This benefit decreases over time but seems to reach an almost constant level at around 0.1 for the larger sample sizes.
-
-The smaller samples for the 1-5 allocations have difficult time compared to the 1-1 allocation but similarly become more beneficial as the sample size increases while also reaching some sort of gently decreasing boundary for the larger sample sizes.
-
-Will wait for more sims to give more solid numbers.
-
-```{r}
-
-
-
-grouptwo_info <- info %>%
-  ggplot(aes(x = sample_size,
-             y = xgrouptwo_q2.5_0.1above,
-             color = allocation,
-             group = allocation,
-             # ymin = xgrouptwo_q2.5,
-             # ymax = xgrouptwo_q97.5,
-             text = paste(
-                          '</br>group one sample size: ',n1,
-                          '</br>group two sample size: ',n2
-             ))) +
-  # geom_hline(yintercept = c(0, .5), color = "white") +
-  # geom_pointrange(fatten = 1/2) +
-  # scale_x_discrete("reordered by the lower level of the 95% intervals", breaks = NULL) + 
-  # geom_point() +
-  geom_line() + 
-  # ylim(min(info$xgrouptwo_q2.5) - 0.5,max(info$xgrouptwo_q97.5) + 0.5) + 
-  # geom_hline(yintercept = 0.5) + 
-  labs(x = "Sample Size (Total)",
-       y = "Proportion",
-       title = "Properties of the Location Detect Proportions across Allocations") + 
-  theme_bw() 
-
-
-ggplotly(grouptwo_info) %>% 
-  layout(hovermode = "x")
-
-```
-
-Although I will wait for more simulations to be run, it does seem like the 1-3 allocation seems to be higher in the proportion than most sample sizes when compared to the 1-1 allocation. It is not clear that what the pattern is for the 1-3 compared to the 1-5 allocation as these seem to have similar performance.
-
-```{r}
- diff_allocation(info,'1-1',c('1-3','1-5'),'xgrouptwo_q2.5_0.1above','Intervals above 0.1')
-```
-
-```{r}
-
-
-
-grouptwo_info <- info %>%
-  ggplot(aes(x = sample_size,
-             y = sigma_xgrouptwo_length,
-             color = allocation,
-             group = allocation,
-             # ymin = xgrouptwo_q2.5,
-             # ymax = xgrouptwo_q97.5,
-             text = paste(
-                          '</br>group one sample size: ',n1,
-                          '</br>group two sample size: ',n2
-             ))) +
-  # geom_hline(yintercept = c(0, .5), color = "white") +
-  # geom_pointrange(fatten = 1/2) +
-  # scale_x_discrete("reordered by the lower level of the 95% intervals", breaks = NULL) + 
-  # geom_point() +
-  geom_line() + 
-  # ylim(min(info$xgrouptwo_q2.5) - 0.5,max(info$xgrouptwo_q97.5) + 0.5) + 
-  # geom_hline(yintercept = 0.5) + 
-  labs(x = "Sample Size (Total)",
-       y = "Proportion",
-       title = "Properties of the Scale Effect Interval Length across Allocations") + 
-  theme_bw() 
-
-
-ggplotly(grouptwo_info) %>% 
-  layout(hovermode = "x")
-```
-
-Here we see the same pattern as with the Location effect interval where the 1-1 allocation performed worse compared to the other allocations, and of the remainder the 1-3 allocation performed better.
-
-The question we may have is whether the difference in interval length is enough to consider using one allocation to the other.
-
-```{r}
-
-
-
-
-  diff_allocation(info,'1-1',c('1-3','1-5'),'sigma_xgrouptwo_length','Interval Length of Group Two Scale Effect')
-
-```
-
-The above graph gives us an idea of how much more efficient the allocations get when compared to a baseline being the 1-1 allocation. When we are seeking to estimate small effect sizes a decrease in an interval length of even 0.1 would be hugely beneficial. The 1-3 allocation has the most gains consistent over the sample sizes while the 1-5 allocation seems to initially be worse than the 1-1 allocation but does become better although not as great as the 1-3.
-
-Will wait on more sims
-
-Going to wait until more sims come in
-
-Going to wait until more sims come in
-
-```{r}
-
-
-grouptwo_info <- info %>%
-  ggplot(aes(x = sample_size,
-             y = sigma_xgrouptwo_cover,
-             color = allocation,
-             group = allocation,
-             # ymin = xgrouptwo_q2.5,
-             # ymax = xgrouptwo_q97.5,
-             text = paste(
-                          '</br>group one sample size: ',n1,
-                          '</br>group two sample size: ',n2
-             ))) +
-  # geom_hline(yintercept = c(0, .5), color = "white") +
-  # geom_pointrange(fatten = 1/2) +
-  # scale_x_discrete("reordered by the lower level of the 95% intervals", breaks = NULL) + 
-  # geom_point() +
-  geom_line() + 
-  # ylim(min(info$xgrouptwo_q2.5) - 0.5,max(info$xgrouptwo_q97.5) + 0.5) + 
-  # geom_hline(yintercept = 0.5) + 
-  labs(x = "Sample Size (Total)",
-       y = "Proportion",
-       title = "Scale Interval coverage across Allocations") + 
-  theme_bw() 
-
-
-ggplotly(grouptwo_info) %>% 
-  layout(hovermode = "x")
-```
-
-Finally we have a comparison of the credible interval length over the scale effect. That is how often was the 0.7 interval length satisfied for a particular sample size across allocations.
-
-In conclusion for problem two, the unequal allocation serves to better estimate the parameters as the sample size increases. There is merit to allocation samples according to the ratio of variances between the groups with those that have a larger variance having more samples.
-
-### Problem Three {#problem-three}
-
-This time we will be exploring the linear regression for which we will have a grouping variable with different variances across the groups and also an additional parameter that introduces linearity to the dataset.
+We will be exploring the linear regression for which we will have a grouping variable with different variances across the groups and also an additional parameter that introduces linearity to the dataset.
 
 To start things off the below is an animation giving a rough idea of what kinds of data sets we are talking about.
 
@@ -874,11 +447,11 @@ animate(p, fps=1,renderer = gifski_renderer())
 
 </center>
 
-We have two groups; the red points you will notice a thinner band compared to the blue points which are likely to be more spread out. This is the consequence of the unequal variances of the two groups. We are basically saying that the linear relationship exits within both groups but it applies to the members of group one more than those of group two.
+We have two groups; the red points you will notice form a thinner band compared to the blue points which are likely to be more spread out. This is the consequence of the unequal variances of the two groups. We are basically saying that the linear relationship exits within both groups but it applies to the members of group one more than those of group two.
 
-We have two different location effects at work here. One due to the binary variable represented by the blue and red points while the other is a continuous variable represented by the X axis. As before we only consider a situation where the variability differs across the binary variable; you can imagine that we could have also considered the variance changing across the continuous variable that would result familiar patterns such as the funnel/cone shape when the equal variance assumption is not satisfied across the continuous variable.
+We have two different location effects at work here. One due to the binary variable represented by the blue and red points while the other is a continuous variable represented by the X axis. This situation where is one scale effect where the variability differs across the binary variable only; however you can imagine that we could have also considered the variability changing across the continuous variable that would result familiar patterns such as the funnel/cone shape when the equal variance assumption is not satisfied across the continuous variable.
 
-For those interested in the model:
+For those interested in a model:
 
 $$
 Y_i \sim N(\theta_i,\sigma_i) \ \  \ \ \ for \ i \ from \ 1 \ to \ n
@@ -892,9 +465,7 @@ $$
 \sigma_i = \beta_4 + \beta_5*Variable_{group}  
 $$
 
-Both of the parameters for the population probability distribution are modeled linearly using predictors; in this way we can account for how the variances change across the two groups and avoid the assumption of homoscedasticity altogether. The probability distributions of the beta parameters are not specified.
-
-Now comes the variation that will be introduced across the parameters. Below are the graphs that give the range of the estimates that we want to use to create samples. We need a range for the $\beta_2,\beta_3$ and $\beta_5$ as these are the effect sizes that will determine the respective linear equations for the mean and variance of the population distribution. Again this information will be sourced from a combination of your literature review and your own subject matter knowledge about what may be happening.
+Now comes the variation that will be introduced across the location and scale parameters. Below are the graphs that give the range of the estimates used to create the datasets. We need a range for the $\beta_2,\beta_3$ (location effects) and $\beta_5$ (scale effect) as these are the effect sizes that will determine the respective linear equations for the mean and variance of the population distribution. For each simulation one value will be randomly chosen from each of the below distributions. By simulating thousands of cases, we will explore the entire range of the joint parameter space of possibilities. Again this information will be sourced from a combination of your literature review and your own subject matter knowledge about what may be happening.
 
 ```{r fig.align='center',fig.cap= 'Distributions for Beta Effect Sizes'}
 readRDS(
@@ -903,7 +474,11 @@ readRDS(
 
 ```
 
-For the continuous effect and group location effects we simulate both from normal distributions that have means 0.6 and 0.5 respectively and variances 0.2 and 0.1 respectively. The values for the difference in variance across the groups were simulated from a gamma distribution with scale and shape parameters of 1. All of the distributions were truncated as shown in the graph.
+For the continuous effect and group location effects we simulate both from normal distributions that have means 0.6 and 0.5 respectively and variances 0.2 and 0.1 respectively. The values for the difference in variance across the groups were simulated from a gamma distribution with mean and variance of 1. All of the distributions were truncated as shown in the graph.
+
+## Criteria Checking
+
+### Initial Range
 
 The purpose of the line graphs shown below is to detail the information for a range of sample sizes for further inspection. This initial look is not to draw any hard conclusions but instead provide the insight as to what sample sizes we should be focusing in on.
 
@@ -929,11 +504,13 @@ readRDS(
 
 ```
 
-The problem with the smaller sample sizes being so noisy with the large interval lengths is that those intervals may allocate a considerable amount of probability to regions where we know is quite far from the true effect size we planned it. We resolve this issue by thinking about what interval length that if achieved, we would be confident enough to make decisions using the estimate. If we consider having the length to be 0.7, and assuming that the estimator converges to the average true value of 0.5 then we are essentially saying that the interval of values 0.15 to 0.85 is good enough consider the effect real and actionable. You may of course require much greater precision for your own purposes but as you can see this will require quite large sample sizes. The good news is for this problem a 1-1 allocation isn't necessary to achieve this level of precision. This may help with costs as it may be very expensive to sample from one group compared to the others. If the group where you can sample at low cost from the group requiring the two members then this will amount to considerable savings.
+The problem with the smaller sample sizes is that those tend to produce large interval lengths that may allocate a considerable amount of probability to regions which we know is quite far from the true effect size as we planned it. An interval length of 0.7 will be the criteria for this exercise. You may of course require much greater precision for your own purposes but as you can see this will require quite large sample sizes. The good news is for this problem the 1-2 allocation is just as good (better if zoomed in although the difference may be negligible) as the 1-1 allocation at achieving this level of precision. This may help with costs as it may be cheaper to sample from the group which requires the two members while only needing the one member from the more expensive group. Again that kind of detail is dependent on your situation.
 
-For this problem we will consider the 1-2 allocation as a cost calculation is not considered here. It would seem that we should investiate the sample sizes between 350 to 370 to achieve our goal.
+For this problem we will consider the 1-2 allocation; It would seem that we should investigate the sample sizes of at least 350 to achieve our goal.
 
-The next two graphs desribe what happens with the scale effect size for the group variable. This effect size is responsible for the difference in variability noted earlier in the animation where the blue points were varying about its regression line more than the red points. Similar considerations as to the detection and interval length are considered for this problem.
+The next two graphs describe what happens with the scale effect size for the group variable. This effect size is responsible for the difference in variability noted earlier in the animation where the blue points were varying about its regression line more than the red points. Similar considerations as to the detection and interval length are considered for this problem.
+
+<center>
 
 ```{r}
 
@@ -953,11 +530,15 @@ readRDS(
 
 ```
 
+</center>
+
 It should be noted that it seems to require a much smaller sample to pick up the scale effect size. This is because it is actually quite larger than the location effect size. The mean of the gamma distribution it is simulated from is one, thus is twice as large. It makes sense that a larger effect requires a much smaller sample size to detect.
 
 The sample size requirement has not increased. A smaller sample size of about 190 may capture the group scale effect but it would not capture the group location effect. Thus we still maintain the sample needed as before.
 
 Finally for the initial set we consider the continuous variable location effect.
+
+<center>
 
 ```{r}
 
@@ -975,11 +556,15 @@ readRDS(
 
 ```
 
-What is interesting about continuous effect sizes, is that even though the size isn't that much larger than the group effect size, small sample sizes are able to get really precise intervals on the estimate. The variability of the betas are directly affected by how much variation is covered in the predictors; the larger the variation the better the estimates. This is basically saying that if you are able to collect information from a broad range of your continuous variable then this means you have more information contained in your predictor variable and this is reflected in the calculation of your continuous effect size.
+</center>
+
+What is interesting about continuous effect sizes, is that even though the size isn't that much larger than the group effect size, small sample sizes are able to get really precise intervals on the estimate. I will cheat here by referring to the formula for the estimator for a beta coefficient. The variability of the betas are directly affected by how much variation is covered in the predictors; the larger the variation the better the estimates. This is basically saying that if you are able to collect information from a broad range of your continuous variable then this means you have more information contained in your predictor variable and this is reflected in the calculation of your continuous effect size.
 
 In the simulations we have assumed a random sample was taken over some arbitrary range. You should take another look at the animation and notice that we always seems to have values spread out across a consistent range.
 
-The current sample size assumption will easily satisfy the detection and interval length criteria for the continuous effect size.
+### Narrowed Range
+
+The current sample size range will easily satisfy the detection and they have a good mean interval length. At this point the remainder of the criterias are computed and are available by hovering over the interval range for any sample size.
 
 ```{r}
 readRDS(
@@ -987,6 +572,18 @@ readRDS(
 )
 
 ```
+
+Now here comes another level of protection you can offer yourself when it comes to estimate stability. With a particular sample size, you can have an average length across all the simulations that satisfy our needs. But just how often is this length criteria satisfied. Sample Sizes that are around our minimum initial range satisfies this almost 50\\% of the time.
+
+This leads to another criteria similar to power, which is to say how often do we want an interval length of 0.7 to be satisfied. Before you say rush to say always really should have the resources to needed to guarentee this. Which again brings us back to your ability to perform some sort of risk analysis and understand what resources you are willing to expend to get the results your want to your satisfactory level of certainty. In other words, how sure do you want to be about these estimates before you are willing to act on the information.
+
+If you want the interval length to be satisfied lets say 80\\% of the time then that takes our sample size to roughly 438.
+
+And yet there is another level of validity to consider. We know that on average our effect size should be be about 0.5 so we may insist that our credible intervals be above a certain number lets say 0.1 roughly speaking. In order to get that level of precision 70\\% of the time that would take our sample up to 468.
+
+For the rest of our exercise we will restrict the criteria to the interval length being less than or equal to 0.7 for roughly 80\\% of the simulations.
+
+The following two graphs give the criteria for the group scale effect and the continuous location effect, all of which are already satisfied by the minimum sample size chosen for the group location effect.
 
 ```{r}
 readRDS(
@@ -1002,24 +599,44 @@ readRDS(
 
 ```
 
-Comment on the early, mid and late game behaviour of the allocations. It seems like the efficiency of the 1-1 is good early on but it eventually gets overtaken by the 1-2, then the 1-3 allocations. Nevmind they occupy the same regions with over-lapping confidence bands. So there are some benefits to knowing this, is that if there is a cost differential for getting items, where items from group two is cheaper to sample from, there is a point, once the sample becomes larger enough the 1-3 allocation would give you the same precision (slightly better) than having to maintain the 1-1 allocation driving costs up.
+### Where does the criteria breakdown occur
 
-So next we will consider only sampling from the 1-2 allocation and add on some additional requirements that we would want the estimate to have.
+Now that we have a sample size estimate that works for our needs. We now want to understand just what are the situations that occur that this sample size would not be able to handle.
 
-The next informative parameter is that of the scale effect. It is important that this is captured well as this will decide whether your data is too noisy to even begin to interpret what you gathered. Remember that for this situation the variances are the same so we expect this scale effect parameter to be zero.
+The first graph below shows what happens across combinations of the group locations for groups one and two.
 
-```{r}
-
-
-```
+<center>
 
 ```{r}
 
-
+readRDS(
+   paste0(file_path,"breakdown_location.rds")
+)
 
 ```
 
-It seems that just about any sample size in the set we have considered manage to get a good precision as well
+</center>
+
+We have the baseline mean which is the mean for group one on the x axis, while on the y axis we have the effect size that we are trying to detect. It seems that for the roughly 20\\% of cases that this sample size fails for, it does not have anything to do with the magnitudes of the effect sizes as it seems to fail randomly.
+
+The following gives a different picture where the effect sizes for the variances are concerned.
+
+<center>
+
+```{r}
+
+readRDS(
+   paste0(file_path,"breakdown_scale.rds")
+)
+```
+
+</center>
+
+And here we have a base level understanding of what is important in your experiment, and is especially important information for you to retrieve from your literature review.
+
+There is a pattern to how the simulations fail with respect to how much variation there is in the simulation. There also seems to be an interaction type relationship where the failure rate of goes up depending on the levels of the sigma magnitude. This is to say that if you were to select a magnitude for the baseline sigma, the failure rate would depend on the corresponding magnitude of the effect size.
+
+It seems that variation that exceeds a sum total of roughly 2.2 is where the simulations start to fail. So for this experiment, as long as the total variation does not exceed this amount you have a good assurance that the sample size will perform as expected
 
 ## Conclusions
 

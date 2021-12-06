@@ -1,0 +1,29 @@
+---
+title: "empty thoughts"
+description: |
+  A short description of the post.
+author:
+  - name: Gavin Gordon
+    url: https://example.com/norajones
+date: 2021-12-04
+output:
+  distill::distill_article:
+    self_contained: false
+draft: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+What do we use the covaraince of the beta parameters for. I didnt know we had those outside of bayesian. Used for simulations. Like how do they come into play? How can you look at the tables and say something about them without reference to the covariance of the estimates yikes.
+
+Gotta get comfy talking about residuals. As well as isolating residuals and seeing where the model is going wrong. I dont like the idea of a standardized residual. Seems less informative.
+
+Essay ideas
+
+Popular metrics: r square,
+
+Residuals: standard residuals, sum of residuals, mean grouping of residuals? What can this tell me about the left over variation? How well are my predictions doing? A large standard error doesnt say the variable isn't useful or bad. Standard errors are proportional to the variance in the population (assuming you have a variance parameter or whatever you use). So it can still be used to talk about how precise the estimate for the betas are but its in proportion not a direct quantification. Apparantly this approximates $\sigma$ as well chapter three gelman hierarchcical. The plots basically say, for the info contain in the variable, not all was captured properly by the model and there is still some left in the unexplained variation, talking about if there are patterns.
+
+stat significance: the precision with which your data estimates something. Something can not be measured to the precision that you want but still plays a valid role in the process. You gotta figure out why you cant measure this thing with the level of precision that you want. Can still include in the model for the mean while.
