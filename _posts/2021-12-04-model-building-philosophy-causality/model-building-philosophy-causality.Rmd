@@ -22,6 +22,6 @@ Models with interactions are often easier to interpret once you center the varia
 
 # 
 
-## What to do when you cant interpret effects an though these were independent. 
+## What to do when you cant interpret effects an though these were independent.
 
 In other words..what is the deal with having multicollinearity i guess? This is also present at the conceptual level I guess. Especially with observational data damn thats a dangerous statement.

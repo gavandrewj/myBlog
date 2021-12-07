@@ -1,14 +1,16 @@
 ---
-title: "Monte Carlo Power Analysis: Independent Two Sample Difference of Means"
+title: "Bayesian Monte Carlo Sample Size Computation: Linear Regression"
 description: |
-  A short description of the post.
+  This problem has one binary predictor variable for which the groups differ in variability (application of hetergenous modeling to capture variance difference instead of pooled methods) and one continuous variable. Focus on the precision of Credible Interval length which is subjected to various critera to satisfy the need for managing potential uncertainty.  
 author:
-  - name: Gavin Gordon
+  - name: Gavin Andrew Gordon
     url: https://example.com/norajones
-date: 10-25-2021
+date: 12-07-2021
 output:
   distill::distill_article:
     self_contained: false
+    
+bibliography: 'C:/Users/gavin/Documents/GitHub/myBlog/documents/biblio.bib'
 ---
 
 ```{r setup, include=FALSE}
@@ -128,17 +130,19 @@ ggplotly(p)
 
 # Motivation
 
-I found it discouraging that a power analysis for a multinomial multiple logistic regression wasn't readily accessible/available in the same vein as one could use the technique. Eventually I started to grasp why it might be difficult to distill the complexity of a dataset to a few much less one formula for a sample size while also having a certain flexibility to vary the conditions of the expected data.
+I found it discouraging that a method for Sample Size Analysis for a multinomial multiple logistic regression wasn't readily accessible/available in the same vein as one could use the technique. Eventually I started to grasp why it might be difficult to distill the complexity of a dataset to a few formulas for a sample size.
 
-This led me to favor simulations and such is first a proof of exercise, hopefully one that will generalize to any/most forms of modeling exercises one could undertake for determining a sample size as well as add to my capacity for performing simulations. As modeling becomes more complex such as with hierarchical models, simulations seem to become inevitable so this is also me setting the ground work.
+And so I leaned into simulations. This post is first a proof of exercise; hopefully one that will generalize to any/most forms of modeling exercises one could undertake for determining a sample size as well as to add to my capacity for performing simulation studies.
 
-A Sample Size analysis forces you to become intimate with your expectations from data, to consider many ways in which your data might materialize, while also serving as management tool for providing information for cost analysis and possible consideration for interim analysis (such as for clinical trials which I hope to make a general use case of). Simulations extend this capability by allowing you to include many additional variables while being able to vary the relationships you between these variables. You would not have to depend on sourcing prepackaged code for sample size calculations when considering different analysis as you are in full control of the data generating mechanism; you only need what is likely already available to you in terms of the models you expect to run.... and also hardware specs that won't deplete your patience.
+A Sample Size Analysis forces you to become intimate with your expectations from data, to consider the many ways in which your data might materialize, while also serving as management tool for providing information to perform cost analysis with possible consideration for interim analysis (such as for clinical trials which I hope to make a general use case of). Simulations allow you to include and vary the relationships between many variables, the effects for which you want some assurance your sample size is able to capture if present.
+
+There is no need to await prepackaged code for sample size calculations as you are in full control of the data generating mechanism and only need what is likely already available in terms of the models you expect to run.
 
 ## Intuition behind the technique
 
-Basically you create datasets, and perform the analysis you expect to do. This data generation process is guided by the knowledge sourced from your literature review so it is imperative you examine the results in detail to understand what kinds of datasets you may encounter.
+Basically you create datasets, and perform the analysis you expect to do. This data generation process is guided by the knowledge sourced from your literature review and your own subject matter knowledge, so it is imperative you examine the previous research in detail to understand what kinds of datasets you may encounter.
 
-You simulate thousands of datasets and check how well a particular sample size will capture an effect you're either interested in or one you think exists.
+For each dataset you check how well a particular sample size will capture an effect you're interested in according to a set of criteria.
 
 <center>
 
@@ -205,7 +209,7 @@ dataframes <- lapply(1:50,
                      effect_size_u = 3,
                      allocate_n1 = 1,
                      allocate_n2 = 1,
-                     sample_size = 50,
+                     sample_size = 100,
                      sigma_u1 = 1,
                      effect_size_sigma = 0
                      )
@@ -241,9 +245,9 @@ animate(p,fps = 1,renderer = gifski_renderer())
 
 </center>
 
-The above animation should give an easy enough view of data generation. The data is from two Normal Distributions that have the same variance but their mode of central tendency are typically three units apart. After being able to simulate datasets of interest, now comes the application of whatever analysis you have in mind. For our purposes a regression approach is used (brms package in R) utilizing the defaults for Bayesian estimation.
+The above animation should give an easy enough understanding of data generation phase. The data is simulated from two Normal Distributions that have the same variance but their means are typically three units apart. After being able to simulate datasets of interest, now comes the application of whatever analysis you have in mind. For our purposes we're using a Bayesian regression approach using the R package BRMS @paul2018 .
 
-For these problems I make use of the ability to explicitly model the variances instead of using a pooled estimate of some kind (heterogeneous regression modeling). Even though I know that the variances are the same for the above animations, this will set the trend for the upcoming problem for dealing with unequal variances.
+For these problems I make use of the ability to explicitly model the variances instead of using a pooled estimate of some kind @paul2021 . Even though I know that the variances are the same for the above animations, this will set the trend for the upcoming problem for dealing with unequal variances.
 
 An example of the model output is as such:
 
@@ -251,16 +255,28 @@ An example of the model output is as such:
 
 ```{r echo = F}
 
-regress <-  readRDS("C:/Users/gavin/Documents/GitHub/myBlog/regression_sample_p1.rds")
+regress <-  readRDS(
+    paste0(file_path,'regression_model.rds')
+)
 
 tab_model(regress)
 ```
 
 </center>
 
-We have two intercepts and two effect sizes. This is because there is one regression equation that models the mean of the normal distribution given as $intercept + xgrouptwo*variable_{group}$ , and similarly there is another regression that models the variance of the normal distribution given as $sigma\_intercept + sigma\_xgrouptwo * variable_{group}$ . If we had assumed a constant variance for the two groups there would just be a single value for the variance equation.
+We have two intercepts and two effect sizes. This is because there is one regression equation that models the mean of the normal distribution and similarly there is another regression that models the variance of the normal distribution. If we had assumed a constant variance for the two groups there would just be a single value for the variance equation.
 
-The variances are given on a log scale and must be exponentiated before we can interpret on the same scale as our data as shown below:
+So for the two groups in the animation, their normal distributions are estimated as such:
+
+$$
+Y_{Group \ One} \sim N(intercept,sigma\_intercept)
+$$
+
+$$
+Y_{Group \ Two} \sim N(intercept + xgrouptwo*variable_{group},sigma\_intercept + sigma\_xgrouptwo * variable_{group})
+$$
+
+Where $variable_{group}$ is an indicator variable for the second distribution. The variances are given on a log scale and must be exponentiated before we can interpret on the same scale as our data as shown below:
 
 <center>
 
@@ -273,21 +289,21 @@ pander(hypothesis(regress, hyp)$hypothesis[,2:5])
 
 </center>
 
-The relevant information is extracted (mostly the quantiles of the posterior distribution of parameters), checked for whatever criteria we may be interested in and then the entire process is repeated several times for any one sample size; and also in our case for different group allocation schemes.
+The relevant information is extracted for each parameter which in this case is the credible interval determined by the range of parameters for which 95% of the probability is allocated. This interval is then queried for whatever criteria we may be interested in.
 
 The following have been useful considerations:
 
-1.  Have we managed to recover the parameters used to generate the sample? If so how often have we done so; this is the equivalent of checking for power.
+1.  Have we managed to recover the parameters used to generate the sample? If so how often have we done so?
 2.  How does the length of the credible interval change across the sample sizes? What length is suitable to my needs? This is considering the stability of the estimates and is something I would discuss with a client by framing the question as how much precision around a particular estimate would there have to be before the estimate becomes action worthy?
-3.  Is worth considering an unequal treatment/sampling allocation (something other than a 1:1 ratio for our two category group variable)?
-4.  Is the credible interval typically positioned away from values which I would consider there to be no effect? For instance having a sample size that would keep the credible interval of the location effect size a certain distance away from zero (should the effect exist).
+3.  Is it worth considering an unequal sampling group allocation (something other than a 1:1 ratio for our two category group variable)?
+4.  Is the credible interval typically positioned away from values which I would consider to be of no interest? For instance having a sample size that would keep the credible interval of the location effect size a certain distance away from zero (should the effect exist).
 5.  Is there anything of interest that can be said about the simulations that fail to satisfy a particular criteria or are these happening randomly?
 
-For direction and code related to the problem of detecting a group location effect size for some of the above considerations I direct you to a series of posts by <a href = "https://solomonkurz.netlify.app/post/bayesian-power-analysis-part-i/"> Solomon Kurz </a> .
+For further comment and code for detecting a group location effect size for the problem described in the first animation I direct you to a series of posts by <a href = "https://solomonkurz.netlify.app/post/bayesian-power-analysis-part-i/"> @Kurz2019 </a> .
 
 ## On to the Simulations
 
-We will be exploring the linear regression for which we will have a grouping variable with different variances across the groups and also an additional parameter that introduces linearity to the dataset.
+We will be exploring the linear regression for which we will have a grouping variable with different variances across the groups, and a continuous variable that introduces linearity to the dataset.
 
 To start things off the below is an animation giving a rough idea of what kinds of data sets we are talking about.
 
@@ -447,9 +463,9 @@ animate(p, fps=1,renderer = gifski_renderer())
 
 </center>
 
-We have two groups; the red points you will notice form a thinner band compared to the blue points which are likely to be more spread out. This is the consequence of the unequal variances of the two groups. We are basically saying that the linear relationship exits within both groups but it applies to the members of group one more than those of group two.
+We have two groups; the red points you will notice form a thinner band compared to the blue points which are likely to be more spread out. This is the consequence of the unequal variances of the two groups.
 
-We have two different location effects at work here. One due to the binary variable represented by the blue and red points while the other is a continuous variable represented by the X axis. This situation where is one scale effect where the variability differs across the binary variable only; however you can imagine that we could have also considered the variability changing across the continuous variable that would result familiar patterns such as the funnel/cone shape when the equal variance assumption is not satisfied across the continuous variable.
+We have two different location effects at work here. One due to the binary variable represented by the blue and red points while the other is a continuous variable represented on the axis. There is one scale effect where the variability differs across the binary variable only; however you can imagine that we could have also considered the variability changing across the continuous variable that would result in patterns such as the funnel/cone shape where the variability increases as the continuous variable magnitude increases.
 
 For those interested in a model:
 
@@ -458,14 +474,14 @@ Y_i \sim N(\theta_i,\sigma_i) \ \  \ \ \ for \ i \ from \ 1 \ to \ n
 $$
 
 $$
-\theta_i =  \beta_1 + \beta_2*Variable_{group} + \beta_3*Variable_{continuous}  
+\theta_i =  \beta_1 + \beta_2*Variable_{group_i} + \beta_3*Variable_{continuous_i}  
 $$
 
 $$
-\sigma_i = \beta_4 + \beta_5*Variable_{group}  
+\sigma_i = \beta_4 + \beta_5*Variable_{group_i}  
 $$
 
-Now comes the variation that will be introduced across the location and scale parameters. Below are the graphs that give the range of the estimates used to create the datasets. We need a range for the $\beta_2,\beta_3$ (location effects) and $\beta_5$ (scale effect) as these are the effect sizes that will determine the respective linear equations for the mean and variance of the population distribution. For each simulation one value will be randomly chosen from each of the below distributions. By simulating thousands of cases, we will explore the entire range of the joint parameter space of possibilities. Again this information will be sourced from a combination of your literature review and your own subject matter knowledge about what may be happening.
+Now comes the variation that will be introduced across the location and scale parameters. Below are the graphs that give the range of the estimates used to create the datasets. We need a range for the $\beta_2,\beta_3$ (location effects) and $\beta_5$ (scale effect) as these are the effect sizes that we will try to recover. For each simulation one value will be randomly chosen from each of the below distributions. By simulating thousands of cases, we will explore the entire range of the parameter space of possibilities. Again this information will be sourced from a combination of your literature review and your own subject matter knowledge about what may be happening.
 
 ```{r fig.align='center',fig.cap= 'Distributions for Beta Effect Sizes'}
 readRDS(
@@ -493,9 +509,9 @@ readRDS(
 
 ```
 
-For almost all samples we have a detection probability that is above 0.9 so as described before, we do not have to worry much as to whether we will recover the population parameter within the credible intervals. We notice that the 1-2 allocation maintains an almost steady detection probability of at least 0.95.
+For almost all samples we have a detection probability that is above 0.9; we do not have to worry much as to whether we will recover the population parameter within the credible intervals. Notice that the 1-2 allocation maintains an almost steady detection probability of at least 0.95.
 
-However when we consider the precision, the noise around the estimate may give us quite large credible intervals thus we may want to collect a larger sample to gain a certain level of precision. The next graph shows us how the interval length of the location effect changes across the different sample sizes.
+However when we consider the precision, the noise around the estimate may give us quite large credible intervals thus one may want to collect a larger sample to gain a high enough level of precision. The next graph shows us how the interval length of the location effect changes across the different sample sizes.
 
 ```{r}
 readRDS(  
@@ -504,9 +520,11 @@ readRDS(
 
 ```
 
-The problem with the smaller sample sizes is that those tend to produce large interval lengths that may allocate a considerable amount of probability to regions which we know is quite far from the true effect size as we planned it. An interval length of 0.7 will be the criteria for this exercise. You may of course require much greater precision for your own purposes but as you can see this will require quite large sample sizes. The good news is for this problem the 1-2 allocation is just as good (better if zoomed in although the difference may be negligible) as the 1-1 allocation at achieving this level of precision. This may help with costs as it may be cheaper to sample from the group which requires the two members while only needing the one member from the more expensive group. Again that kind of detail is dependent on your situation.
+The problem with the smaller sample sizes is that those tend to produce large interval lengths that may allocate a considerable amount of probability to regions which we know is quite far from the true effect size as we planned it. An interval length of 0.7 will be the criteria for this exercise. You may of course require much greater precision for your own purposes but as you can see this will require quite large sample sizes.
 
-For this problem we will consider the 1-2 allocation; It would seem that we should investigate the sample sizes of at least 350 to achieve our goal.
+The good news is for this problem the 1-2 allocation is just as good (better if zoomed in although the difference may be negligible) as the 1-1 allocation at achieving this level of precision. This is because group one has a typical variance of one, while group two has a typical variance of two; and so allocating twice as many persons to group two helps to more efficiently capture the effects of the simulation. This may help with costs as it may be cheaper to sample from the group which requires the two members while only needing the one member from the more expensive group. This kind of detail is dependent on your situation.
+
+For this problem we will consider the 1-2 allocation; it would seem that we should investigate the sample sizes of at least 350 to achieve our goal.
 
 The next two graphs describe what happens with the scale effect size for the group variable. This effect size is responsible for the difference in variability noted earlier in the animation where the blue points were varying about its regression line more than the red points. Similar considerations as to the detection and interval length are considered for this problem.
 
@@ -534,7 +552,9 @@ readRDS(
 
 It should be noted that it seems to require a much smaller sample to pick up the scale effect size. This is because it is actually quite larger than the location effect size. The mean of the gamma distribution it is simulated from is one, thus is twice as large. It makes sense that a larger effect requires a much smaller sample size to detect.
 
-The sample size requirement has not increased. A smaller sample size of about 190 may capture the group scale effect but it would not capture the group location effect. Thus we still maintain the sample needed as before.
+It also requires a smaller sample size to achieve the 0.7 interval length for the scale effect size.
+
+The sample size requirement has not increased. A smaller sample size of about 190 may capture the group scale effect but it would not capture the group location effect. Thus we still maintain the mimimum sample size needed.
 
 Finally for the initial set we consider the continuous variable location effect.
 
@@ -558,13 +578,13 @@ readRDS(
 
 </center>
 
-What is interesting about continuous effect sizes, is that even though the size isn't that much larger than the group effect size, small sample sizes are able to get really precise intervals on the estimate. I will cheat here by referring to the formula for the estimator for a beta coefficient. The variability of the betas are directly affected by how much variation is covered in the predictors; the larger the variation the better the estimates. This is basically saying that if you are able to collect information from a broad range of your continuous variable then this means you have more information contained in your predictor variable and this is reflected in the calculation of your continuous effect size.
+What is interesting about continuous effect sizes, is that even though the size isn't that much larger than the group effect size, small sample sizes are able to get really precise intervals on the estimate. The variability of the betas are directly affected by how much variation is covered in the predictors; the larger the variation the better the estimates. This is basically saying that if you are able to collect information from a broad range of your continuous variable then this means you have more information contained in your predictor variable and this is reflected in the computation of your continuous effect size.
 
-In the simulations we have assumed a random sample was taken over some arbitrary range. You should take another look at the animation and notice that we always seems to have values spread out across a consistent range.
+In the simulations we have assumed a random sample was taken over some arbitrary range. You should take another look at the animation and notice that we always seems to have values spread out across a large range for the x axis.
 
 ### Narrowed Range
 
-The current sample size range will easily satisfy the detection and they have a good mean interval length. At this point the remainder of the criterias are computed and are available by hovering over the interval range for any sample size.
+The current sample size range will easily satisfy the detection and they have a good mean interval length. At this point the remainder of the criteria are computed and are available by hovering over the interval range for any sample size.
 
 ```{r}
 readRDS(
@@ -573,15 +593,15 @@ readRDS(
 
 ```
 
-Now here comes another level of protection you can offer yourself when it comes to estimate stability. With a particular sample size, you can have an average length across all the simulations that satisfy our needs. But just how often is this length criteria satisfied. Sample Sizes that are around our minimum initial range satisfies this almost 50\\% of the time.
+Now here comes another level of protection you can offer yourself when it comes to estimate stability. With a particular sample size, you can have an average length across all the simulations that satisfy our needs, but just how often is this length criteria satisfied? Sample Sizes that are around our minimum initial range seems to satisfy our 0.7 requirement roughly 50% of the time.
 
-This leads to another criteria similar to power, which is to say how often do we want an interval length of 0.7 to be satisfied. Before you say rush to say always really should have the resources to needed to guarentee this. Which again brings us back to your ability to perform some sort of risk analysis and understand what resources you are willing to expend to get the results your want to your satisfactory level of certainty. In other words, how sure do you want to be about these estimates before you are willing to act on the information.
+This leads to another criteria, which is to say how often do we want an interval length of 0.7 to be satisfied. Before rushing to say always, really should have the resources to needed to guarantee this. What resources are you willing to expend to get the results your want to your satisfactory level of certainty. In other words, how sure do you want to be about these estimates before you are willing to act on the information.
 
-If you want the interval length to be satisfied lets say 80\\% of the time then that takes our sample size to roughly 438.
+If you want the interval length to be satisfied lets say 80% of the time then that takes our sample size to roughly 438.
 
-And yet there is another level of validity to consider. We know that on average our effect size should be be about 0.5 so we may insist that our credible intervals be above a certain number lets say 0.1 roughly speaking. In order to get that level of precision 70\\% of the time that would take our sample up to 468.
+And yet there is another level of validity to consider. We know that on average our effect size should be be about 0.5 so we may insist that our credible intervals be above a certain number lets say 0.1 roughly speaking. In order to get that level of precision 70% of the time that would take our sample up to 468.
 
-For the rest of our exercise we will restrict the criteria to the interval length being less than or equal to 0.7 for roughly 80\\% of the simulations.
+For the rest of our exercise we will restrict the criteria to the interval length being less than or equal to 0.7 for roughly 80% of the simulations.
 
 The following two graphs give the criteria for the group scale effect and the continuous location effect, all of which are already satisfied by the minimum sample size chosen for the group location effect.
 
@@ -601,7 +621,7 @@ readRDS(
 
 ### Where does the criteria breakdown occur
 
-Now that we have a sample size estimate that works for our needs. We now want to understand just what are the situations that occur that this sample size would not be able to handle.
+Now that we have a sample size estimate that works for our needs. We now want to understand just what are the situations that occur which this sample size would not be able to handle.
 
 The first graph below shows what happens across combinations of the group locations for groups one and two.
 
@@ -617,9 +637,9 @@ readRDS(
 
 </center>
 
-We have the baseline mean which is the mean for group one on the x axis, while on the y axis we have the effect size that we are trying to detect. It seems that for the roughly 20\\% of cases that this sample size fails for, it does not have anything to do with the magnitudes of the effect sizes as it seems to fail randomly.
+We have the baseline mean which is the mean for group one on the x axis, while on the y axis we have the effect size that we are trying to detect. It seems that for the roughly 20% of cases that this sample size fails for, it does not have anything to do with the magnitudes of the effect sizes as it seems to fail randomly.
 
-The following gives a different picture where the effect sizes for the variances are concerned.
+The following graph gives a different picture where the effect sizes for the variances are concerned.
 
 <center>
 
@@ -634,12 +654,12 @@ readRDS(
 
 And here we have a base level understanding of what is important in your experiment, and is especially important information for you to retrieve from your literature review.
 
-There is a pattern to how the simulations fail with respect to how much variation there is in the simulation. There also seems to be an interaction type relationship where the failure rate of goes up depending on the levels of the sigma magnitude. This is to say that if you were to select a magnitude for the baseline sigma, the failure rate would depend on the corresponding magnitude of the effect size.
+There is a pattern to how the simulations fail with respect to how much variation there is in the simulation. There also seems to be an interaction type relationship where the failure rate of goes up depending on the levels of the sigma magnitude. This is to say that if you were to select a magnitude for the baseline sigma, the failure rate would depend on the corresponding magnitude of the sigma effect size.
 
-It seems that variation that exceeds a sum total of roughly 2.2 is where the simulations start to fail. So for this experiment, as long as the total variation does not exceed this amount you have a good assurance that the sample size will perform as expected
+It seems that variation that exceeds a sum total of roughly 2.2 is where the simulations start to fail. So for this experiment, as long as the total variation does not exceed this amount you have a good assurance that the sample size will perform as expected.
 
-## Conclusions
+## Conclusion
 
-Similar conclusions as for the location effect sizes seem to hold for the scale effect size.
+Monte Carlo Simulations allow us to test a wide variety of conditions that one may want a chosen sample size to offer a good level of assurance for. This is technique like any other for Sample Size computation is highly dependent on information sourced from the literature, most important so the measures of variation.
 
-This raises a question as to whether post hoc power/sample sizes should be carried out. Some places advise against this but the initial power analysis is carried out under fictional circumstances imagined by the analyst to be the best representations of expected reality. How then are they to know that once the data is collected the same envisioned situations cover the dataset that has materialized. Care has to be taken with the differences due to variances that are present among groups; are power analysis usually complex enough to cover situations where differences in variances require more data to establish effect sizes.
+I would encourage researchers to pay special attention when reporting estimates of variability in your own reaserch as this will aid others in formulating their own procedure for data collection and costs.
