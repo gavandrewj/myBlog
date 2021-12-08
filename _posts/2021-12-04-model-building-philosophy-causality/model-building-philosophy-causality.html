@@ -109,15 +109,16 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <meta property="twitter:description" content="A short description of the post."/>
 
   <!--/radix_placeholder_meta_tags-->
+  
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output","draft"]}},"value":[{"type":"character","attributes":{},"value":["Model building Philosophy: Causality"]},{"type":"character","attributes":{},"value":["A short description of the post.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Gavin Gordon"]},{"type":"character","attributes":{},"value":["https://example.com/norajones"]}]}]},{"type":"character","attributes":{},"value":["2021-12-04"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"logical","attributes":{},"value":[true]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output","draft","bibliography"]}},"value":[{"type":"character","attributes":{},"value":["Model building Philosophy: Causality"]},{"type":"character","attributes":{},"value":["A short description of the post.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Gavin Gordon"]},{"type":"character","attributes":{},"value":["https://example.com/norajones"]}]}]},{"type":"character","attributes":{},"value":["2021-12-04"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["C:/Users/gavin/Documents/GitHub/myBlog/documents/biblio.bib"]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"NULL"}
+  {"type":"character","attributes":{},"value":["model-building-philosophy-causality_files/anchor-4.2.2/anchor.min.js","model-building-philosophy-causality_files/bowser-1.9.3/bowser.min.js","model-building-philosophy-causality_files/distill-2.2.21/template.v2.js","model-building-philosophy-causality_files/header-attrs-2.11/header-attrs.js","model-building-philosophy-causality_files/jquery-3.6.0/jquery-3.6.0.js","model-building-philosophy-causality_files/jquery-3.6.0/jquery-3.6.0.min.js","model-building-philosophy-causality_files/jquery-3.6.0/jquery-3.6.0.min.map","model-building-philosophy-causality_files/popper-2.6.0/popper.min.js","model-building-philosophy-causality_files/tippy-6.2.7/tippy-bundle.umd.min.js","model-building-philosophy-causality_files/tippy-6.2.7/tippy-light-border.css","model-building-philosophy-causality_files/tippy-6.2.7/tippy.css","model-building-philosophy-causality_files/tippy-6.2.7/tippy.umd.min.js","model-building-philosophy-causality_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -1482,6 +1483,16 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </div>
 
 <div class="d-article">
+<p>In a study comparing two treatments (which we typically label “treatment” and</p>
+<p>“control”), causal inferences are cleanest if the units receiving the treatment are</p>
+<p>comparable to those receiving the control.</p>
+<p>Ignorable: means that we only need to consider observed</p>
+<p>pre-treatment predictors when considering comparability. I dont recall this</p>
+<p>Interactions larger main effects should check whats up. Yea but if several things have large main effects do you check the interactions for just those. Or does that mean you check to see what has an interaction with variable that have large main effects?</p>
+<p>Models with interactions are often easier to interpret once you center the variables to some conveienent reference point such as it’s mean. (andrew gelman hierarchcial)</p>
+<h1 id="section"></h1>
+<h2 id="what-to-do-when-you-cant-interpret-effects-an-though-these-were-independent.">What to do when you cant interpret effects an though these were independent.</h2>
+<p>In other words..what is the deal with having multicollinearity i guess? This is also present at the conceptual level I guess. Especially with observational data damn thats a dangerous statement.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
@@ -1494,7 +1505,10 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--radix_placeholder_site_after_body-->
 <!--/radix_placeholder_site_after_body-->
 <!--radix_placeholder_appendices-->
-<div class="appendix-bottom"></div>
+<div class="appendix-bottom">
+<h3 id="references">References</h3>
+<div id="references-listing"></div>
+</div>
 <!--/radix_placeholder_appendices-->
 <!--radix_placeholder_navigation_after_body-->
 <!--/radix_placeholder_navigation_after_body-->

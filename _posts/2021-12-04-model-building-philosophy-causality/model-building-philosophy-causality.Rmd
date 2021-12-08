@@ -10,11 +10,53 @@ output:
   distill::distill_article:
     self_contained: false
 draft: true    
+
+bibliography: 'C:/Users/gavin/Documents/GitHub/myBlog/documents/biblio.bib'
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 ```
+
+In a study comparing two treatments (which we typically label "treatment" and "control"), causal inferences are cleanest if the units receiving the treatment are comparable to those receiving the control.
+
+Ignorable: means that we only need to consider observed pre-treatment predictors when considering comparability @gelman2006data . I dont recall this
+
+Imbalance occurs if the distributions of
+
+relevant pre-treatment variables differ for the treatment and control groups. Lack
+
+of complete overlap occurs if there are regions in the space of relevant pre-treatment
+
+variables where there are treated units but no controls, or controls but no treated
+
+units.
+
+Imbalance and lack of complete overlap are issues for causal inference largely
+
+because they force us to rely more heavily on model specification and less on direct
+
+support from the data.
+
+When treatment and control groups are unbalanced, the simple comparison of
+
+group averages, ¯y1−¯y0, is not, in general, a good estimate of the average treatment
+
+effect. Instead, some analysis must be performed to adjust for pre-treatment
+
+differences between the groups. Even when all the confounding covariates are measured (hence ignorability is satisfied), however, it can be difficult to properly control for them if the distributions
+
+of the predictors are not similar across groups.
+
+When treatment and control groups do not completely overlap, the data are inherently
+
+limited in what they can tell us about treatment effects in the regions of
+
+nonoverlap. No amount of adjustment can create direct treatment/control comparisons,
+
+and one must either restrict inferences to the region of overlap, or rely on a
+
+model to extrapolate outside this region.
 
 Interactions larger main effects should check whats up. Yea but if several things have large main effects do you check the interactions for just those. Or does that mean you check to see what has an interaction with variable that have large main effects?
 

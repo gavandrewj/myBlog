@@ -33,6 +33,11 @@ library(gifski)
 file_path =  "C:/Users/gavin/Documents/blog_power_files/linear_regression/problem_three/"
 
 
+
+
+#TODO move through and see what should get citations
+#TODO reference bit as to why we choose precision over power
+
 ```
 
 ```{r}
@@ -309,7 +314,7 @@ To start things off the below is an animation giving a rough idea of what kinds 
 
 <center>
 
-```{r}
+```{r eval=T}
 
 
 build_sample <- function(
@@ -513,6 +518,8 @@ For almost all samples we have a detection probability that is above 0.9; we do 
 
 However when we consider the precision, the noise around the estimate may give us quite large credible intervals thus one may want to collect a larger sample to gain a high enough level of precision. The next graph shows us how the interval length of the location effect changes across the different sample sizes.
 
+
+
 ```{r}
 readRDS(  
     paste0(file_path,"grouptwo_location_all_info.rds")
@@ -520,11 +527,29 @@ readRDS(
 
 ```
 
+
+```{r}
+
+all_info_line_12 <- readRDS(  
+    paste0(file_path,"all_info_line_12.rds")
+)
+
+all_length <- 1
+
+all_info_sample_size_allocation_12 <- 3
+while (all_length > 0.7) {
+all_length <- predict(all_info_line_12,newdata = data.frame(sample_size = all_info_sample_size_allocation_12))
+all_info_sample_size_allocation_12 = all_info_sample_size_allocation_12 +3  
+}
+
+```
+
+
 The problem with the smaller sample sizes is that those tend to produce large interval lengths that may allocate a considerable amount of probability to regions which we know is quite far from the true effect size as we planned it. An interval length of 0.7 will be the criteria for this exercise. You may of course require much greater precision for your own purposes but as you can see this will require quite large sample sizes.
 
 The good news is for this problem the 1-2 allocation is just as good (better if zoomed in although the difference may be negligible) as the 1-1 allocation at achieving this level of precision. This is because group one has a typical variance of one, while group two has a typical variance of two; and so allocating twice as many persons to group two helps to more efficiently capture the effects of the simulation. This may help with costs as it may be cheaper to sample from the group which requires the two members while only needing the one member from the more expensive group. This kind of detail is dependent on your situation.
 
-For this problem we will consider the 1-2 allocation; it would seem that we should investigate the sample sizes of at least 350 to achieve our goal.
+For this problem we will consider the 1-2 allocation; it would seem that we should investigate the sample sizes of at roughly `r all_info_sample_size_allocation_12` to achieve our goal.
 
 The next two graphs describe what happens with the scale effect size for the group variable. This effect size is responsible for the difference in variability noted earlier in the animation where the blue points were varying about its regression line more than the red points. Similar considerations as to the detection and interval length are considered for this problem.
 
@@ -554,7 +579,7 @@ It should be noted that it seems to require a much smaller sample to pick up the
 
 It also requires a smaller sample size to achieve the 0.7 interval length for the scale effect size.
 
-The sample size requirement has not increased. A smaller sample size of about 190 may capture the group scale effect but it would not capture the group location effect. Thus we still maintain the mimimum sample size needed.
+The sample size requirement has not increased. A smaller sample size of about 190 may capture the group scale effect but it would not capture the group location effect. Thus we still maintain the minimum sample size needed.
 
 Finally for the initial set we consider the continuous variable location effect.
 
@@ -563,14 +588,14 @@ Finally for the initial set we consider the continuous variable location effect.
 ```{r}
 
 readRDS(
-    paste0(file_path,"grouptwo_X_location_detect_all_info")
+    paste0(file_path,"grouptwo_X_location_detect_all_info.rds")
 )
 
 ```
 
 ```{r}
 readRDS(
-    paste0(file_path,"grouptwo_X_location_all_info")
+    paste0(file_path,"grouptwo_X_location_all_info.rds")
 )
 
 
@@ -588,18 +613,58 @@ The current sample size range will easily satisfy the detection and they have a 
 
 ```{r}
 readRDS(
-  paste0(file_path,"samples_set_treatment_location")
+  paste0(file_path,"samples_set_treatment_location.rds")
 )
 
 ```
 
-Now here comes another level of protection you can offer yourself when it comes to estimate stability. With a particular sample size, you can have an average length across all the simulations that satisfy our needs, but just how often is this length criteria satisfied? Sample Sizes that are around our minimum initial range seems to satisfy our 0.7 requirement roughly 50% of the time.
+
+```{r}
+
+graph_samples_info <- 
+  readRDS(
+     paste0(file_path,'graph_samples_info.rds')
+  )
+
+lower_range_cover_percent <- 
+  graph_samples_info %>% 
+  filter(
+    sample_size < 375
+  ) %>% 
+  pull(treatmentgrouptwo_cover) %>% 
+  median %>% 
+  round(digits = 2) %>% 
+  prod(100)
+
+
+sample_cover_80 <- graph_samples_info %>% 
+  filter(
+    treatmentgrouptwo_cover >= 0.8
+  ) %>% 
+  pull(sample_size) %>% 
+  min()
+
+
+sample_above_70 <-  graph_samples_info %>% 
+  filter(
+    treatmentgrouptwo_above >= 0.7
+  ) %>% 
+  pull(sample_size) %>% 
+  min()
+
+
+
+```
+
+
+
+Now here comes another level of protection you can offer yourself when it comes to estimate stability. With a particular sample size, you can have an average length across all the simulations that satisfy our needs, but just how often is this length criteria satisfied? Sample Sizes that are around our minimum initial range seems to satisfy our 0.7 requirement roughly `r lower_range_cover_percent`% of the time.
 
 This leads to another criteria, which is to say how often do we want an interval length of 0.7 to be satisfied. Before rushing to say always, really should have the resources to needed to guarantee this. What resources are you willing to expend to get the results your want to your satisfactory level of certainty. In other words, how sure do you want to be about these estimates before you are willing to act on the information.
 
-If you want the interval length to be satisfied lets say 80% of the time then that takes our sample size to roughly 438.
+If you want the interval length to be satisfied lets say 80% of the time then that takes our sample size to roughly `r sample_cover_80`.
 
-And yet there is another level of validity to consider. We know that on average our effect size should be be about 0.5 so we may insist that our credible intervals be above a certain number lets say 0.1 roughly speaking. In order to get that level of precision 70% of the time that would take our sample up to 468.
+And yet there is another level of validity to consider. We know that on average our effect size should be be about 0.5 so we may insist that our credible intervals be above a certain number lets say 0.1 roughly speaking. In order to get that level of precision 70% of the time that would take our sample up to `r sample_above_70`.
 
 For the rest of our exercise we will restrict the criteria to the interval length being less than or equal to 0.7 for roughly 80% of the simulations.
 
@@ -607,14 +672,14 @@ The following two graphs give the criteria for the group scale effect and the co
 
 ```{r}
 readRDS(
-  paste0(file_path,"samples_set_sigma_treatment_scale")
+  paste0(file_path,"samples_set_sigma_treatment_scale.rds")
 )
 
 ```
 
 ```{r}
 readRDS(
-  paste0(file_path,"samples_set_x_location")
+  paste0(file_path,"samples_set_x_location.rds")
 )
 
 ```
