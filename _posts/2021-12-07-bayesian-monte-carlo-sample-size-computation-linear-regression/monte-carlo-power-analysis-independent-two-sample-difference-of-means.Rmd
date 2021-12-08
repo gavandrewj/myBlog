@@ -10,8 +10,10 @@ output:
   distill::distill_article:
     self_contained: false
     
-bibliography: 'C:/Users/gavin/Documents/GitHub/myBlog/documents/biblio.bib'
+bibliography: biblio.bib
+nocite: '@*'
 ---
+
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
@@ -252,7 +254,7 @@ animate(p,fps = 1,renderer = gifski_renderer())
 
 The above animation should give an easy enough understanding of data generation phase. The data is simulated from two Normal Distributions that have the same variance but their means are typically three units apart. After being able to simulate datasets of interest, now comes the application of whatever analysis you have in mind. For our purposes we're using a Bayesian regression approach using the R package BRMS @paul2018 .
 
-For these problems I make use of the ability to explicitly model the variances instead of using a pooled estimate of some kind @paul2021 . Even though I know that the variances are the same for the above animations, this will set the trend for the upcoming problem for dealing with unequal variances.
+For these problems I make use of the ability to explicitly model the variances instead of using a pooled estimate of some kind @paul2021 . Even though I know that the variances are the same for the above animation, this will set the trend for the upcoming problem for dealing with unequal variances.
 
 An example of the model output is as such:
 
@@ -285,7 +287,7 @@ Where $variable_{group}$ is an indicator variable for the second distribution. T
 
 <center>
 
-```{r echo=F}
+```{r echo=T}
 
 hyp <- c("exp(sigma_Intercept) = 0",
          "exp(sigma_Intercept + sigma_xgrouptwo) = 0")
@@ -294,7 +296,7 @@ pander(hypothesis(regress, hyp)$hypothesis[,2:5])
 
 </center>
 
-The relevant information is extracted for each parameter which in this case is the credible interval determined by the range of parameters for which 95% of the probability is allocated. This interval is then queried for whatever criteria we may be interested in.
+The relevant information is extracted for each parameter which in this case is the interval determined by the range of parameters for which 95% (you can choose your own percentage) of the probability is allocated known as the Highest Density Probability Interval @wang2002simulation. This interval is then queried for whatever criteria we may be interested in.
 
 The following have been useful considerations:
 
@@ -314,7 +316,7 @@ To start things off the below is an animation giving a rough idea of what kinds 
 
 <center>
 
-```{r eval=T}
+```{r eval=F}
 
 
 build_sample <- function(
@@ -727,4 +729,8 @@ It seems that variation that exceeds a sum total of roughly 2.2 is where the sim
 
 Monte Carlo Simulations allow us to test a wide variety of conditions that one may want a chosen sample size to offer a good level of assurance for. This is technique like any other for Sample Size computation is highly dependent on information sourced from the literature, most important so the measures of variation.
 
-I would encourage researchers to pay special attention when reporting estimates of variability in your own reaserch as this will aid others in formulating their own procedure for data collection and costs.
+I would encourage researchers to pay special attention when reporting estimates of variability in your own research as this will aid others in formulating their own procedure for data collection and costs.
+
+
+
+

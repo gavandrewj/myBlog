@@ -30,17 +30,15 @@ Essay ideas
 
 3.  stat significance: the precision with which your data estimates something. Something can not be measured to the precision that you want but still plays a valid role in the process. You gotta figure out why you cant measure this thing with the level of precision that you want. Can still include in the model for the mean while.
 
-4.  have a model interpretation repository; only for those that have problematic interpretations. Or just get a bunch of standardized interpretations. I guess.
+4.  How far can we stretch the latent variable formulation?
 
-5.  How far can we stretch the latent variable formulation?
+5.  Cross validation metrics: WAIC, LOO; batch CV; non-parametric counterparts?
 
-6.  Cross validation metrics: WAIC, LOO; batch CV; non-parametric counterparts?
+6.  Relationship between the poisson, binomial, exponential - members of the exponential family that seem to be geared for dealing with different things. But kinda closes off some perspective. Need to branch out and see what other distributions handle other issues. So can we convert a binomial application for the logistic regression to a bernoulli application? Seems like the bernoilli case is just when you expand the case counts for the binomial case. I dont expect the inferences to be better; do you get better precision on the bernoulli? If so wtf then it just comes down to how many counts of data you are able to enter into the golem even if they really should have the same value?? Overdispersion can't occur for the binary/bournulli case, cause its one item/record per group. so the number of groups would be n. While the number of groups for the binomial would be whatever grouping category the bernoulli cases is grouped under. Feeling that heteorgenous model doesnt target the same thing as overdispersion, caues i expect the introduction of variance parameter to improve things with th binary logistic, yet overdispersion cant occur for this one. Idk cant wrap my head around this one. Now they're saying ye you can still do overdispersion but you introduce the grouping back in a multilevel mod style. This stuff is just 15 fucking ways of doing the same thing na. Wonder what the benefits are.
 
-7.  Relationship between the poisson, binomial, exponential - members of the exponential family that seem to be geared for dealing with different things. But kinda closes off some perspective. Need to branch out and see what other distributions handle other issues. So can we convert a binomial application for the logistic regression to a bernoulli application? Seems like the bernoilli case is just when you expand the case counts for the binomial case. I dont expect the inferences to be better; do you get better precision on the bernoulli? If so wtf then it just comes down to how many counts of data you are able to enter into the golem even if they really should have the same value?? Overdispersion can't occur for the binary/bournulli case, cause its one item/record per group. so the number of groups would be n. While the number of groups for the binomial would be whatever grouping category the bernoulli cases is grouped under. Feeling that heteorgenous model doesnt target the same thing as overdispersion, caues i expect the introduction of variance parameter to improve things with th binary logistic, yet overdispersion cant occur for this one. Idk cant wrap my head around this one. Now they're saying ye you can still do overdispersion but you introduce the grouping back in a multilevel mod style. This stuff is just 15 fucking ways of doing the same thing na. Wonder what the benefits are.
+7.  How to know what a distribution is good for. Is there something in the formula of a poisson model that makes it good for counting, or it historically the case that we use it for counting. Then you have something like the logistic-binomial
 
-8.  How to know what a distribution is good for. Is there something in the formula of a poisson model that makes it good for counting, or it historically the case that we use it for counting. Then you have something like the logistic-binomial
-
-9.  Distribution History Channel
+8.  Distribution History Channel
 
 Simulate data and recover features
 
@@ -62,6 +60,8 @@ negative binomial
 
 12. modeling variability. Through overdispersed models. Or models that have model the variance parameter explicittly. What be the difference. Overdisperase seems to add a paramter to capture a constant variance, while the other one lets you model it linearly or however else.
 
+13. coding schemas. have a model interpretation repository; only for those that have problematic interpretations. Or just get a bunch of standardized interpretations. I guess.
+
 exponential, gamma, and Weibull models for waiting-time data, and hazard models for survival data.
 
 nonparametric models including generalized additive models, neural networks, and
@@ -69,3 +69,11 @@ nonparametric models including generalized additive models, neural networks, and
 13. some kind of choice models. using utility functions. This seems more hands on. Takes data directly from the people who you wanna know and models for those persons. Has ma attention. Well always has tbh going back to conjoint analysis. Can get an idea of how persons are viewing risk based on the mapping that works. For example that arsenic example where, a log fits better than linear, so people are viewing some ranges are more safe that others or something to that extent @gelman2006data. Generally seems like you have $P(benefit > risk)$ is what you're trying to find, where you have some expression for the benefit and another for the risk. It gives the impression that giving each household its own intercept is what makes it the individual level. But what if i gave group level characteritics its one intercepts. OR is there something i'm misunderstanding here; as that was the thing was supposed to stop having to consider what kind of error something from that book @kaltenbach2021statistical
 
 14. The art of simulations. When use cases are complex enough that it warrants. So they say for predictive use summarazing info. we can use simulation to capture both predictive uncertainty (the error term in the regression model) and inferential uncertainty (the standard errors of the coefficients and uncertainty about the residual error) @gelman2006data . Simulation will also be crucial when working with nonlinear models such as logistic regression
+
+15. How is bias affected by over/under representation?
+
+16. issues with matching using propensity scores. Matching algorithms in general i guess. Matching with replacement. Matching without repacement @gelman2006data. Model misspefication for the scoring algorithm
+
+17. Finding weights for data. Use of propensity score @gelman2006data. Advice it to use robust or non-parametric methods to create the weights. Apparantly the use of the scores to sub for the rest of the covariates. Although the reduction to that one dimension may have issues.
+
+18. check out other bayesian estimation frameworks.

@@ -18,35 +18,23 @@ bibliography: 'C:/Users/gavin/Documents/GitHub/myBlog/documents/biblio.bib'
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
+Randomized experiment. What you get to do
+
+Non-randomized experiment. What you gotta to go to get to the randomized version.
+
+Be cognicant of what type of effect you are trying to get at: treatment effect on the treated, treatment effect on the control, treatment effect on everrrybody
+
 In a study comparing two treatments (which we typically label "treatment" and "control"), causal inferences are cleanest if the units receiving the treatment are comparable to those receiving the control.
 
 Ignorable: means that we only need to consider observed pre-treatment predictors when considering comparability @gelman2006data . I dont recall this
 
-Imbalance occurs if the distributions of
+Imbalance occurs if the distributions of relevant pre-treatment variables differ for the treatment and control groups. Lack of complete overlap occurs if there are regions in the space of relevant pre-treatment variables where there are treated units but no controls, or controls but no treated units. Imbalance and lack of complete overlap are issues for causal inference largely because they force us to rely more heavily on model specification and less on direct support from the data. When treatment and control groups are unbalanced, the simple comparison of group averages, ¯y1−¯y0, is not, in general, a good estimate of the average treatment effect. Instead, some analysis must be performed to adjust for pre-treatment differences between the groups. Even when all the confounding covariates are measured (hence ignorability is satisfied), however, it can be difficult to properly control for them if the distributions of the predictors are not similar across groups.
 
-relevant pre-treatment variables differ for the treatment and control groups. Lack
+So basically right, this beta for the covariate has to be estimated for you to control for it. You gotta make sure that distributions go into the estimation for the treatment and control groups are the same other...to which i say...why. I already know that i wont have the variability assumption fucking me since i wont have to deal with homoscedascity. So its the skewness issue i gotta deal with really. So it's like all the considerations that go into making sure you can use an independent t test gotta be satisfied for the distributions if you doing something for a continuous covariate, likewise for a categorical type. Nevermind that. I just see this as a control for over/under representation. I can undestand a breakdown point reaching where the under/over representation becomes an issue. As well as your precision taking a hit. But bias itself not so direct. I dunno how badly over/under represenation affects bias. It's to say that there are different people talking between the groups. Different along this demension.
 
-of complete overlap occurs if there are regions in the space of relevant pre-treatment
+I guess we find the moments for the distributions and compare if continuous
 
-variables where there are treated units but no controls, or controls but no treated
-
-units.
-
-Imbalance and lack of complete overlap are issues for causal inference largely
-
-because they force us to rely more heavily on model specification and less on direct
-
-support from the data.
-
-When treatment and control groups are unbalanced, the simple comparison of
-
-group averages, ¯y1−¯y0, is not, in general, a good estimate of the average treatment
-
-effect. Instead, some analysis must be performed to adjust for pre-treatment
-
-differences between the groups. Even when all the confounding covariates are measured (hence ignorability is satisfied), however, it can be difficult to properly control for them if the distributions
-
-of the predictors are not similar across groups.
+not sure how to convieniently compare the categorical
 
 When treatment and control groups do not completely overlap, the data are inherently
 
@@ -58,11 +46,34 @@ and one must either restrict inferences to the region of overlap, or rely on a
 
 model to extrapolate outside this region.
 
+##\# Matching using propensity scores
+
+1.  build a prediction model to predict the treatment assignement
+2.  get the z score for each of the data record
+3.  use a matching algorithm to pair/match to get what should be included
+4.  subset the data to keep whats needed for the analysis
+5.  compare the propensity scores for the treatment to those for the control to see how well things were done
+
+Advice is not to include the pairing in some for of paired analysis. Continur to treat the sample as independent. Says to include the variables used in the matching process to account for the introduced correlation of the pairing processs. Uncertainty of the propensity score is not introduced though i wonder if the bayesians managed this.
+
+### Lack of overlap
+
+#### what to do when one of the covariates was used in the treatment assingment, when there is no allocation to a group based on some levels of the covariate
+
+This is where you dont have the data, and your model must extrapolate in a dangerous way to make the comparison. A suggestion is to model using only points just above and below whatever cutoff point, cause I guess the further out you go the more variability there is, cause regions with no data. Still rem to include the cut off point variable.
+
 Interactions larger main effects should check whats up. Yea but if several things have large main effects do you check the interactions for just those. Or does that mean you check to see what has an interaction with variable that have large main effects?
 
 Models with interactions are often easier to interpret once you center the variables to some conveienent reference point such as it's mean. (andrew gelman hierarchcial)
 
-# 
+### 
+
+## What to do when no instrumental variable (lol idek) and cant assume ignorability
+
+1.  comparison within groups: example used is comparison with grouping done on twins
+2.  comparison within and between groups: the before and after thing then each of those belonging to treatment and control group
+
+##  
 
 ## What to do when you cant interpret effects an though these were independent.
 
