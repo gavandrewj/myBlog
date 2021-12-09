@@ -14,7 +14,6 @@ bibliography: biblio.bib
 nocite: '@*'
 ---
 
-
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 ```
@@ -216,7 +215,7 @@ dataframes <- lapply(1:50,
                      effect_size_u = 3,
                      allocate_n1 = 1,
                      allocate_n2 = 1,
-                     sample_size = 100,
+                     sample_size = 200,
                      sigma_u1 = 1,
                      effect_size_sigma = 0
                      )
@@ -520,15 +519,12 @@ For almost all samples we have a detection probability that is above 0.9; we do 
 
 However when we consider the precision, the noise around the estimate may give us quite large credible intervals thus one may want to collect a larger sample to gain a high enough level of precision. The next graph shows us how the interval length of the location effect changes across the different sample sizes.
 
-
-
 ```{r}
 readRDS(  
     paste0(file_path,"grouptwo_location_all_info.rds")
 )
 
 ```
-
 
 ```{r}
 
@@ -545,7 +541,6 @@ all_info_sample_size_allocation_12 = all_info_sample_size_allocation_12 +3
 }
 
 ```
-
 
 The problem with the smaller sample sizes is that those tend to produce large interval lengths that may allocate a considerable amount of probability to regions which we know is quite far from the true effect size as we planned it. An interval length of 0.7 will be the criteria for this exercise. You may of course require much greater precision for your own purposes but as you can see this will require quite large sample sizes.
 
@@ -620,7 +615,6 @@ readRDS(
 
 ```
 
-
 ```{r}
 
 graph_samples_info <- 
@@ -657,8 +651,6 @@ sample_above_70 <-  graph_samples_info %>%
 
 
 ```
-
-
 
 Now here comes another level of protection you can offer yourself when it comes to estimate stability. With a particular sample size, you can have an average length across all the simulations that satisfy our needs, but just how often is this length criteria satisfied? Sample Sizes that are around our minimum initial range seems to satisfy our 0.7 requirement roughly `r lower_range_cover_percent`% of the time.
 
@@ -730,7 +722,3 @@ It seems that variation that exceeds a sum total of roughly 2.2 is where the sim
 Monte Carlo Simulations allow us to test a wide variety of conditions that one may want a chosen sample size to offer a good level of assurance for. This is technique like any other for Sample Size computation is highly dependent on information sourced from the literature, most important so the measures of variation.
 
 I would encourage researchers to pay special attention when reporting estimates of variability in your own research as this will aid others in formulating their own procedure for data collection and costs.
-
-
-
-
