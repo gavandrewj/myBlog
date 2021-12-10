@@ -56,7 +56,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }
 code span.al { color: #ad0000; } /* Alert */
 code span.an { color: #5e5e5e; } /* Annotation */
-code span.at { color: #20794d; } /* Attribute */
+code span.at { } /* Attribute */
 code span.bn { color: #ad0000; } /* BaseN */
 code span.bu { } /* BuiltIn */
 code span.cf { color: #007ba5; } /* ControlFlow */
@@ -77,7 +77,7 @@ code span.kw { color: #007ba5; } /* Keyword */
 code span.op { color: #5e5e5e; } /* Operator */
 code span.ot { color: #007ba5; } /* Other */
 code span.pp { color: #ad0000; } /* Preprocessor */
-code span.sc { color: #20794d; } /* SpecialChar */
+code span.sc { color: #5e5e5e; } /* SpecialChar */
 code span.ss { color: #20794d; } /* SpecialString */
 code span.st { color: #20794d; } /* String */
 code span.va { color: #111111; } /* Variable */
@@ -85,8 +85,30 @@ code span.vs { color: #20794d; } /* VerbatimString */
 code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </style>
 
+<style>
+  div.csl-bib-body { }
+  div.csl-entry {
+    clear: both;
+    }
+  .hanging div.csl-entry {
+    margin-left:2em;
+    text-indent:-2em;
+  }
+  div.csl-left-margin {
+    min-width:2em;
+    float:left;
+  }
+  div.csl-right-inline {
+    margin-left:2em;
+    padding-left:1em;
+  }
+  div.csl-indent {
+    margin-left: 2em;
+  }
+</style>
+
   <!--radix_placeholder_meta_tags-->
-<title>Toolkit: Robust Models</title>
+<title>Toolkit: Distributional Models</title>
 
 <meta property="description" itemprop="description" content="A short description of the post."/>
 
@@ -97,7 +119,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <meta name="article:author" content="Gavin Gordon"/>
 
 <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-<meta property="og:title" content="Toolkit: Robust Models"/>
+<meta property="og:title" content="Toolkit: Distributional Models"/>
 <meta property="og:type" content="article"/>
 <meta property="og:description" content="A short description of the post."/>
 <meta property="og:locale" content="en_US"/>
@@ -105,19 +127,22 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
 <!--  https://dev.twitter.com/cards/types/summary -->
 <meta property="twitter:card" content="summary"/>
-<meta property="twitter:title" content="Toolkit: Robust Models"/>
+<meta property="twitter:title" content="Toolkit: Distributional Models"/>
 <meta property="twitter:description" content="A short description of the post."/>
 
 <!--/radix_placeholder_meta_tags-->
+  
+  <meta name="citation_reference" content="citation_title=Generalized additive models for location, scale and shape;citation_publication_date=2005;citation_publisher=Wiley Online Library;citation_volume=54;citation_author=Robert A Rigby;citation_author=D Mikis Stasinopoulos"/>
+  <meta name="citation_reference" content="citation_title=Flexible regression and smoothing: Using GAMLSS in r;citation_publication_date=2017;citation_publisher=CRC Press;citation_author=Mikis D Stasinopoulos;citation_author=Robert A Rigby;citation_author=Gillian Z Heller;citation_author=Vlasios Voudouris;citation_author=Fernanda De Bastiani"/>
   <!--radix_placeholder_rmarkdown_metadata-->
 
 <script type="text/json" id="radix-rmarkdown-metadata">
-{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output"]}},"value":[{"type":"character","attributes":{},"value":["Robust Models"]},{"type":"character","attributes":{},"value":["A short description of the post."]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Gavin Gordon"]},{"type":"character","attributes":{},"value":["https://example.com/norajones"]}]}]},{"type":"character","attributes":{},"value":["11-09-2021"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]}]}
+{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output","bibliography","nocite"]}},"value":[{"type":"character","attributes":{},"value":["Distributional Models"]},{"type":"character","attributes":{},"value":["A short description of the post."]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Gavin Gordon"]},{"type":"character","attributes":{},"value":["https://example.com/norajones"]}]}]},{"type":"character","attributes":{},"value":["11-09-2021"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"character","attributes":{},"value":["biblio.bib"]},{"type":"character","attributes":{},"value":["@*"]}]}
 </script>
 <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"NULL"}
+  {"type":"character","attributes":{},"value":["biblio.bib","robust-models_files/anchor-4.2.2/anchor.min.js","robust-models_files/bowser-1.9.3/bowser.min.js","robust-models_files/distill-2.2.21/template.v2.js","robust-models_files/header-attrs-2.10/header-attrs.js","robust-models_files/header-attrs-2.11/header-attrs.js","robust-models_files/jquery-1.11.3/jquery.min.js","robust-models_files/jquery-3.6.0/jquery-3.6.0.js","robust-models_files/jquery-3.6.0/jquery-3.6.0.min.js","robust-models_files/jquery-3.6.0/jquery-3.6.0.min.map","robust-models_files/popper-2.6.0/popper.min.js","robust-models_files/tippy-6.2.7/tippy-bundle.umd.min.js","robust-models_files/tippy-6.2.7/tippy-light-border.css","robust-models_files/tippy-6.2.7/tippy.css","robust-models_files/tippy-6.2.7/tippy.umd.min.js","robust-models_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
 <meta name="distill:offset" content="../.."/>
@@ -463,7 +488,7 @@ d-title {
 
 </style>
 
-<script src="../../site_libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="../../site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <link href="../../site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet"/>
 <link href="../../site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet"/>
 <script src="../../site_libs/headroom-0.9.4/headroom.min.js"></script>
@@ -1870,7 +1895,10 @@ function init_distill() {
 
     // hoverable references
     $('span.citation[data-cites]').each(function() {
-      var refHtml = $('#ref-' + $(this).attr('data-cites')).html();
+      var refs = $(this).attr('data-cites').split(" ");
+      var refHtml = refs.map(function(ref) {
+        return "<p>" + $('#ref-' + ref).html() + "</p>";
+      }).join("\n");
       window.tippy(this, {
         allowHTML: true,
         content: refHtml,
@@ -2041,8 +2069,8 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 <!--/radix_placeholder_distill-->
-  <script src="../../site_libs/header-attrs-2.10/header-attrs.js"></script>
-  <script src="../../site_libs/jquery-1.11.3/jquery.min.js"></script>
+  <script src="../../site_libs/header-attrs-2.11/header-attrs.js"></script>
+  <script src="../../site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
   <script src="../../site_libs/popper-2.6.0/popper.min.js"></script>
   <link href="../../site_libs/tippy-6.2.7/tippy.css" rel="stylesheet" />
   <link href="../../site_libs/tippy-6.2.7/tippy-light-border.css" rel="stylesheet" />
@@ -2062,7 +2090,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Robust Models","description":"A short description of the post.","authors":[{"author":"Gavin Gordon","authorURL":"https://example.com/norajones","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}],"publishedDate":"2021-11-09T00:00:00.000-04:00","citationText":"Gordon, 2021"}
+{"title":"Distributional Models","description":"A short description of the post.","authors":[{"author":"Gavin Gordon","authorURL":"https://example.com/norajones","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}],"publishedDate":"2021-11-09T00:00:00.000-04:00","citationText":"Gordon, 2021"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -2085,7 +2113,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <!--/radix_placeholder_site_before_body-->
 
 <div class="d-title">
-<h1>Robust Models</h1>
+<h1>Distributional Models</h1>
 <!--radix_placeholder_categories-->
 <!--/radix_placeholder_categories-->
 <p><p>A short description of the post.</p></p>
@@ -2101,7 +2129,44 @@ document.addEventListener('DOMContentLoaded', function() {
 <p>This is create a series of posts about using models where you can capture the mean and variance for a distribution or has some other benefit on top of what is ususally selected.</p>
 <p>using t in instead of the normal using negative binomal instead of poisson using beta binomial instead of binomial using t instead of logistic and probit regression</p>
 <p>For a later date</p>
+<h2 id="applications">Applications</h2>
+<p>I don’t get how this fits in for the zero inflated poisson model</p>
+<h2 id="estimation">Estimation</h2>
+<p>How does it compare to estimate in the frequentist to bayesian?</p>
+<h2 id="code">Code</h2>
+<p>plot(conditional_effects())</p>
+<h2 id="generalized-additive-models-for-location-scale-and-shape">Generalized Additive Models for Location, Scale and Shape</h2>
+<p>Starting point seems to be the opening point for this subclass of models. Not seeing love for in on youtube but a lot of citations <span class="citation" data-cites="rigby2005generalized"><a href="#ref-rigby2005generalized" role="doc-biblioref">Rigby and Stasinopoulos</a> (<a href="#ref-rigby2005generalized" role="doc-biblioref">2005</a>)</span></p>
+<p>mentions something about GAIC. Gotta read the comments in the paper as there is some critique about this</p>
+<p>some statements about using one model alone are in there and should be using a few to offset model misspecification</p>
+<p>again the use of splines come up here which im not using</p>
+<p>r package gamlass avaiable to use the frequentist fitting but imma use the bayesian methods</p>
+<p>said you can use a wide range not just those based on the exp fam but it seems like the models put in there are some form or involve the exp family so idk. Idk what distributions there are that dont use the freaking exp.</p>
+<p>It throws some shade at the hiercechical liner mixed models. Something about not allowing the modeling of the shape parameter.</p>
+<p>Says that its an all include framework where even the cases where you have dependent samples fit neatly into its own subclassification i guess.</p>
+<p>Theres some mention of exp designs that I did not read about.</p>
+<p>Mention of random effects of terms which im still down down with as yet, comfy talking about i mean</p>
+<p>wow even bits on spatial random effects</p>
+<h2 id="update-to-the-distribitional-relaxation-thing">Update to the distribitional relaxation thing</h2>
+<p>..we had been looking for. A way to continuously relax the assumptions that are given in the strict start of modeling. It seems that this is the case with the book as a good start <span class="citation" data-cites="stasinopoulos2017flexible"><a href="#ref-stasinopoulos2017flexible" role="doc-biblioref">Stasinopoulos et al.</a> (<a href="#ref-stasinopoulos2017flexible" role="doc-biblioref">2017</a>)</span></p>
+<p>Have a bunch of distributions that will likely help a great deal with the distribution history channel dive</p>
+<p>Not sure how they started modeling the skew and kurtosis i think, for a gamma distribution but they did that in the first example.</p>
+<p>Also allows the setting of different link functions vague ik, but also allows the data to set it’s own link function as well or for you to set your own custom link function i believe</p>
+<p>The initial example was not very impressive as this shows the utility of the gam without the lss part, with the latter only having marginal improvements. But i guess if this is the case then what the heck less to learn i guess idk yet</p>
+<p>Made mention that they use some special kinds of residuals, randomised something</p>
+<p>added gerneralized AIC to the model checking crit, and schwrzh bayesian criteria</p>
+<p>also added a different kind of residual plot, called a worm plot</p>
+<p>not sure what centile estimation is</p>
+<p>not sure what the deal is with using smoothers and not being able to properly account for the variability</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
+<div id="ref-rigby2005generalized" class="csl-entry" role="doc-biblioentry">
+Rigby, Robert A, and D Mikis Stasinopoulos. 2005. <span>“Generalized Additive Models for Location, Scale and Shape.”</span> <em>Journal of the Royal Statistical Society: Series C (Applied Statistics)</em> 54 (3): 507–54.
+</div>
+<div id="ref-stasinopoulos2017flexible" class="csl-entry" role="doc-biblioentry">
+Stasinopoulos, Mikis D, Robert A Rigby, Gillian Z Heller, Vlasios Voudouris, and Fernanda De Bastiani. 2017. <em>Flexible Regression and Smoothing: Using GAMLSS in r</em>. CRC Press.
+</div>
+</div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
@@ -2113,7 +2178,10 @@ document.addEventListener('DOMContentLoaded', function() {
 <!--radix_placeholder_site_after_body-->
 <!--/radix_placeholder_site_after_body-->
 <!--radix_placeholder_appendices-->
-<div class="appendix-bottom"></div>
+<div class="appendix-bottom">
+  <h3 id="references">References</h3>
+  <div id="references-listing"></div>
+</div>
 <!--/radix_placeholder_appendices-->
 <!--radix_placeholder_navigation_after_body-->
 <!--/radix_placeholder_navigation_after_body-->

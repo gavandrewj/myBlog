@@ -73,7 +73,7 @@ Models with interactions are often easier to interpret once you center the varia
 1.  comparison within groups: example used is comparison with grouping done on twins
 2.  comparison within and between groups: the before and after thing then each of those belonging to treatment and control group
 
-##  
+## 
 
 ## What to do when you cant interpret effects an though these were independent.
 

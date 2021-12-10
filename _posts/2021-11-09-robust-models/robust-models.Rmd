@@ -1,5 +1,5 @@
 ---
-title: "Robust Models"
+title: "Distributional Models"
 description: |
   A short description of the post.
 author:
@@ -9,19 +9,74 @@ date: 11-09-2021
 output:
   distill::distill_article:
     self_contained: false
+bibliography: biblio.bib
+nocite: '@*'
 ---
-
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-This is create a series of posts about using models where you can capture the mean and variance for a distribution or has some other benefit on top of what is ususally selected. 
+This is create a series of posts about using models where you can capture the mean and variance for a distribution or has some other benefit on top of what is ususally selected.
 
-using t in instead of the normal
-using negative binomal instead of poisson 
-using beta binomial instead of binomial 
-using t instead of logistic and probit regression 
+using t in instead of the normal using negative binomal instead of poisson using beta binomial instead of binomial using t instead of logistic and probit regression
 
 For a later date
 
+## Applications
+
+I don't get how this fits in for the zero inflated poisson model
+
+## Estimation
+
+How does it compare to estimate in the frequentist to bayesian?
+
+## Code
+
+plot(conditional_effects())
+
+## Generalized Additive Models for Location, Scale and Shape
+
+Starting point seems to be the opening point for this subclass of models. Not seeing love for in on youtube but a lot of citations @rigby2005generalized
+
+mentions something about GAIC. Gotta read the comments in the paper as there is some critique about this
+
+some statements about using one model alone are in there and should be using a few to offset model misspecification
+
+again the use of splines come up here which im not using
+
+r package gamlass avaiable to use the frequentist fitting but imma use the bayesian methods
+
+said you can use a wide range not just those based on the exp fam but it seems like the models put in there are some form or involve the exp family so idk. Idk what distributions there are that dont use the freaking exp.
+
+It throws some shade at the hiercechical liner mixed models. Something about not allowing the modeling of the shape parameter.
+
+Says that its an all include framework where even the cases where you have dependent samples fit neatly into its own subclassification i guess.
+
+Theres some mention of exp designs that I did not read about.
+
+Mention of random effects of terms which im still down down with as yet, comfy talking about i mean
+
+wow even bits on spatial random effects
+
+## Update to the distribitional relaxation thing
+
+..we had been looking for. A way to continuously relax the assumptions that are given in the strict start of modeling. It seems that this is the case with the book as a good start @stasinopoulos2017flexible
+
+Have a bunch of distributions that will likely help a great deal with the distribution history channel dive
+
+Not sure how they started modeling the skew and kurtosis i think, for a gamma distribution but they did that in the first example.
+
+Also allows the setting of different link functions vague ik, but also allows the data to set it's own link function as well or for you to set your own custom link function i believe
+
+The initial example was not very impressive as this shows the utility of the gam without the lss part, with the latter only having marginal improvements. But i guess if this is the case then what the heck less to learn i guess idk yet
+
+Made mention that they use some special kinds of residuals, randomised something
+
+added gerneralized AIC to the model checking crit, and schwrzh bayesian criteria
+
+also added a different kind of residual plot, called a worm plot
+
+not sure what centile estimation is
+
+not sure what the deal is with using smoothers and not being able to properly account for the variability
